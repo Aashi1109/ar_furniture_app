@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589583432716",
+    "project_id": "decal-9b680",
+    "storage_bucket": "decal-9b680.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589583432716:android:60ffa021793698eb388229",
+        "android_client_info": {
+          "package_name": "com.example.decal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589583432716-33vspufuj53n34ra3t21h99liopg854t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP9LsW6zl81I0w2KDWHApHEv7_zjNv6SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589583432716-33vspufuj53n34ra3t21h99liopg854t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
