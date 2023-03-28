@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/models/product.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +57,7 @@ class ProductProviderModel extends ChangeNotifier {
       final products = await productsCollection.get();
       await getAndSetFavourites();
 
-      print(products);
+      // print(products);
       final List<ProductItemModel> loadedProducts = [];
       for (var element in products.docs) {
         // print(element.data()['modelUrl']);
@@ -69,13 +67,12 @@ class ProductProviderModel extends ChangeNotifier {
           description: element.data()['description'],
           price: double.parse(element.data()['price']),
           images: Map<String, List<dynamic>>.from(element.data()['images']),
-          // images: {
-          //   '': ['']
-          // },
+
           vector: element.data()['vector'],
           categories: List<String>.from(element.data()['category']),
           modelUrl: element.data()['model_url'],
           isFavourite: _favourites.contains(element.id) ? true : false,
+          // rating: 4.5, // Have to be fetched from firebase
         ));
       }
       // print(loadedProducts.toString());
@@ -84,7 +81,7 @@ class ProductProviderModel extends ChangeNotifier {
       // print(products.docs);
       notifyListeners();
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
@@ -106,5 +103,18 @@ class ProductProviderModel extends ChangeNotifier {
     return _products
         .where((element) => element.categories.contains(category))
         .toList();
+  }
+
+  List<ProductItemModel> getProductsByQuery(String query) {
+    return _products.where((prod) {
+      if (prod.title.toLowerCase().contains(query)) {
+        return true;
+      }
+      if (prod.categories.contains(query)) {
+        return true;
+      }
+
+      return false;
+    }).toList();
   }
 }

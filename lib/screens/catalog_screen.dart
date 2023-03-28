@@ -27,10 +27,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
           child: Column(
             // mainAxisSize: MainAxisSize.min,
             children: [
-              FilterHorizontal((String val) {
-                debugPrint(val);
-              }),
-              SearchFilter(),
+              // FilterHorizontal((String val) {
+              //   debugPrint(val);
+              // }),
+              // SearchFilter(),
               // VerticalSection(),
               SpecialSection(),
             ],

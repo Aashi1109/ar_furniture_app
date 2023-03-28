@@ -7,6 +7,7 @@ class ProductItemModel {
   final String vector;
   final List<String> categories;
   final String modelUrl;
+  final Map<String, dynamic> rating;
   bool isFavourite;
 
   ProductItemModel({
@@ -18,6 +19,7 @@ class ProductItemModel {
     required this.vector,
     required this.categories,
     required this.modelUrl,
+    this.rating = const {'value': 4.5, 'count': 34},
     this.isFavourite = false,
   });
 }

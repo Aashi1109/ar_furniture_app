@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:decal/providers/products_provider.dart';
 import 'package:decal/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';

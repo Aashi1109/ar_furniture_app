@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/models/cart.dart';
@@ -7,10 +5,24 @@ import 'package:decal/models/cart.dart';
 import 'package:flutter/material.dart';
 
 class CartProviderModel with ChangeNotifier {
-  final List<CartItemModel> _items = [];
-  Map<String, List<CartItemModel>> _cart = {};
+  //  _items = [];
+  // Map<String, dynamic> _cart = {
+  //   'items': <CartItemModel>[],
+  //   'isOrdered': false,
+  // };
+  bool _isOrdered = false;
+  List<CartItemModel> _items = [];
 
-  List<CartItemModel> get items => _items;
+  List<CartItemModel> get items {
+    // if (_cart['isOrdered']) {
+    //   _items;
+    // }
+    // return [];
+    if (!_isOrdered) {
+      return [..._items];
+    }
+    return [];
+  }
 
   void addItemToCart({
     required String prodId,
@@ -19,6 +31,7 @@ class CartProviderModel with ChangeNotifier {
     required int quantity,
     required String imageUrl,
   }) {
+    // debugPrint(_items.length.toString());
     final existingCartitemIndex =
         _items.indexWhere((element) => element.id == prodId);
 
@@ -27,7 +40,7 @@ class CartProviderModel with ChangeNotifier {
       final modifiedCartItem = CartItemModel(
         id: prodId,
         title: title,
-        quantity: quantity + existingCartitem.quantity,
+        quantity: (quantity + existingCartitem.quantity).toInt(),
         price: price,
         imageUrl: imageUrl,
       );
@@ -75,10 +88,10 @@ class CartProviderModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pushCartDataToFirestore() async {
+  Future<void> pushCartDataToFirestore({bool isSave = true}) async {
+    debugPrint('in cart push');
     try {
-      final userCartCollection = FirebaseHelper.getUserCartCollection();
-      await userCartCollection.add({
+      await FirebaseHelper.setCartDataInFirestore({
         'items': _items.map((cartItem) => {
               'id': cartItem.id,
               'title': cartItem.title,
@@ -87,13 +100,39 @@ class CartProviderModel with ChangeNotifier {
               'total': cartItem.total,
               'imageUrl': cartItem.imageUrl,
               'createdAt': Timestamp.now(),
-            })
+            }),
+        'isOrdered': isSave ? false : _isOrdered,
       });
-      // .then((value) {
-      //   _cart[value.id] = _items;
-      // });
+
+      clearCart();
     } catch (error) {
-      debugPrint(error.toString());
+      debugPrint('error in storing cart data to firestore ${error.toString()}');
+    }
+  }
+
+  Future<void> getAndSetCartData() async {
+    try {
+      final cartData = await FirebaseHelper.getCartDataFromFirestore();
+      if (cartData == null) {
+        return;
+      }
+      final List<CartItemModel> cartItems = [];
+      cartData['items'].forEach((cartItem) {
+        // debugPrint('cartItem ${cartItem.toString()}');
+        cartItems.add(CartItemModel(
+          id: cartItem['id'],
+          title: cartItem['title'],
+          price: cartItem['price'],
+          quantity: cartItem['quantity'],
+          imageUrl: cartItem['imageUrl'],
+        ));
+      });
+      _items = cartItems;
+      _isOrdered = cartData['isOrdered'] ?? false;
+      notifyListeners();
+    } catch (error) {
+      debugPrint(
+          'error in getting cart data from firestore ${error.toString()}');
     }
   }
 

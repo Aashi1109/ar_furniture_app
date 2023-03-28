@@ -1,13 +1,13 @@
-import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/helpers/material_helper.dart';
 import 'package:decal/providers/auth_provider.dart';
-import 'package:decal/providers/cart_provider.dart';
+
 import 'package:decal/providers/orders_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'order_screen.dart';
 import 'favourite_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class UserAccountScreen extends StatelessWidget {
   const UserAccountScreen({super.key});
@@ -18,7 +18,7 @@ class UserAccountScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     final themeColorScheme = Theme.of(context).colorScheme;
     final authProvider = Provider.of<AuthProviderModel>(context, listen: false);
-    final cartProvider = Provider.of<CartProviderModel>(context, listen: false);
+    // final cartProvider = Provider.of<CartProviderModel>(context, listen: false);
     final orderProvider =
         Provider.of<OrderProviderModel>(context, listen: false);
     return Scaffold(
@@ -69,7 +69,7 @@ class UserAccountScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Joined on 26, Mar 2034',
+                            'Joined on ${DateFormat.yMMMd().format(authProvider.userCreationDate)}',
                             style: TextStyle(
                               color: themeColorScheme.onPrimary,
                             ),
@@ -105,7 +105,9 @@ class UserAccountScreen extends StatelessWidget {
                 left: 10,
                 top: mediaQuery.padding.top,
                 child: MaterialHelper.buildRoundedElevatedButton(
-                    context, null, themeColorScheme, null),
+                    context, null, themeColorScheme, () {
+                  Navigator.of(context).pop();
+                }),
               ),
             ],
           ),

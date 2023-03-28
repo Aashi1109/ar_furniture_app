@@ -10,7 +10,7 @@ import 'package:decal/screens/view_more_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-import 'package:decal/screens/user_account.dart';
+import 'package:decal/screens/user_account_screen.dart';
 import 'package:decal/screens/user_home_screen.dart';
 import 'package:decal/screens/view_ar_screen.dart';
 
@@ -21,7 +21,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/auth_screen.dart';
 import './helpers/material_helper.dart';
 import 'screens/order_screen.dart';
-import 'screens/favourite_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +62,7 @@ class MyApp extends StatelessWidget {
           ).copyWith(
             // primary: const Color(0x00030A4E),
             // tertiary: Color.fromARGB(255, 202, 201, 201),
-            tertiary: Color(0xfff3f3f3),
+            tertiary: const Color(0xfff3f3f3),
             secondary: const Color(0xff44bde2),
           ),
           textTheme: Theme.of(context).textTheme.copyWith(
@@ -91,19 +90,20 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return MainApp();
+              return const MainApp();
             }
-            return AuthScreen();
+            return const AuthScreen();
           },
         ),
         routes: {
-          CartScreen.namedRoute: (context) => CartScreen(),
-          OrderScreen.namedRoute: (context) => OrderScreen(),
-          FavouriteScreen.namedRoute: (context) => FavouriteScreen(),
-          UserAccountScreen.namedRoute: (context) => UserAccountScreen(),
-          ViewARScreen.namedRoute: (context) => ViewARScreen(),
-          ViewMoreScreen.namedRoute: (context) => ViewMoreScreen(),
-          ProductDetailScreen.namedRoute: (context) => ProductDetailScreen(),
+          CartScreen.namedRoute: (context) => const CartScreen(),
+          OrderScreen.namedRoute: (context) => const OrderScreen(),
+          FavouriteScreen.namedRoute: (context) => const FavouriteScreen(),
+          UserAccountScreen.namedRoute: (context) => const UserAccountScreen(),
+          ViewARScreen.namedRoute: (context) => const ViewARScreen(),
+          ViewMoreScreen.namedRoute: (context) => const ViewMoreScreen(),
+          ProductDetailScreen.namedRoute: (context) =>
+              const ProductDetailScreen(),
         },
         // home: CatalogScreen(),
       ),
@@ -123,8 +123,8 @@ class _MainAppState extends State<MainApp> {
   // bool resetIndex = false;
 
   List _screens = [
-    UserHomeScreen(),
-    FavouriteScreen(),
+    const UserHomeScreen(),
+    const FavouriteScreen(),
   ];
   getCurPageIndex(int index) {
     setState(() {

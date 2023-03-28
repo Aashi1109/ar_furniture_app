@@ -131,10 +131,12 @@ class OrderModal extends StatelessWidget {
               height: 15,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 orderProvider.addOrder(
                     cartProvider.carts, cartProvider.totalCartPrice);
-                cartProvider.clearCart();
+                await cartProvider.pushCartDataToFirestore();
+                await orderProvider.pushOrdersToFirebase();
+                // cartProvider.clearCart();
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
@@ -145,7 +147,7 @@ class OrderModal extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Rent',
+                'Order',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: themeColorScheme.onPrimary,

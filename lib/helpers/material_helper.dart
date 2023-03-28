@@ -24,8 +24,10 @@ class MaterialHelper {
     return MaterialColor(color.value, swatch);
   }
 
-  static Widget buildCustomAppbar(BuildContext context, String appBarTitle) {
+  static Widget buildCustomAppbar(
+      BuildContext context, String appBarTitle, VoidCallback onPress) {
     final themeColorScheme = Theme.of(context).colorScheme;
+    // debugPrint(onPress.toString());
     return Container(
       margin: const EdgeInsets.only(top: 10),
       height: 60,
@@ -35,7 +37,7 @@ class MaterialHelper {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MaterialHelper.buildRoundedElevatedButton(
-              context, null, themeColorScheme, null),
+              context, null, themeColorScheme, onPress),
           const Spacer(),
           Text(
             appBarTitle,
@@ -44,8 +46,8 @@ class MaterialHelper {
                   color: themeColorScheme.primary,
                 ),
           ),
-          Spacer(),
-          SizedBox(
+          const Spacer(),
+          const SizedBox(
             width: 32,
           ),
         ],
@@ -55,7 +57,8 @@ class MaterialHelper {
 
   static buildClickableText(BuildContext context, String text,
       String clickableText, VoidCallback clickHandler) {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 16.0);
+    TextStyle defaultStyle =
+        const TextStyle(color: Colors.grey, fontSize: 16.0);
     TextStyle linkStyle = TextStyle(
       color: Theme.of(context).colorScheme.secondary,
     );
@@ -86,28 +89,30 @@ class MaterialHelper {
     BuildContext context,
     IconData? iconData,
     ColorScheme themeColorScheme,
-    VoidCallback? onPressedHandler,
-  ) {
+    VoidCallback? onPressedHandler, {
+    OutlinedBorder? borderStyle,
+    double? iconSize,
+    double? buttonSize,
+    Color? buttonColor,
+  }) {
     // final themeColorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
-      onPressed: onPressedHandler ??
-          () {
-            Navigator.of(context).pop();
-          },
+      onPressed: onPressedHandler,
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: borderStyle ??
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
         // foregroundColor: Colors.amber,
-        minimumSize: const Size.square(32),
-        maximumSize: const Size.square(32),
+        minimumSize: Size.square(buttonSize ?? 32),
+        maximumSize: Size.square(buttonSize ?? 32),
         padding: EdgeInsets.zero,
         // side: ,
-        backgroundColor: themeColorScheme.onPrimary,
+        backgroundColor: buttonColor ?? themeColorScheme.onPrimary,
       ),
       child: Icon(
         iconData ?? Icons.keyboard_arrow_left_rounded,
-        size: 30,
+        size: iconSize ?? 30,
         color: themeColorScheme.primary,
       ),
     );

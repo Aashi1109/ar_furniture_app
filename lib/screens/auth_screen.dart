@@ -1,10 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/widgets/auth/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'dart:io';
 
 class AuthScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  Map<String, Object>? _formData;
+  // Map<String, Object>? _formData;
   bool _isLoading = false;
 
   void _getFormData(
@@ -55,6 +55,7 @@ class _AuthScreenState extends State<AuthScreen> {
         await FirebaseHelper.saveExtraUserDataInFirestore({
           'imageUrl': imageUrl,
           'name': formData['name'],
+          'createdAt': Timestamp.now(),
         });
       }
     } on FirebaseAuthException catch (err) {

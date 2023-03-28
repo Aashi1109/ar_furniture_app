@@ -12,10 +12,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    // final mediaQuery = MediaQuery.of(context);
     final themeColorScheme = Theme.of(context).colorScheme;
     final cartProvider = Provider.of<CartProviderModel>(
       context,
+      listen: false,
     );
     // debugPrint('cart length ${cartProvider.carts.length}');
 
@@ -27,7 +28,16 @@ class CartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: cartProvider.items.isEmpty
               ? [
-                  MaterialHelper.buildCustomAppbar(context, 'Checkout'),
+                  MaterialHelper.buildCustomAppbar(
+                    context,
+                    'Checkout',
+                    // onPress: () {
+                    //   cartProvider.pushCartDataToFirestore();
+                    // },
+                    () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                   const Expanded(
                     child: Center(
                       child: Text('No cart items found.'),
@@ -35,7 +45,9 @@ class CartScreen extends StatelessWidget {
                   ),
                 ]
               : [
-                  MaterialHelper.buildCustomAppbar(context, 'Checkout'),
+                  MaterialHelper.buildCustomAppbar(context, 'Checkout', () {
+                    Navigator.of(context).pop();
+                  }),
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (ctx, index) {

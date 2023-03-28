@@ -27,7 +27,9 @@ class ViewARScreen extends StatelessWidget {
                 context,
                 null,
                 themeColorScheme,
-                null,
+                () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
             Positioned(

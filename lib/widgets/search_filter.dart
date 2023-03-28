@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SearchFilter extends StatelessWidget {
-  const SearchFilter({super.key});
+  final Function setSearchFilterQuery;
+  const SearchFilter(this.setSearchFilterQuery, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,9 @@ class SearchFilter extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
+            onChanged: (val) {
+              setSearchFilterQuery(val.trim());
+            },
           ),
         ),
         IconButton(

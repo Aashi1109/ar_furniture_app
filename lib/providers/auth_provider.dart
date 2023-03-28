@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../models/auth.dart';
 
 class AuthProviderModel extends ChangeNotifier {
-  AuthModel _auth = AuthModel(imageUrl: '', name: '');
+  AuthModel _auth = AuthModel(
+    imageUrl: '',
+    name: '',
+    userCreationDate: DateTime.now(),
+  );
 
   Future<void> getAndSetAuthData() async {
     try {
@@ -11,7 +15,11 @@ class AuthProviderModel extends ChangeNotifier {
       for (var element in authResp.docs) {
         // debugPrint(element.data().toString());
         _auth = AuthModel(
-            imageUrl: element.data()['imageUrl'], name: element.data()['name']);
+          imageUrl: element.data()['imageUrl'],
+          name: element.data()['name'],
+          userCreationDate:
+              element.data()['userCreationDate']?.toDate() ?? DateTime.now(),
+        );
       }
       notifyListeners();
     } catch (error) {
@@ -25,5 +33,9 @@ class AuthProviderModel extends ChangeNotifier {
 
   String get userImageUrl {
     return _auth.imageUrl;
+  }
+
+  DateTime get userCreationDate {
+    return _auth.userCreationDate;
   }
 }

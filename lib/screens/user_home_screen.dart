@@ -1,13 +1,12 @@
-import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/providers/auth_provider.dart';
+import 'package:decal/providers/cart_provider.dart';
+import 'package:decal/providers/orders_provider.dart';
 import 'package:decal/providers/products_provider.dart';
-import 'package:decal/widgets/products_grid_view.dart';
+
 import 'package:decal/widgets/user_home_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/user/user_header.dart';
-import '../widgets/filters/icon_filters.dart';
-import '../widgets/product_vertical_view.dart';
 
 class UserHomeScreen extends StatefulWidget {
   static const namedRoute = '/';
@@ -27,6 +26,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           .getAndSetProducts(),
       Provider.of<AuthProviderModel>(context, listen: false)
           .getAndSetAuthData(),
+      Provider.of<CartProviderModel>(context, listen: false)
+          .getAndSetCartData(),
+      Provider.of<OrderProviderModel>(context, listen: false)
+          .getAndSetOrdersData(),
     ];
     super.initState();
   }
@@ -60,7 +63,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               ),
               child: SingleChildScrollView(
                 child: Column(
-                  children: [
+                  children: const [
                     UserHeader(),
                     UserHomeContent(),
                   ],

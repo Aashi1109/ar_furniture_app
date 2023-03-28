@@ -1,13 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:decal/models/cart.dart';
+
 import 'package:decal/models/order.dart';
 import 'package:decal/models/product.dart';
-import 'package:flutter/material.dart';
 
 class FirebaseHelper {
   static final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -82,16 +80,46 @@ class FirebaseHelper {
         .set({'isFavourite': isFavourite});
   }
 
+  static Future<void> setCartDataInFirestore(
+      Map<String, dynamic> cartData) async {
+    final userCartCollection = getUserCartCollection();
+    // final cartItems = CartProviderModel.items;
+    // final cartItemsMap = cartItems.map((e) => e.toMap()).toList();
+    // final cartItemsJson = jsonEncode(cartItemsMap);
+    return userCartCollection.doc('cart').set(cartData);
+  }
+
   static Future<void> addOrderInFirestore(OrderItemModel order) async {
     final userOrdersCollection = getUserOrdersCollection();
 
     await userOrdersCollection.add({
-      'id': order.id,
-      'products': order.products,
+      // 'id': order.id,
+      'products': order.products
+          .map((cartItem) => {
+                'id': cartItem.id,
+                'title': cartItem.title,
+                'price': cartItem.price,
+                'quantity': cartItem.quantity,
+                'imageUrl': cartItem.imageUrl,
+                'total': cartItem.total,
+              })
+          .toList(),
       'amount': order.amount,
       'placedAt': order.placedAt,
-      'createdAt': Timestamp.now(),
+      // 'createdAt': Timestamp.now(),
     });
+  }
+
+  static getOrdersFromFirestore() async {
+    final userOrdersCollection = getUserOrdersCollection();
+    final query = await userOrdersCollection.get();
+    return query.docs;
+  }
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>>
+      getCartDataFromFirestore() {
+    final userCartCollection = getUserCartCollection();
+    return userCartCollection.doc('cart').get();
   }
 
   static Future<void> removeProductFromFirestore(String productId) async {
@@ -101,7 +129,7 @@ class FirebaseHelper {
     await productsCollection.doc(productId).delete();
   }
 
-  static Future<void> saveProductInFirestore(ProductItemModel product) async {
+  static Future<void> addProductInFirestore(ProductItemModel product) async {
     final productsCollection = getProductsCollection();
     await productsCollection.add({
       'title': product.title,
@@ -128,7 +156,7 @@ class FirebaseHelper {
     Map<String, dynamic> data,
   ) {
     final userProfilesCollection = getUserProfileImagesCollection();
-    print(userProfilesCollection.toString());
+    // print(userProfilesCollection.toString());
     return userProfilesCollection.doc().set(data);
   }
 

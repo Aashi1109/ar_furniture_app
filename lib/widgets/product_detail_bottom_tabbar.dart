@@ -1,4 +1,3 @@
-import 'package:decal/models/cart.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/products_provider.dart';
 import 'package:decal/screens/view_ar_screen.dart';

@@ -30,7 +30,7 @@ class _ViewMoreScreenState extends State<ViewMoreScreen> {
         ),
         child: Column(
           children: [
-            MaterialHelper.buildCustomAppbar(context, 'View More'),
+            MaterialHelper.buildCustomAppbar(context, 'View More', () {}),
             FilterHorizontal((val) {
               debugPrint(val);
               setState(() {

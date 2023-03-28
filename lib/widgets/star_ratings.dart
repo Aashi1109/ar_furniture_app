@@ -21,7 +21,7 @@ class StarRatings extends StatelessWidget {
       } else if (tempRate <= 0) {
         rateArray.add('e');
       }
-      debugPrint(tempRate.toString());
+      // debugPrint(tempRate.toString());
       counter++;
     }
 
@@ -63,15 +63,17 @@ class StarRatings extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Text(rating.toStringAsFixed(1)),
-                  VerticalDivider(
-                    thickness: 1,
-                  ),
-                  Text('$ratingCount ratings')
-                ],
+            FittedBox(
+              child: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Text(rating.toStringAsFixed(1)),
+                    const VerticalDivider(
+                      thickness: 1,
+                    ),
+                    Text('$ratingCount ratings')
+                  ],
+                ),
               ),
             )
           ],

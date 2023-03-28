@@ -1,7 +1,7 @@
 import 'package:decal/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'product_vertical_view.dart';
-import './filters/icon_filters.dart';
+import 'search_filter.dart';
 import 'products_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +32,11 @@ class _UserHomeContentState extends State<UserHomeContent> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FiltersIcon(_getCurrentSelectedFilter),
+        // FiltersIcon(_getCurrentSelectedFilter),
+        const SizedBox(
+          height: 10,
+        ),
+        SearchFilter(_getCurrentSelectedFilter),
         if (!_isFilteringOn) ...[
           const SizedBox(
             height: 15,
@@ -58,7 +62,7 @@ class _UserHomeContentState extends State<UserHomeContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Filter results :',
+                'Search results :',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -67,6 +71,7 @@ class _UserHomeContentState extends State<UserHomeContent> {
                 onPressed: () {
                   setState(() {
                     _isFilteringOn = false;
+                    _filterValue = null;
                     // _reset = true;
                   });
                 },
@@ -84,16 +89,21 @@ class _UserHomeContentState extends State<UserHomeContent> {
             height: 10,
           ),
         ],
+        // if(_isFilteringOn && _filterValue == '') ,
         if (_isFilteringOn)
           Container(
             constraints: BoxConstraints(
-              minHeight: mediaQuery.size.height * .3,
-              maxHeight: mediaQuery.size.height,
+              // minHeight: mediaQuery.size.height * .3,
+              maxHeight: mediaQuery.size.height * .55,
             ),
-            child: ProductGridView(
-              productProvider.getProductsByCategory(_filterValue!),
-              mediaQuery,
-            ),
+            child: _filterValue == ''
+                ? const Center(
+                    child: Text('Nothing to search'),
+                  )
+                : ProductGridView(
+                    productProvider.getProductsByQuery(_filterValue!),
+                    mediaQuery,
+                  ),
           ),
       ],
     );

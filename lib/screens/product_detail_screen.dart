@@ -1,3 +1,4 @@
+import 'package:decal/helpers/material_helper.dart';
 import 'package:decal/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,23 +38,13 @@ class ProductDetailScreen extends StatelessWidget {
                     height: mediaQuery.size.height * .3,
                     child: ImageSlider(routeArgsId),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
+                  MaterialHelper.buildRoundedElevatedButton(
+                    context,
+                    null,
+                    themeColorScheme,
+                    () {
                       Navigator.of(context).pop();
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      minimumSize: const Size.square(32),
-                      maximumSize: const Size.square(32),
-                      padding: EdgeInsets.zero,
-                      backgroundColor: themeColorScheme.tertiary,
-                    ),
-                    child: Icon(
-                      Icons.keyboard_arrow_left_rounded,
-                      color: themeColorScheme.primary,
-                    ),
                   ),
                   Positioned(
                     top: 10,
@@ -82,21 +73,37 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Flexible(
-                    child: Text(
-                      foundProduct.title,
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            color: themeColorScheme.primary,
-                          ),
-                      softWrap: true,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          foundProduct.title,
+                          // 'adjfad afdafaryrg sggshs',
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge
+                              ?.copyWith(
+                                color: themeColorScheme.primary,
+                              ),
+                          softWrap: true,
+                        ),
+                      ),
+                      Spacer(),
+                      // const Spacer(),
+                    ],
                   ),
-                  // const Spacer(),
-                  StarRatings(4.5, 16),
+                  Positioned(
+                    right: 0,
+                    child: StarRatings(
+                      foundProduct.rating['value'],
+                      foundProduct.rating['count'],
+                    ),
+                  )
                 ],
               ),
               const SizedBox(
@@ -104,7 +111,7 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text('Price : '),
+                  const Text('Price : '),
                   Text(
                     '\$${foundProduct.price.toStringAsFixed(2)}',
                     style: Theme.of(context).textTheme.titleLarge,

@@ -3,51 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 
-List<String> imgList = [];
-final List<Widget> imageSliders = imgList
-    .map(
-      (item) => Container(
-        margin: const EdgeInsets.all(5.0),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-          child: Stack(
-            children: <Widget>[
-              Image.network(item, fit: BoxFit.contain, width: 1000.0),
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  // color: Colors.amber,
-                  decoration: const BoxDecoration(
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     Color.fromARGB(200, 0, 0, 0),
-                      //     Color.fromARGB(0, 0, 0, 0)
-                      //   ],
-                      //   begin: Alignment.bottomCenter,
-                      //   end: Alignment.topCenter,
-                      // ),
-                      ),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 10.0),
-                  // child: Text(
-                  //   'No. ${imgList.indexOf(item)} image',
-                  //   style: const TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 20.0,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    )
-    .toList();
-
 class ImageSlider extends StatefulWidget {
   const ImageSlider(this.id, {super.key});
   final String id;
@@ -60,6 +15,7 @@ class ImageSlider extends StatefulWidget {
 
 class _CarouselWithIndicatorState extends State<ImageSlider> {
   int _current = 0;
+  List<String> imgList = [];
   final CarouselController _controller = CarouselController();
   @override
   void initState() {
@@ -67,16 +23,21 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(widget.id);
     imgList = List<String>.from(foundProduct.images['reduced']!);
-
+    // debugPrint(imgList.toString());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Expanded(
-        child: CarouselSlider(
-          items: imageSliders,
+        child: CarouselSlider.builder(
+          itemCount: imgList.length,
           carouselController: _controller,
           options: CarouselOptions(
               autoPlay: true,
@@ -87,6 +48,29 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
                   _current = index;
                 });
               }),
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              margin: const EdgeInsets.all(5.0),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(imgList[index],
+                        fit: BoxFit.contain, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
       Row(
