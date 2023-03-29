@@ -1,5 +1,6 @@
 import 'package:decal/helpers/material_helper.dart';
 import 'package:flutter/material.dart';
+import '../widgets/ar_handler.dart';
 
 class ViewARScreen extends StatelessWidget {
   const ViewARScreen({super.key});
@@ -19,6 +20,7 @@ class ViewARScreen extends StatelessWidget {
             Container(
               height: double.infinity,
               color: Colors.amber,
+              child: ArHandler(),
             ),
             Positioned(
               left: -10,

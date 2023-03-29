@@ -46,6 +46,9 @@ dependencies:
   sqflite: ^2.2.6
   flutter_native_splash: ^2.2.19
   firebase_storage: ^11.0.16
+  ar_flutter_plugin: ^0.7.3
+  google_sign_in: ^6.0.2
+  flutter_facebook_auth: ^5.0.8
 
 dev_dependencies:
   flutter_test:
