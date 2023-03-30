@@ -39,7 +39,7 @@ class ProductDetailBottomTabbar extends StatelessWidget {
                 title: foundProduct.title,
                 price: foundProduct.price,
                 quantity: 1,
-                imageUrl: foundProduct.images['reduced']![0],
+                imageUrl: foundProduct.images['main'],
               );
             },
             style: ElevatedButton.styleFrom(minimumSize: const Size(130, 45)),

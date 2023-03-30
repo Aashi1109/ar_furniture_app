@@ -2,6 +2,7 @@ import 'package:decal/providers/auth_provider.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/orders_provider.dart';
 import 'package:decal/providers/products_provider.dart';
+import 'package:decal/providers/rating_review_provider.dart';
 
 import 'package:decal/widgets/user_home_content.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     _futures = [
       Provider.of<ProductProviderModel>(context, listen: false)
           .getAndSetProducts(),
+      Provider.of<ReviewRatingProviderModel>(context, listen: false)
+          .getAndSetReviews(),
       Provider.of<AuthProviderModel>(context, listen: false)
           .getAndSetAuthData(),
       Provider.of<CartProviderModel>(context, listen: false)

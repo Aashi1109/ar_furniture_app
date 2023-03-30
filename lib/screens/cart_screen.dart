@@ -34,9 +34,6 @@ class CartScreen extends StatelessWidget {
                     // onPress: () {
                     //   cartProvider.pushCartDataToFirestore();
                     // },
-                    () {
-                      Navigator.of(context).pop();
-                    },
                   ),
                   const Expanded(
                     child: Center(
@@ -45,9 +42,10 @@ class CartScreen extends StatelessWidget {
                   ),
                 ]
               : [
-                  MaterialHelper.buildCustomAppbar(context, 'Checkout', () {
-                    Navigator.of(context).pop();
-                  }),
+                  MaterialHelper.buildCustomAppbar(
+                    context,
+                    'Checkout',
+                  ),
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (ctx, index) {

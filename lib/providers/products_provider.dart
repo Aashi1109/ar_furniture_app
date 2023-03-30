@@ -60,17 +60,18 @@ class ProductProviderModel extends ChangeNotifier {
       // print(products);
       final List<ProductItemModel> loadedProducts = [];
       for (var element in products.docs) {
+        // print(element.data()['images']['main']);
         // print(element.data()['modelUrl']);
         loadedProducts.add(ProductItemModel(
           id: element.id,
           title: element.data()['title'],
           description: element.data()['description'],
           price: double.parse(element.data()['price']),
-          images: Map<String, List<dynamic>>.from(element.data()['images']),
+          images: Map<String, dynamic>.from(element.data()['images']),
 
           vector: element.data()['vector'],
           categories: List<String>.from(element.data()['category']),
-          modelUrl: element.data()['model_url'],
+          modelUrl: element.data()['modelUrl'] ?? '',
           isFavourite: _favourites.contains(element.id) ? true : false,
           // rating: 4.5, // Have to be fetched from firebase
         ));

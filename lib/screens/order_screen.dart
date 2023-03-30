@@ -19,9 +19,7 @@ class OrderScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            MaterialHelper.buildCustomAppbar(context, 'Orders', () {
-              Navigator.of(context).pop();
-            }),
+            MaterialHelper.buildCustomAppbar(context, 'Orders', ),
             const SizedBox(
               height: 10,
             ),

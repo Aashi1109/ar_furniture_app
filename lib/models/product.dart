@@ -3,7 +3,7 @@ class ProductItemModel {
   final String title;
   final String description;
   final double price;
-  final Map<String, List<dynamic>> images;
+  final Map<String, dynamic> images;
   final String vector;
   final List<String> categories;
   final String modelUrl;

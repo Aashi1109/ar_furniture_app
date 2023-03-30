@@ -2,6 +2,7 @@ import 'package:decal/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+import '../helpers/general_helper.dart';
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider(this.id, {super.key});
@@ -22,7 +23,10 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
     final foundProduct =
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(widget.id);
-    imgList = List<String>.from(foundProduct.images['reduced']!);
+    imgList = List<String>.from(foundProduct.images['all']);
+    if (foundProduct.images['main'] != null) {
+      imgList.insert(0, foundProduct.images['main']);
+    }
     // debugPrint(imgList.toString());
     super.initState();
   }
@@ -55,8 +59,12 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
                 borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(imgList[index],
-                        fit: BoxFit.contain, width: 1000.0),
+                    Image.network(
+                        GeneralHelper.genReducedImageUrl(
+                          imgList[index],
+                        ),
+                        fit: BoxFit.contain,
+                        width: 1000.0),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,

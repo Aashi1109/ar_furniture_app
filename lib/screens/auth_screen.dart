@@ -3,6 +3,7 @@ import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/widgets/auth/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:io';
@@ -25,7 +26,9 @@ class _AuthScreenState extends State<AuthScreen> {
   ) async {
     debugPrint(formData.toString());
 
-    final _auth = FirebaseAuth.instance;
+    final _auth = FirebaseAuth.instanceFor(
+      app: Firebase.app(),
+    );
     UserCredential userCredential;
     setState(() {
       _isLoading = true;

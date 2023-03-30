@@ -1,3 +1,4 @@
+import 'package:decal/helpers/material_helper.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/orders_provider.dart';
 import 'package:flutter/material.dart';
@@ -130,8 +131,10 @@ class OrderModal extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            ElevatedButton(
-              onPressed: () async {
+            MaterialHelper.buildLargeElevatedButton(
+              context,
+              'Order',
+              () async {
                 orderProvider.addOrder(
                     cartProvider.carts, cartProvider.totalCartPrice);
                 await cartProvider.pushCartDataToFirestore();
@@ -139,20 +142,6 @@ class OrderModal extends StatelessWidget {
                 // cartProvider.clearCart();
                 Navigator.of(context).pop();
               },
-              style: ElevatedButton.styleFrom(
-                shape: const StadiumBorder(),
-                minimumSize: const Size.fromHeight(35),
-                padding: const EdgeInsets.all(
-                  15,
-                ),
-              ),
-              child: Text(
-                'Order',
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: themeColorScheme.onPrimary,
-                    ),
-              ),
             ),
           ],
         ),

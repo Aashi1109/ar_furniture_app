@@ -3,6 +3,7 @@ import 'package:decal/providers/auth_provider.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/orders_provider.dart';
 import 'package:decal/providers/products_provider.dart';
+import 'package:decal/providers/rating_review_provider.dart';
 import 'package:decal/screens/cart_screen.dart';
 import 'package:decal/screens/favourite_screen.dart';
 import 'package:decal/screens/product_detail_screen.dart';
@@ -21,6 +22,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/auth_screen.dart';
 import './helpers/material_helper.dart';
 import 'screens/order_screen.dart';
+import 'screens/review_rating_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProductProviderModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ReviewRatingProviderModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => CartProviderModel(),
@@ -104,6 +109,8 @@ class MyApp extends StatelessWidget {
           ViewMoreScreen.namedRoute: (context) => const ViewMoreScreen(),
           ProductDetailScreen.namedRoute: (context) =>
               const ProductDetailScreen(),
+          ReviewRatingScreen.namedRoute: (context) =>
+              const ReviewRatingScreen(),
         },
         // home: CatalogScreen(),
       ),
@@ -136,6 +143,8 @@ class _MainAppState extends State<MainApp> {
     });
     if (index == 2) {
       Navigator.of(context).pushNamed(CartScreen.namedRoute).then((value) {
+        // Provider.of<CartProviderModel>(context, listen: false)
+        //     .pushCartDataToFirestore();
         setState(() {
           _selectedPageIndex = 0;
           // resetIndex = true;

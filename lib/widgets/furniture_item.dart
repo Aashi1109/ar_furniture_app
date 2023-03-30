@@ -2,6 +2,7 @@ import 'package:decal/providers/products_provider.dart';
 import 'package:decal/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../helpers/general_helper.dart';
 
 class FurnitureItem extends StatelessWidget {
   const FurnitureItem(this.id, {super.key});
@@ -14,6 +15,9 @@ class FurnitureItem extends StatelessWidget {
     final foundProduct =
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(id);
+    // debugPrint(foundProduct.images['main'].toString());
+    // debugPrint(GeneralHelper.genReducedImageUrl(
+    //     foundProduct.images['main'].toString()));
     return Container(
       margin: const EdgeInsets.only(
           // right: 15,
@@ -73,7 +77,8 @@ class FurnitureItem extends StatelessWidget {
             //   fit: BoxFit.cover,
             // ),
             Image.network(
-              foundProduct.images['reduced']![0],
+              // foundProduct.images['main'] as String,
+              GeneralHelper.genReducedImageUrl(foundProduct.images['main']),
               height: 100,
               width: double.infinity,
               fit: BoxFit.contain,
@@ -96,8 +101,9 @@ class FurnitureItem extends StatelessWidget {
                     .pushNamed(ProductDetailScreen.namedRoute, arguments: id);
               },
               style: TextButton.styleFrom(
-                  backgroundColor: themeColorScheme.onTertiary,
-                  minimumSize: const Size.fromHeight(40)),
+                backgroundColor: themeColorScheme.onTertiary,
+                minimumSize: const Size.fromHeight(40),
+              ),
               child: const Text('View Details'),
             ),
           ],

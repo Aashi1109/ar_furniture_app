@@ -1,10 +1,16 @@
 import 'package:decal/helpers/material_helper.dart';
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/providers/products_provider.dart';
+import 'package:decal/providers/rating_review_provider.dart';
+import 'package:decal/widgets/description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/image_slider.dart';
 import '../widgets/product_detail_bottom_tabbar.dart';
 import '../widgets/star_ratings.dart';
+import './review_rating_screen.dart';
+import '../widgets/review/review_rating.dart';
+import '../widgets/rating/rating_form.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const namedRoute = '/product-detail';
@@ -20,6 +26,18 @@ class ProductDetailScreen extends StatelessWidget {
     final foundProduct =
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(routeArgsId);
+    final reviewProvider = Provider.of<ReviewRatingProviderModel>(
+      context,
+      listen: false,
+    );
+
+    final userReviewIndex = Provider.of<ReviewRatingProviderModel>(
+      context,
+      listen: false,
+    ).getUserReviewIndexonProduct(
+      routeArgsId,
+    );
+
     return Scaffold(
       backgroundColor: themeColorScheme.onPrimary,
       body: Padding(
@@ -100,8 +118,8 @@ class ProductDetailScreen extends StatelessWidget {
                   Positioned(
                     right: 0,
                     child: StarRatings(
-                      foundProduct.rating['value'],
-                      foundProduct.rating['count'],
+                      reviewProvider.getAverageRatingForProduct(routeArgsId),
+                      reviewProvider.getReviewsForProduct(routeArgsId).length,
                     ),
                   )
                 ],
@@ -121,23 +139,51 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Description',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Text(
+              // const Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     'Description',
+              //     style: TextStyle(
+              //       fontSize: 14,
+              //     ),
+              //   ),
+              // ),
+              // Text(
+              //   foundProduct.description,
+              // ),
+              Description(
                 foundProduct.description,
               ),
+              ReviewRatingSection(routeArgsId),
             ],
           ),
         ),
       ),
       bottomNavigationBar: ProductDetailBottomTabbar(routeArgsId),
+      floatingActionButton: userReviewIndex >= 0
+          ? null
+          : ElevatedButton.icon(
+              onPressed: () {
+                ModalHelpers.createBottomModal(
+                  context,
+                  ReviewRatingForm(routeArgsId),
+                );
+              },
+              icon: const Icon(
+                Icons.edit_rounded,
+              ),
+              label: const Text('Write a Review'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
+                ),
+                backgroundColor: themeColorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
     );
   }
 }

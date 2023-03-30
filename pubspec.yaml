@@ -49,6 +49,8 @@ dependencies:
   ar_flutter_plugin: ^0.7.3
   google_sign_in: ^6.0.2
   flutter_facebook_auth: ^5.0.8
+  image: ^4.0.15
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:

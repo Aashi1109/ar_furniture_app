@@ -1,3 +1,4 @@
+import 'package:decal/helpers/general_helper.dart';
 import 'package:decal/helpers/material_helper.dart';
 import 'package:decal/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,13 @@ class CartItem extends StatelessWidget {
       listen: isOrderItem ? false : true,
     );
     final cartItem = isOrderItem ? null : cartProvider.getCartitemById(id);
-    debugPrint(cartItem?.title.toString());
+    // debugPrint(cartItem?.title.toString());
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.network(
-          isOrderItem ? imageUrl : cartItem!.imageUrl,
+          GeneralHelper.genReducedImageUrl(
+              isOrderItem ? imageUrl : cartItem!.imageUrl),
           height: 90,
           width: 100,
           fit: BoxFit.contain,

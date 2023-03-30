@@ -24,9 +24,12 @@ class MaterialHelper {
     return MaterialColor(color.value, swatch);
   }
 
-  static Widget buildCustomAppbar(
-      BuildContext context, String appBarTitle, VoidCallback onPress) {
+  static Widget buildCustomAppbar(BuildContext context, String appBarTitle,
+      {VoidCallback? onPress}) {
     final themeColorScheme = Theme.of(context).colorScheme;
+    onPress ??= () {
+      Navigator.of(context).pop();
+    };
     // debugPrint(onPress.toString());
     return Container(
       margin: const EdgeInsets.only(top: 10),
@@ -114,6 +117,28 @@ class MaterialHelper {
         iconData ?? Icons.keyboard_arrow_left_rounded,
         size: iconSize ?? 30,
         color: themeColorScheme.primary,
+      ),
+    );
+  }
+
+  static buildLargeElevatedButton(
+      BuildContext context, String title, VoidCallback pressHandler) {
+    final themeColorScheme = Theme.of(context).colorScheme;
+    return ElevatedButton(
+      onPressed: pressHandler,
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        minimumSize: const Size.fromHeight(35),
+        padding: const EdgeInsets.all(
+          15,
+        ),
+      ),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.displayMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: themeColorScheme.onPrimary,
+            ),
       ),
     );
   }

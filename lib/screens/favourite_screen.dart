@@ -33,9 +33,10 @@ class FavouriteScreen extends StatelessWidget {
         child: Column(
           children: [
             if (isPagePushed)
-              MaterialHelper.buildCustomAppbar(context, 'Favourites', () {
-                Navigator.of(context).pop();
-              }),
+              MaterialHelper.buildCustomAppbar(
+                context,
+                'Favourites',
+              ),
             if (!isPagePushed)
               Row(
                 children: [
