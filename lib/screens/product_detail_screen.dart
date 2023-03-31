@@ -10,7 +10,7 @@ import '../widgets/product_detail_bottom_tabbar.dart';
 import '../widgets/star_ratings.dart';
 import './review_rating_screen.dart';
 import '../widgets/review/review_rating.dart';
-import '../widgets/rating/rating_form.dart';
+import '../widgets/review/review_form.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const namedRoute = '/product-detail';

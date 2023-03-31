@@ -8,6 +8,7 @@ import 'order_screen.dart';
 import 'favourite_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'user_account_edit_screen.dart';
 
 class UserAccountScreen extends StatelessWidget {
   const UserAccountScreen({super.key});
@@ -98,7 +99,10 @@ class UserAccountScreen extends StatelessWidget {
                     Icons.edit_square,
                     color: themeColorScheme.onPrimary,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(UserAccountEditScreen.namedRoute);
+                  },
                 ),
               ),
               Positioned(
@@ -124,7 +128,7 @@ class UserAccountScreen extends StatelessWidget {
                       Icons.email_rounded,
                       color: themeColorScheme.primary,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Email',
                     ),
                     subtitle:

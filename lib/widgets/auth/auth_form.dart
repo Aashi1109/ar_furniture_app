@@ -5,9 +5,17 @@ import 'package:decal/helpers/material_helper.dart';
 import '../circle_image_input.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm(this.setFormData, this.isLoading, {super.key});
+  const AuthForm(
+    this.setFormData,
+    this.isLoading, {
+    super.key,
+    this.isEditForm = false,
+    this.editData = const {},
+  });
   final Function setFormData;
   final bool isLoading;
+  final bool isEditForm;
+  final Map<String, String> editData;
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -37,8 +45,8 @@ class _AuthFormState extends State<AuthForm> {
             'Please Select a Profile image to continue');
       } else {
         _formKey.currentState!.save();
-        if (!_isLoginForm) {
-          _enteredData['image'] = _selectedImage!.path;
+        if (!_isLoginForm || widget.isEditForm) {
+          _enteredData['image'] = _selectedImage?.path ?? '';
         }
 
         widget.setFormData(_enteredData, _isLoginForm ? 'login' : 'signup');
@@ -61,13 +69,8 @@ class _AuthFormState extends State<AuthForm> {
         duration: const Duration(
           milliseconds: 300,
         ),
-
-        width: mediaQuery.size.width * .85,
-        // constraints: BoxConstraints(
-        //   minHeight: mediaQuery.size.height * .4,
-        //   maxHeight: mediaQuery.size.height * .7,
-        // ),
-        // height:,
+        width:
+            widget.isEditForm ? double.infinity : mediaQuery.size.width * .85,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           // color: Colors.amber,
@@ -79,14 +82,15 @@ class _AuthFormState extends State<AuthForm> {
           ),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  _isLoginForm ? 'Login' : 'Signup',
-                  style: themeTextTheme.titleSmall
-                      ?.copyWith(color: themeColorScheme.primary),
+              if (!widget.isEditForm)
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    _isLoginForm ? 'Login' : 'Signup',
+                    style: themeTextTheme.titleSmall
+                        ?.copyWith(color: themeColorScheme.primary),
+                  ),
                 ),
-              ),
               Form(
                 key: _formKey,
                 autovalidateMode: _autoValidate
@@ -96,8 +100,11 @@ class _AuthFormState extends State<AuthForm> {
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     children: [
-                      if (!_isLoginForm) ...[
-                        CircleImageInput(_getSelectedImage),
+                      if (!_isLoginForm || widget.isEditForm) ...[
+                        CircleImageInput(
+                          _getSelectedImage,
+                          prevImageUrl: widget.editData['imageUrl'] ?? '',
+                        ),
                         TextFormField(
                           decoration: const InputDecoration(
                             label: Text('Name'),
@@ -110,29 +117,36 @@ class _AuthFormState extends State<AuthForm> {
                           onSaved: (newValue) {
                             _enteredData['name'] = newValue!.trim();
                           },
+                          initialValue: widget.isEditForm
+                              ? widget.editData['name']
+                              : null,
                         ),
                       ],
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Email'),
-                          hintText: 'Your Email',
+                      if (!widget.isEditForm)
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Email'),
+                            hintText: 'Your Email',
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (!value!.contains('@')) {
+                              return 'Email address should contain @';
+                            }
+                            if (value.isEmpty) return 'Enter valid email';
+                            return null;
+                          },
+                          onSaved: (newValue) {
+                            _enteredData['email'] = newValue!.trim();
+                          },
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (!value!.contains('@')) {
-                            return 'Email address should contain @';
-                          }
-                          if (value.isEmpty) return 'Enter valid email';
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _enteredData['email'] = newValue!.trim();
-                        },
-                      ),
                       TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Password'),
-                          hintText: 'Your Password',
+                        decoration: InputDecoration(
+                          label: Text(
+                              widget.isEditForm ? 'New Password' : 'Password'),
+                          hintText: widget.isEditForm
+                              ? 'Your new password'
+                              : 'Your Password',
                         ),
                         obscureText: true,
                         validator: (value) {
@@ -161,86 +175,92 @@ class _AuthFormState extends State<AuthForm> {
                           ),
                           onPressed: _submitData,
                           child: Text(
-                            _isLoginForm ? 'Login' : 'Signup',
+                            widget.isEditForm
+                                ? 'Save Data'
+                                : _isLoginForm
+                                    ? 'Login'
+                                    : 'Signup',
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        MaterialHelper.buildClickableText(
-                          context,
-                          _isLoginForm
-                              ? 'Don\' have an account ? '
-                              : 'Have account ? ',
-                          _isLoginForm ? 'Signup' : 'Login',
-                          () {
-                            setState(() {
-                              _isLoginForm = !_isLoginForm;
-                            });
-                          },
-                        ),
+                        if (!widget.isEditForm)
+                          MaterialHelper.buildClickableText(
+                            context,
+                            _isLoginForm
+                                ? 'Don\' have an account ? '
+                                : 'Have account ? ',
+                            _isLoginForm ? 'Signup' : 'Login',
+                            () {
+                              setState(() {
+                                _isLoginForm = !_isLoginForm;
+                              });
+                            },
+                          ),
                       ],
                     ],
                   ),
                 ),
               ),
-              if (!widget.isLoading) ...[
-                IntrinsicHeight(
-                  child: Row(
+              if (!widget.isEditForm)
+                if (!widget.isLoading) ...[
+                  IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        const Flexible(
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'OR ${_isLoginForm ? 'login' : 'signup'} with',
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Flexible(
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Flexible(
-                        child: Divider(
-                          thickness: 1,
+                      InkWell(
+                        onTap: () {},
+                        child: CircleAvatar(
+                          backgroundImage:
+                              const AssetImage('assets/icons/google.png'),
+                          backgroundColor: themeColorScheme.onPrimary,
                         ),
                       ),
                       const SizedBox(
-                        width: 5,
+                        width: 20,
                       ),
-                      Text(
-                        'OR ${_isLoginForm ? 'login' : 'signup'} with',
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const Flexible(
-                        child: Divider(
-                          thickness: 1,
+                      InkWell(
+                        onTap: () {},
+                        child: const CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/icons/facebook.png'),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: CircleAvatar(
-                        backgroundImage:
-                            const AssetImage('assets/icons/google.png'),
-                        backgroundColor: themeColorScheme.onPrimary,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/icons/facebook.png'),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
             ],
           ),
         ),

@@ -15,9 +15,10 @@ class GeneralHelper {
     return reducedUrl;
   }
 
-  static Future<File> resizeImageFile(File imgFile,
+  static Future<File> resizeImageFile(String imagePath,
       {int? width, int? height}) async {
-    final image = Img.decodeImage(await imgFile.readAsBytes());
+    final imageFile = File(imagePath);
+    final image = Img.decodeImage(await imageFile.readAsBytes());
     final resizedImage = Img.copyResize(
       image!,
       width: width ?? 200,

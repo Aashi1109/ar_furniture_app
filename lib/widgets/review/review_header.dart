@@ -1,9 +1,18 @@
+import 'package:decal/widgets/review/review_rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ReviewRatingHeader extends StatelessWidget {
-  const ReviewRatingHeader({super.key});
+  const ReviewRatingHeader({
+    super.key,
+    required this.rateData,
+    required this.maxNoOfRating,
+    required this.totalNoOfRatings,
+    required this.averageRating,
+  });
+  final Map<int, int> rateData;
+  final int maxNoOfRating;
+  final int totalNoOfRatings;
+  final double averageRating;
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +20,16 @@ class ReviewRatingHeader extends StatelessWidget {
       children: [
         Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '4.3',
-              style: TextStyle(
+              averageRating.toStringAsFixed(1),
+              style: const TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text('32 ratings'),
+            Text('$totalNoOfRatings ratings'),
           ],
         ),
         Expanded(
@@ -29,18 +39,32 @@ class ReviewRatingHeader extends StatelessWidget {
                 return Row(
                   // mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ...List.generate(
-                      6 - e,
-                      (index) => const Icon(
-                        Icons.star_rounded,
-                        size: 20,
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: List.generate(
+                          6 - e,
+                          (index) => const Icon(
+                            Icons.star_rounded,
+                            size: 20,
+                          ),
+                        ),
                       ),
                     ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    ReviewRatingBar(
+                      maxNoOfRating,
+                      rateData[6 - e]!,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Text(
-                      '12',
-                      style: TextStyle(
+                      rateData[6 - e]!.toString(),
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),

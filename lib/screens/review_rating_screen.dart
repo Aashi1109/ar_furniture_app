@@ -18,13 +18,47 @@ class ReviewRatingScreen extends StatelessWidget {
       listen: false,
     ).getReviewsForProduct(routeArgsId);
 
+    final averageRating = Provider.of<ReviewRatingProviderModel>(
+      context,
+      listen: false,
+    ).getAverageRatingForProduct(
+      routeArgsId,
+    );
+
+    Map<int, int> ratingData = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+    };
+
+    for (var review in productReviews) {
+      // debugPrint(review.toString());
+      if (ratingData.containsKey(review.rating)) {
+        ratingData[review.rating] = (ratingData[review.rating] ?? 0) + 1;
+      } else {
+        ratingData[review.rating] = 1;
+      }
+    }
+    // debugPrint(ratingData.toString());
+    int maxValue = ratingData.values.reduce((a, b) => a > b ? a : b);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           children: [
             MaterialHelper.buildCustomAppbar(context, 'Review & Rating'),
-            ReviewRatingHeader(),
+            ReviewRatingHeader(
+              rateData: ratingData,
+              maxNoOfRating: maxValue,
+              totalNoOfRatings: productReviews.length,
+              averageRating: averageRating,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,

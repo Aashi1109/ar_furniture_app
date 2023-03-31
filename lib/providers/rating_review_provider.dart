@@ -39,7 +39,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
 
   void addReview(String productId, Map<String, String> reviewData,
       {bool isDataSet = false}) {
-    debugPrint(reviewData.toString());
+    // debugPrint(reviewData.toString());
     if (_reviews.containsKey(productId)) {
       _reviews[productId]?.add(
         ReviewRatingItemModel(
@@ -86,7 +86,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
       // debugPrint(reviewData.docs.toString());
 
       for (var element in reviewData.docs) {
-        debugPrint(element.data().toString());
+        // debugPrint(element.data().toString());
         addReview(
           element.data()['productId'],
           {

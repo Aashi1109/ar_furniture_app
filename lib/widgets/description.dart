@@ -25,8 +25,8 @@ class _DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(
-        'description text length ${widget.description.length.toString()}');
+    // debugPrint(
+    //     'description text length ${widget.description.length.toString()}');
     widget.bgColor ??= Theme.of(context).colorScheme.tertiary;
 
     return Container(

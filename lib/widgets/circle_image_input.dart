@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:decal/helpers/general_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
 
 class CircleImageInput extends StatefulWidget {
-  const CircleImageInput(this.setImage, {super.key});
+  const CircleImageInput(this.setImage, {super.key, this.prevImageUrl = ''});
   final Function setImage;
+  final String prevImageUrl;
 
   @override
   State<CircleImageInput> createState() => _CircleImageInputState();
@@ -20,8 +22,12 @@ class _CircleImageInputState extends State<CircleImageInput> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage == null) return;
+    // File originalFile = File(pickedImage.path);
+    // debugPrint('original size ${await originalFile.length()}');
+    File tempFile = await GeneralHelper.resizeImageFile(pickedImage.path);
+    // debugPrint('reduced size ${await tempFile.length()}');
     setState(() {
-      _pickedImage = File(pickedImage.path);
+      _pickedImage = tempFile;
       widget.setImage(_pickedImage);
     });
   }
@@ -31,11 +37,14 @@ class _CircleImageInputState extends State<CircleImageInput> {
     return Stack(
       children: [
         CircleAvatar(
-          backgroundImage: _pickedImage != null
-              ? FileImage(_pickedImage!) as ImageProvider
-              : const AssetImage(
-                  'assets/icons/default_user.png',
-                ),
+          backgroundImage:
+              (_pickedImage == null && widget.prevImageUrl.isNotEmpty)
+                  ? NetworkImage(widget.prevImageUrl)
+                  : _pickedImage != null
+                      ? FileImage(_pickedImage!) as ImageProvider
+                      : const AssetImage(
+                          'assets/icons/default_user.png',
+                        ),
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           radius: 40,
         ),

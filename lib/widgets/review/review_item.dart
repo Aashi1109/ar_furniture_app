@@ -67,13 +67,21 @@ class ReviewItem extends StatelessWidget {
                       const SizedBox(width: 10),
                       Text(snapshot.data?.data()?['name']),
                       const Spacer(),
-                      Text(
-                        rating.toString(),
-                        style:
-                            Theme.of(context).textTheme.displaySmall?.copyWith(
+                      Row(
+                        children: [
+                          const Icon(Icons.star_rounded),
+                          Text(
+                            rating.toString(),
+                            textAlign: TextAlign.justify,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -176,7 +176,11 @@ class FirebaseHelper {
   ) {
     final userProfilesCollection = getUserProfileDataCollection();
     // print(userProfilesCollection.toString());
-    return userProfilesCollection.doc('profileData').set(data);
+    return userProfilesCollection.doc('profileData').set(
+        data,
+        SetOptions(
+          merge: true,
+        ));
   }
 
   static Future<DocumentSnapshot<Map<String, dynamic>>>

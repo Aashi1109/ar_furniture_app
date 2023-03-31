@@ -7,6 +7,7 @@ import 'package:decal/providers/rating_review_provider.dart';
 import 'package:decal/screens/cart_screen.dart';
 import 'package:decal/screens/favourite_screen.dart';
 import 'package:decal/screens/product_detail_screen.dart';
+import 'package:decal/screens/user_account_edit_screen.dart';
 import 'package:decal/screens/view_more_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -111,6 +112,8 @@ class MyApp extends StatelessWidget {
               const ProductDetailScreen(),
           ReviewRatingScreen.namedRoute: (context) =>
               const ReviewRatingScreen(),
+          UserAccountEditScreen.namedRoute: (context) =>
+              const UserAccountEditScreen(),
         },
         // home: CatalogScreen(),
       ),
@@ -129,7 +132,7 @@ class _MainAppState extends State<MainApp> {
   int _selectedPageIndex = 0;
   // bool resetIndex = false;
 
-  List _screens = [
+  final List _screens = [
     const UserHomeScreen(),
     const FavouriteScreen(),
   ];

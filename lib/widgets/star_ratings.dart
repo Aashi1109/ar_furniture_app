@@ -31,8 +31,8 @@ class StarRatings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rateArray = _generateRateArray();
-    debugPrint(rateArray.toString());
-    debugPrint(scale.toString());
+    // debugPrint(rateArray.toString());
+    // debugPrint(scale.toString());
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiary,
