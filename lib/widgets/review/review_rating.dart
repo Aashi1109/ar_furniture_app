@@ -40,6 +40,7 @@ class ReviewRatingSection extends StatelessWidget {
             ),
           ),
         ),
+        if (productReviews.isEmpty) const Text('No reviews yet'),
         SizedBox(
           height: MediaQuery.of(context).size.height *
               (0.17 * (productReviews.length < 4 ? productReviews.length : 3)),

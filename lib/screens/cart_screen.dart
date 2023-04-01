@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
     final themeColorScheme = Theme.of(context).colorScheme;
     final cartProvider = Provider.of<CartProviderModel>(
       context,
-      listen: false,
+      // listen: false,
     );
     // debugPrint('cart length ${cartProvider.carts.length}');
 

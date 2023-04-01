@@ -60,19 +60,23 @@ class ReviewRatingScreen extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemBuilder: (ctx, index) {
-                  return ReviewItem(
-                    userId: productReviews[index].userId,
-                    rating: productReviews[index].rating,
-                    reviewMessage: productReviews[index].reviewMessage,
-                    // userName: authProvider.userName,
-                  );
-                },
-                itemCount:
-                    productReviews.length < 4 ? productReviews.length : 3,
-              ),
+              child: productReviews.isEmpty
+                  ? const Center(
+                      child: Text('No reviews yet'),
+                    )
+                  : ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (ctx, index) {
+                        return ReviewItem(
+                          userId: productReviews[index].userId,
+                          rating: productReviews[index].rating,
+                          reviewMessage: productReviews[index].reviewMessage,
+                          // userName: authProvider.userName,
+                        );
+                      },
+                      itemCount:
+                          productReviews.length < 4 ? productReviews.length : 3,
+                    ),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:decal/constants.dart';
 import 'package:decal/helpers/firebase_helper.dart';
 import 'package:decal/helpers/material_helper.dart';
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/providers/auth_provider.dart';
 import 'package:decal/widgets/auth/auth_form.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
 // Update the user's password.
     try {
       if (user != null) {
+        final currentUserCredential = EmailAuthProvider.credential(
+            email: user.email!, password: formData['prevPassword']);
+        await user.reauthenticateWithCredential(currentUserCredential);
         user.updatePassword(formData['password']).then((_) async {
           Map<String, String> userNewData = {
             'name': formData['name'],
@@ -52,12 +56,25 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
           debugPrint("Error updating password: $error");
         });
       }
+      await Provider.of<AuthProviderModel>(context, listen: false)
+          .getAndSetAuthData();
+
+      Navigator.of(context).pop();
+    } on FirebaseAuthException catch (error) {
+      ModalHelpers.createAlertDialog(
+        context,
+        error.code.toUpperCase().split('-').join(' '),
+        error.message.toString(),
+      );
     } catch (error) {
+      ModalHelpers.createAlertDialog(
+        context,
+        'Something wrong happened',
+        error.toString(),
+      );
       debugPrint('Something wrong happened ${error.toString()}');
     }
 
-    await Provider.of<AuthProviderModel>(context, listen: false)
-        .getAndSetAuthData();
     setState(() {
       _isLoading = false;
     });

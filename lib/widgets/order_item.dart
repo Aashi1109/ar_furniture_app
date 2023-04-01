@@ -50,7 +50,7 @@ class _OrderItemState extends State<OrderItem> {
                   children: [
                     const Text('Subtotal: '),
                     Text(
-                      '\$${widget.orderItem.amount}',
+                      '\$${widget.orderItem.amount.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],

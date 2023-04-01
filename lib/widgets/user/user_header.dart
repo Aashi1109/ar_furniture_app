@@ -8,7 +8,7 @@ class UserHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeColorScheme = Theme.of(context).colorScheme;
-    final authProvider = Provider.of<AuthProviderModel>(context, listen: false);
+    final authProvider = Provider.of<AuthProviderModel>(context);
 
     return ListTile(
       horizontalTitleGap: 10,

@@ -140,6 +140,21 @@ class _AuthFormState extends State<AuthForm> {
                             _enteredData['email'] = newValue!.trim();
                           },
                         ),
+                      if (widget.isEditForm)
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Current Password'),
+                            hintText: 'Your Current Password',
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty) return 'Enter valid password';
+                            return null;
+                          },
+                          onSaved: (newValue) {
+                            _enteredData['prevPassword'] = newValue!.trim();
+                          },
+                        ),
                       TextFormField(
                         decoration: InputDecoration(
                           label: Text(

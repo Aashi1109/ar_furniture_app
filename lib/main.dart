@@ -6,6 +6,7 @@ import 'package:decal/providers/products_provider.dart';
 import 'package:decal/providers/rating_review_provider.dart';
 import 'package:decal/screens/cart_screen.dart';
 import 'package:decal/screens/favourite_screen.dart';
+import 'package:decal/screens/onboard_screen.dart';
 import 'package:decal/screens/product_detail_screen.dart';
 import 'package:decal/screens/user_account_edit_screen.dart';
 import 'package:decal/screens/view_more_screen.dart';
@@ -26,7 +27,8 @@ import 'screens/order_screen.dart';
 import 'screens/review_rating_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -98,6 +100,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const MainApp();
             }
+            // return OnboardScreen();
             return const AuthScreen();
           },
         ),

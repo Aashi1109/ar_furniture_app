@@ -18,7 +18,7 @@ class UserAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final themeColorScheme = Theme.of(context).colorScheme;
-    final authProvider = Provider.of<AuthProviderModel>(context, listen: false);
+    final authProvider = Provider.of<AuthProviderModel>(context);
     // final cartProvider = Provider.of<CartProviderModel>(context, listen: false);
     final orderProvider =
         Provider.of<OrderProviderModel>(context, listen: false);

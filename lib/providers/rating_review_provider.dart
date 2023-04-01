@@ -12,15 +12,22 @@ class ReviewRatingProviderModel extends ChangeNotifier {
 
   int getUserReviewIndexonProduct(String productId) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid;
-    return (_reviews[productId] as List).indexWhere(
-      (element) => element.userId == currentUserId,
-    );
+    if (_reviews.containsKey(productId)) {
+      return (_reviews[productId] as List).indexWhere(
+        (element) => element.userId == currentUserId,
+      );
+    }
+
+    return -1;
   }
 
   List<ReviewRatingItemModel> getReviewsForProduct(
     String productId,
   ) {
-    return [..._reviews[productId]];
+    if (_reviews.containsKey(productId)) {
+      return [..._reviews[productId]];
+    }
+    return [];
   }
 
   void moveUserReviewOnTop() {
@@ -109,6 +116,6 @@ class ReviewRatingProviderModel extends ChangeNotifier {
     final reviews = getReviewsForProduct(productId);
     final totalReview = reviews.fold(
         0, (previousValue, element) => previousValue + element.rating);
-    return (totalReview / reviews.length);
+    return (totalReview / (reviews.isEmpty ? 1 : reviews.length));
   }
 }

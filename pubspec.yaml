@@ -43,19 +43,20 @@ dependencies:
   cloud_firestore: ^4.4.5
   provider: ^6.0.5
   http: ^0.13.5
-  sqflite: ^2.2.6
-  flutter_native_splash: ^2.2.19
+  # sqflite: ^2.2.6
+
   firebase_storage: ^11.0.16
   ar_flutter_plugin: ^0.7.3
   google_sign_in: ^6.0.2
   flutter_facebook_auth: ^5.0.8
   image: ^4.0.15
   path_provider: ^2.0.14
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_native_splash: ^2.2.19
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -105,3 +106,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  android: "assets/images/logo2.png"
+  ios: true
+  image_path: "assets/images/logo2.png"
+
+flutter_native_splash:
+  image: "assets/images/splash.png"
+  color: "#FFFFFF"
+  fill: true

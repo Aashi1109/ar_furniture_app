@@ -86,10 +86,13 @@ class FurnitureItem extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              foundProduct.title,
-              style: TextStyle(
-                color: themeColorScheme.primary,
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                foundProduct.title,
+                style: TextStyle(
+                  color: themeColorScheme.primary,
+                ),
               ),
             ),
             const SizedBox(
