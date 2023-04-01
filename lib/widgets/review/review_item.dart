@@ -1,5 +1,8 @@
 import 'package:decal/helpers/firebase_helper.dart';
+import 'package:decal/helpers/material_helper.dart';
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/widgets/description.dart';
+import 'package:decal/widgets/review/review_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -8,15 +11,15 @@ class ReviewItem extends StatelessWidget {
   const ReviewItem({
     super.key,
     required this.userId,
-    // required this.userName,
+    required this.productId,
     required this.rating,
     required this.reviewMessage,
-    this.isUserMessage,
   });
   final String userId;
   final String reviewMessage;
   final int rating;
-  final bool? isUserMessage;
+  final String productId;
+
   // final String userImageUrl;
   // String? userImageUrl;
   // String? userName;
@@ -24,6 +27,7 @@ class ReviewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final authData = await FirebaseHelper.getUserProfileDataFromFirestore();
+    final isUserReview = userId == FirebaseAuth.instance.currentUser?.uid;
     return FutureBuilder(
         future: FirebaseHelper.getUserProfileDataFromFirestore(
           userId: userId,
@@ -43,7 +47,7 @@ class ReviewItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).colorScheme.tertiary,
-              border: userId == FirebaseAuth.instance.currentUser?.uid
+              border: isUserReview
                   ? Border.all(
                       color: Theme.of(context).colorScheme.primary,
                       width: 2,
@@ -81,6 +85,27 @@ class ReviewItem extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                           ),
+                          if (isUserReview) ...[
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            MaterialHelper.buildRoundedElevatedButton(
+                              context,
+                              Icons.edit_rounded,
+                              Theme.of(context).colorScheme,
+                              () {
+                                ModalHelpers.createBottomModal(
+                                  context,
+                                  ReviewRatingForm(
+                                    productId,
+                                    isEditForm: true,
+                                  ),
+                                );
+                              },
+                              iconSize: 20,
+                              buttonSize: 30,
+                            ),
+                          ],
                         ],
                       ),
                     ],

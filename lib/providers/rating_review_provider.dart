@@ -118,4 +118,33 @@ class ReviewRatingProviderModel extends ChangeNotifier {
         0, (previousValue, element) => previousValue + element.rating);
     return (totalReview / (reviews.isEmpty ? 1 : reviews.length));
   }
+
+  void updateReview(String productId, reviewData) {
+    if (_reviews.containsKey(productId)) {
+      final reviewIndex = getUserReviewIndexonProduct(productId);
+      if (reviewIndex >= 0) {
+        _reviews[productId][reviewIndex] = ReviewRatingItemModel(
+          reviewId: reviewData['reviewId'],
+          userId: reviewData['userId'],
+          rating: int.parse(reviewData['rating']),
+          reviewMessage: reviewData['message'],
+        );
+
+        try {
+          FirebaseHelper.addReviewsInFirestore(
+            {
+              ...reviewData,
+              'productId': productId,
+            },
+            isUpdate: true,
+            reviewId: reviewData['reviewId'],
+          );
+        } catch (error) {
+          debugPrint('error in saving review data ${error.toString()}');
+        }
+        notifyListeners();
+        // debugPrint(reviewData.toString());
+      }
+    }
+  }
 }

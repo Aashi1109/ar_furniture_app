@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RatingStarsForm extends StatefulWidget {
-  const RatingStarsForm(this.setRating, {super.key});
+  const RatingStarsForm(this.setRating, {super.key, this.prevRating});
   final Function setRating;
+  final int? prevRating;
 
   @override
   State<RatingStarsForm> createState() => _RatingStarsFormState();
@@ -15,6 +16,12 @@ class _RatingStarsFormState extends State<RatingStarsForm> {
       _selectedRating = rating;
       widget.setRating(_selectedRating);
     });
+  }
+
+  @override
+  void initState() {
+    _selectedRating = widget.prevRating;
+    super.initState();
   }
 
   @override

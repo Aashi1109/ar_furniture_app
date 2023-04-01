@@ -31,10 +31,7 @@ class ProductDetailScreen extends StatelessWidget {
       listen: false,
     );
 
-    final userReviewIndex = Provider.of<ReviewRatingProviderModel>(
-      context,
-      listen: false,
-    ).getUserReviewIndexonProduct(
+    final userReviewIndex = reviewProvider.getUserReviewIndexonProduct(
       routeArgsId,
     );
 
@@ -117,9 +114,13 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   Positioned(
                     right: 0,
-                    child: StarRatings(
-                      reviewProvider.getAverageRatingForProduct(routeArgsId),
-                      reviewProvider.getReviewsForProduct(routeArgsId).length,
+                    child: Consumer<ReviewRatingProviderModel>(
+                      builder: (context, provider, ch) {
+                        return StarRatings(
+                          provider.getAverageRatingForProduct(routeArgsId),
+                          provider.getReviewsForProduct(routeArgsId).length,
+                        );
+                      },
                     ),
                   )
                 ],
@@ -139,18 +140,6 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              // const Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: Text(
-              //     'Description',
-              //     style: TextStyle(
-              //       fontSize: 14,
-              //     ),
-              //   ),
-              // ),
-              // Text(
-              //   foundProduct.description,
-              // ),
               Description(
                 foundProduct.description,
               ),

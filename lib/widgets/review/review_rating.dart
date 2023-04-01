@@ -15,10 +15,6 @@ class ReviewRatingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final productReviews = Provider.of<ReviewRatingProviderModel>(context)
         .getReviewsForProduct(id);
-    // final authProvider = Provider.of<AuthProviderModel>(context, listen: false);
-    // final userReview = Provider.of<ReviewRatingProviderModel>(context)
-    //     .getUserReviewIndexonProduct(
-    //         id, FirebaseAuth.instance.currentUser!.uid);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -43,11 +39,12 @@ class ReviewRatingSection extends StatelessWidget {
         if (productReviews.isEmpty) const Text('No reviews yet'),
         SizedBox(
           height: MediaQuery.of(context).size.height *
-              (0.17 * (productReviews.length < 4 ? productReviews.length : 3)),
+              (0.15 * (productReviews.length < 4 ? productReviews.length : 3)),
           child: ListView.builder(
             padding: EdgeInsets.zero,
             itemBuilder: (ctx, index) {
               return ReviewItem(
+                productId: id,
                 userId: productReviews[index].userId,
                 rating: productReviews[index].rating,
                 reviewMessage: productReviews[index].reviewMessage,

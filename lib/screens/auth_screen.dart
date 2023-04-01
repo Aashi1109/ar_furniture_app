@@ -78,6 +78,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs = ModalRoute.of(context)?.settings.arguments;
+    var type;
+    if (routeArgs != null) {
+      debugPrint(routeArgs.toString());
+      type = routeArgs as String;
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: Center(
@@ -88,6 +95,7 @@ class _AuthScreenState extends State<AuthScreen> {
           child: AuthForm(
             _getFormData,
             _isLoading,
+            type: type ?? '',
           ),
         ),
       ),

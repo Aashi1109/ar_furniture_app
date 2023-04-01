@@ -15,7 +15,7 @@ class ReviewRatingScreen extends StatelessWidget {
     final routeArgsId = ModalRoute.of(context)?.settings.arguments as String;
     final productReviews = Provider.of<ReviewRatingProviderModel>(
       context,
-      listen: false,
+      // listen: false,
     ).getReviewsForProduct(routeArgsId);
 
     final averageRating = Provider.of<ReviewRatingProviderModel>(
@@ -68,6 +68,7 @@ class ReviewRatingScreen extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       itemBuilder: (ctx, index) {
                         return ReviewItem(
+                          productId: routeArgsId,
                           userId: productReviews[index].userId,
                           rating: productReviews[index].rating,
                           reviewMessage: productReviews[index].reviewMessage,

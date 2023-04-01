@@ -171,7 +171,7 @@ class FirebaseHelper {
     return ref.putFile(image);
   }
 
-  static saveExtraUserDataInFirestore(
+  static Future<void> saveExtraUserDataInFirestore(
     Map<String, dynamic> data,
   ) {
     final userProfilesCollection = getUserProfileDataCollection();
@@ -191,8 +191,12 @@ class FirebaseHelper {
     return userProfileDataCollection.doc(userProfileDataPath).get();
   }
 
-  static Future<void> addReviewsInFirestore(Map<String, dynamic> review) {
+  static Future<void> addReviewsInFirestore(Map<String, dynamic> review,
+      {isUpdate = false, String? reviewId}) {
     final reviewsCollection = getReviewsCollection();
+    if (isUpdate) {
+      return reviewsCollection.doc(reviewId).set(review);
+    }
     return reviewsCollection.add(
       review,
     );

@@ -1,4 +1,5 @@
 import 'package:decal/helpers/material_helper.dart';
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/orders_provider.dart';
 import 'package:flutter/material.dart';
@@ -137,10 +138,14 @@ class OrderModal extends StatelessWidget {
               () async {
                 orderProvider.addOrder(
                     cartProvider.carts, cartProvider.totalCartPrice);
+                Navigator.of(context).pop();
+                ModalHelpers.createInfoSnackbar(
+                  context,
+                  'Order Placed Successfully',
+                );
                 await cartProvider.pushCartDataToFirestore();
                 await orderProvider.pushOrdersToFirebase();
                 // cartProvider.clearCart();
-                Navigator.of(context).pop();
               },
             ),
           ],

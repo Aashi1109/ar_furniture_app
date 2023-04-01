@@ -1,3 +1,4 @@
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:decal/providers/cart_provider.dart';
 import 'package:decal/providers/products_provider.dart';
 import 'package:decal/screens/view_ar_screen.dart';
@@ -41,6 +42,8 @@ class ProductDetailBottomTabbar extends StatelessWidget {
                 quantity: 1,
                 imageUrl: foundProduct.images['main'],
               );
+
+              ModalHelpers.createInfoSnackbar(context, 'Product Added to cart');
             },
             style: ElevatedButton.styleFrom(minimumSize: const Size(130, 45)),
             child: const Text('Add to cart'),

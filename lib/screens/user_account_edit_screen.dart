@@ -52,6 +52,8 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
 
           await FirebaseHelper.saveExtraUserDataInFirestore(userNewData);
           debugPrint("Password updated successfully!");
+          ModalHelpers.createInfoSnackbar(
+              context, 'Account Info Updated Successfully');
         }).catchError((error) {
           debugPrint("Error updating password: $error");
         });

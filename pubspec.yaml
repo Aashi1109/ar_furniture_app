@@ -107,10 +107,10 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
-flutter_icons:
-  android: "assets/images/logo2.png"
-  ios: true
-  image_path: "assets/images/logo2.png"
+# flutter_icons:
+#   android: "assets/images/logo2.png"
+#   ios: true
+#   image_path: "assets/images/logo2.png"
 
 flutter_native_splash:
   image: "assets/images/splash.png"

@@ -106,10 +106,11 @@ class MaterialHelper {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-        // foregroundColor: Colors.amber,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         minimumSize: Size.square(buttonSize ?? 32),
         maximumSize: Size.square(buttonSize ?? 32),
         padding: EdgeInsets.zero,
+
         // side: ,
         backgroundColor: buttonColor ?? themeColorScheme.onPrimary,
       ),

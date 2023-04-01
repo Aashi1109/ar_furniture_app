@@ -25,18 +25,28 @@ import 'screens/auth_screen.dart';
 import './helpers/material_helper.dart';
 import 'screens/order_screen.dart';
 import 'screens/review_rating_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './helpers/shared_preferences_helper.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  SharedPreferences preferences = await SharedPreferencesHelper.preferences;
+  final isOnboardShown = preferences.getBool('viewedOnboard');
+
+  runApp(
+    MyApp(
+      isOnboardShown ?? false,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp(this.isOnboardingShown, {super.key});
+  final bool isOnboardingShown;
 
   // This widget is the root of your application.
   @override
@@ -100,8 +110,9 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const MainApp();
             }
-            // return OnboardScreen();
-            return const AuthScreen();
+            return isOnboardingShown
+                ? const AuthScreen()
+                : const OnboardScreen();
           },
         ),
         routes: {
@@ -117,6 +128,7 @@ class MyApp extends StatelessWidget {
               const ReviewRatingScreen(),
           UserAccountEditScreen.namedRoute: (context) =>
               const UserAccountEditScreen(),
+          AuthScreen.namedRoute: (context) => const AuthScreen(),
         },
         // home: CatalogScreen(),
       ),
@@ -149,8 +161,8 @@ class _MainAppState extends State<MainApp> {
     });
     if (index == 2) {
       Navigator.of(context).pushNamed(CartScreen.namedRoute).then((value) {
-        // Provider.of<CartProviderModel>(context, listen: false)
-        //     .pushCartDataToFirestore();
+        Provider.of<CartProviderModel>(context, listen: false)
+            .pushCartDataToFirestore();
         setState(() {
           _selectedPageIndex = 0;
           // resetIndex = true;

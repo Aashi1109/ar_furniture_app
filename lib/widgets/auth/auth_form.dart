@@ -10,11 +10,13 @@ class AuthForm extends StatefulWidget {
     this.isLoading, {
     super.key,
     this.isEditForm = false,
+    this.type = 'login',
     this.editData = const {},
   });
   final Function setFormData;
   final bool isLoading;
   final bool isEditForm;
+  final String type;
   final Map<String, String> editData;
 
   @override
@@ -24,7 +26,7 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
-  bool _isLoginForm = true;
+  late bool _isLoginForm;
   bool _autoValidate = false;
 
   void _getSelectedImage(File image) => _selectedImage = image;
@@ -56,6 +58,12 @@ class _AuthFormState extends State<AuthForm> {
         _autoValidate = true;
       });
     }
+  }
+
+  @override
+  void initState() {
+    _isLoginForm = widget.type == 'signup' ? false : true;
+    super.initState();
   }
 
   @override
