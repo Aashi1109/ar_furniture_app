@@ -1,6 +1,6 @@
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/screens/view_more_screen.dart';
-import 'package:decal/widgets/furniture_item.dart';
+import '../providers/products_provider.dart';
+import '../screens/view_more_screen.dart';
+import 'furniture_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

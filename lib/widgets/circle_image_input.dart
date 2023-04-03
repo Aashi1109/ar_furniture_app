@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:decal/helpers/general_helper.dart';
+import '../helpers/general_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';

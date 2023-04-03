@@ -1,4 +1,4 @@
-import 'package:decal/providers/products_provider.dart';
+import '../providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';

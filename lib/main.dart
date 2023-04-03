@@ -1,32 +1,34 @@
-import 'package:decal/firebase_options.dart';
-import 'package:decal/providers/auth_provider.dart';
-import 'package:decal/providers/cart_provider.dart';
-import 'package:decal/providers/orders_provider.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/providers/rating_review_provider.dart';
-import 'package:decal/screens/cart_screen.dart';
-import 'package:decal/screens/favourite_screen.dart';
-import 'package:decal/screens/onboard_screen.dart';
-import 'package:decal/screens/product_detail_screen.dart';
-import 'package:decal/screens/user_account_edit_screen.dart';
-import 'package:decal/screens/view_more_screen.dart';
+import 'package:decal/providers/notification_provider.dart';
+
+import 'firebase_options.dart';
+import 'providers/auth_provider.dart';
+import 'providers/cart_provider.dart';
+import 'providers/orders_provider.dart';
+import 'providers/products_provider.dart';
+import 'providers/rating_review_provider.dart';
+import 'screens/cart_screen.dart';
+import 'screens/favourite_screen.dart';
+import 'screens/onboard_screen.dart';
+import 'screens/product_detail_screen.dart';
+import 'screens/user_account_edit_screen.dart';
+import 'screens/view_more_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-import 'package:decal/screens/user_account_screen.dart';
-import 'package:decal/screens/user_home_screen.dart';
-import 'package:decal/screens/view_ar_screen.dart';
+import 'screens/user_account_screen.dart';
+import 'screens/user_home_screen.dart';
+import 'screens/view_ar_screen.dart';
 
-import 'package:decal/widgets/bottom_tabbar.dart';
+import 'widgets/bottom_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'screens/auth_screen.dart';
-import './helpers/material_helper.dart';
+import 'helpers/material_helper.dart';
 import 'screens/order_screen.dart';
 import 'screens/review_rating_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './helpers/shared_preferences_helper.dart';
+import 'helpers/shared_preferences_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,16 +59,37 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthProviderModel(),
         ),
         ChangeNotifierProvider(
+          create: (context) => NotificationProviderModel(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => ProductProviderModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => ReviewRatingProviderModel(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => CartProviderModel(),
+        ChangeNotifierProxyProvider<NotificationProviderModel,
+            CartProviderModel>(
+          create: (_) => CartProviderModel(),
+
+          update: (_, notiProvider, cartProvider) {
+            cartProvider?.notificationProvider = notiProvider;
+            return cartProvider!;
+          },
+          // CartProviderModel(notificationProvider: notificationProvider),
         ),
-        ChangeNotifierProvider(
+        // ChangeNotifierProvider(
+        //   create: (_) => CartProviderModel(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (_) => OrderProviderModel(),
+        // ),
+        ChangeNotifierProxyProvider<NotificationProviderModel,
+            OrderProviderModel>(
           create: (context) => OrderProviderModel(),
+          update: (_, notificationProvider, orderProvider) {
+            orderProvider?.notificationProvider = notificationProvider;
+            return orderProvider!;
+          },
         ),
       ],
       child: MaterialApp(
@@ -160,14 +183,16 @@ class _MainAppState extends State<MainApp> {
       }
     });
     if (index == 2) {
-      Navigator.of(context).pushNamed(CartScreen.namedRoute).then((value) {
-        Provider.of<CartProviderModel>(context, listen: false)
-            .pushCartDataToFirestore();
-        setState(() {
-          _selectedPageIndex = 0;
-          // resetIndex = true;
-        });
-      });
+      Navigator.of(context).pushNamed(CartScreen.namedRoute).then(
+        (value) {
+          Provider.of<CartProviderModel>(context, listen: false)
+              .pushCartDataToFirestore();
+          setState(() {
+            _selectedPageIndex = 0;
+            // resetIndex = true;
+          });
+        },
+      );
     }
     if (index == 3) {
       Navigator.of(context)

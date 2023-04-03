@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as Img;
 import 'package:path_provider/path_provider.dart';
 
@@ -30,5 +31,13 @@ class GeneralHelper {
     final resizedImageFile = File(tempPath);
     await resizedImageFile.writeAsBytes(Img.encodeJpg(resizedImage));
     return resizedImageFile;
+  }
+
+  static String getIconDataString(IconData iconData) {
+    return iconData.codePoint.toString();
+  }
+
+  static IconData getIconDataFromIconString(String iconString) {
+    return IconData(int.parse(iconString), fontFamily: 'MaterialIcons');
   }
 }

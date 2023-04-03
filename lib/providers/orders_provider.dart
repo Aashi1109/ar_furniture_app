@@ -1,11 +1,25 @@
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/models/cart.dart';
-import 'package:decal/models/order.dart';
+import 'package:decal/constants.dart';
+import 'package:decal/providers/notification_provider.dart';
+
+import '../helpers/firebase/order_helper.dart';
+
+import '../models/cart.dart';
+import '../models/order.dart';
 import 'package:flutter/material.dart';
 
 class OrderProviderModel with ChangeNotifier {
-  List<OrderItemModel> _orders = [];
+  // NotificationProviderModel? notificationProvider;
 
+  // OrderProviderModel({this.notificationProvider});
+
+  NotificationProviderModel? _notificationProvider;
+
+  set notificationProvider(NotificationProviderModel notificationProvider) {
+    _notificationProvider = notificationProvider;
+  }
+
+  List<OrderItemModel> _orders = [];
+  // bool _wasOrderEmpty = true;
   List<OrderItemModel> get orders {
     return [..._orders];
   }
@@ -20,12 +34,24 @@ class OrderProviderModel with ChangeNotifier {
         placedAt: DateTime.now(),
       ),
     );
+    if (_orders.isNotEmpty) {
+      _notificationProvider?.addNotification(
+        NotificationItemModel(
+          text: orderNotifications['t1']!['text']!,
+          id: DateTime.now().toString(),
+          title: orderNotifications['t1']!['title']!,
+          icon: Icons.shopping_bag,
+        ),
+      );
+    }
+    // debugPrint('in order add');
+
     notifyListeners();
   }
 
   Future<void> pushOrdersToFirebase() async {
     try {
-      await FirebaseHelper.addOrderInFirestore(_orders[0]);
+      await OrderHelper.addOrderInFirestore(_orders[0]);
     } catch (error) {
       debugPrint(
           'error in storing order data to firestore ${error.toString()}');
@@ -34,7 +60,7 @@ class OrderProviderModel with ChangeNotifier {
 
   Future<void> getAndSetOrdersData() async {
     try {
-      final orders = await FirebaseHelper.getOrdersFromFirestore();
+      final orders = await OrderHelper.getOrdersFromFirestore();
       // debugPrint(orders[0].toString());
       final loadedOrders = List<OrderItemModel>.from(
         orders

@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:decal/helpers/modal_helper.dart';
+import '../../helpers/modal_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:decal/helpers/material_helper.dart';
+import '../../helpers/material_helper.dart';
 import '../circle_image_input.dart';
 
 class AuthForm extends StatefulWidget {

@@ -1,7 +1,7 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/providers/auth_provider.dart';
+import '../helpers/material_helper.dart';
+import '../providers/auth_provider.dart';
 
-import 'package:decal/providers/orders_provider.dart';
+import '../providers/orders_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'order_screen.dart';
@@ -18,7 +18,10 @@ class UserAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final themeColorScheme = Theme.of(context).colorScheme;
-    final authProvider = Provider.of<AuthProviderModel>(context);
+    final authProvider = Provider.of<AuthProviderModel>(
+      context,
+      listen: false,
+    );
     // final cartProvider = Provider.of<CartProviderModel>(context, listen: false);
     final orderProvider =
         Provider.of<OrderProviderModel>(context, listen: false);
@@ -108,10 +111,20 @@ class UserAccountScreen extends StatelessWidget {
               Positioned(
                 left: 10,
                 top: mediaQuery.padding.top,
-                child: MaterialHelper.buildRoundedElevatedButton(
-                    context, null, themeColorScheme, () {
-                  Navigator.of(context).pop();
-                }),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    left: 5,
+                  ),
+                  child: MaterialHelper.buildRoundedElevatedButton(
+                    context,
+                    null,
+                    themeColorScheme,
+                    () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
               ),
             ],
           ),

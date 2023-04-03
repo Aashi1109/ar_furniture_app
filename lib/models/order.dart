@@ -1,4 +1,4 @@
-import 'package:decal/models/cart.dart';
+import 'cart.dart';
 
 class OrderItemModel {
   final String id;

@@ -1,8 +1,8 @@
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/widgets/description.dart';
-import 'package:decal/widgets/review/review_form.dart';
+import '../../helpers/firebase/profile_helper.dart';
+import '../../helpers/material_helper.dart';
+import '../../helpers/modal_helper.dart';
+import '../description.dart';
+import 'review_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class ReviewItem extends StatelessWidget {
     // final authData = await FirebaseHelper.getUserProfileDataFromFirestore();
     final isUserReview = userId == FirebaseAuth.instance.currentUser?.uid;
     return FutureBuilder(
-        future: FirebaseHelper.getUserProfileDataFromFirestore(
+        future: ProfileHelper.getUserProfileDataFromFirestore(
           userId: userId,
         ),
         builder: (context, snapshot) {

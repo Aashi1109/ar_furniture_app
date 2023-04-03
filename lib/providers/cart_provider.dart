@@ -1,27 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/models/cart.dart';
+import 'package:decal/constants.dart';
+import 'package:decal/providers/notification_provider.dart';
+import '../helpers/firebase/cart_helper.dart';
+import '../helpers/firebase_helper.dart';
+import '../models/cart.dart';
 
 import 'package:flutter/material.dart';
 
 class CartProviderModel with ChangeNotifier {
-  //  _items = [];
-  // Map<String, dynamic> _cart = {
-  //   'items': <CartItemModel>[],
-  //   'isOrdered': false,
-  // };
+  NotificationProviderModel? _notificationProvider;
+
+  set notificationProvider(NotificationProviderModel notificationProvider) {
+    _notificationProvider = notificationProvider;
+  }
+
+  // CartProviderModel({this.notificationProvider});
+
   bool _isOrdered = false;
   List<CartItemModel> _items = [];
+  bool _wasCartEmpty = true;
 
   List<CartItemModel> get items {
-    // if (_cart['isOrdered']) {
-    //   _items;
-    // }
-    // return [];
     if (!_isOrdered) {
       return [..._items];
     }
     return [];
+  }
+
+  bool get wasCartEmpty {
+    return _wasCartEmpty;
   }
 
   void addItemToCart({
@@ -44,7 +51,7 @@ class CartProviderModel with ChangeNotifier {
         price: price,
         imageUrl: imageUrl,
       );
-      // debugPrint('in update item');
+      debugPrint('in update item');
       _items[existingCartitemIndex] = modifiedCartItem;
     } else {
       final newCartItem = CartItemModel(
@@ -54,10 +61,22 @@ class CartProviderModel with ChangeNotifier {
         price: price,
         imageUrl: imageUrl,
       );
-      // debugPrint('in update item new');
+      debugPrint('in update item new');
       _items.add(newCartItem);
+      if (_items.isNotEmpty && _wasCartEmpty) {
+        _notificationProvider?.addNotification(
+          NotificationItemModel(
+            text: cartNotifications['t1']!['text']!,
+            id: DateTime.now().toString(),
+            title: cartNotifications['t1']!['title']!,
+            icon: Icons.shopping_cart_rounded,
+          ),
+        );
+      }
     }
+
     notifyListeners();
+    _wasCartEmpty = _items.isEmpty;
   }
 
   void removeItemFromCart({
@@ -85,13 +104,14 @@ class CartProviderModel with ChangeNotifier {
 
   void clearCart() {
     _items.clear();
+    _wasCartEmpty = true;
     notifyListeners();
   }
 
   Future<void> pushCartDataToFirestore({bool isSave = true}) async {
     debugPrint('in cart push');
     try {
-      await FirebaseHelper.setCartDataInFirestore({
+      await CartHelper.setCartDataInFirestore({
         'items': _items.map((cartItem) => {
               'id': cartItem.id,
               'title': cartItem.title,
@@ -103,8 +123,9 @@ class CartProviderModel with ChangeNotifier {
             }),
         'isOrdered': isSave ? false : _isOrdered,
       });
-
-      clearCart();
+      if (!isSave) {
+        clearCart();
+      }
     } catch (error) {
       debugPrint('error in storing cart data to firestore ${error.toString()}');
     }
@@ -112,7 +133,7 @@ class CartProviderModel with ChangeNotifier {
 
   Future<void> getAndSetCartData() async {
     try {
-      final cartData = await FirebaseHelper.getCartDataFromFirestore();
+      final cartData = await CartHelper.getCartDataFromFirestore();
       if (cartData == null) {
         return;
       }
@@ -148,9 +169,5 @@ class CartProviderModel with ChangeNotifier {
 
   CartItemModel getCartitemById(String id) {
     return _items.firstWhere((element) => element.id == id);
-  }
-
-  List<CartItemModel> get carts {
-    return [..._items];
   }
 }

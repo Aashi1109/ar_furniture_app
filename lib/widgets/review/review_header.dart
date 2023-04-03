@@ -1,4 +1,4 @@
-import 'package:decal/widgets/review/review_rating_bar.dart';
+import 'review_rating_bar.dart';
 import 'package:flutter/material.dart';
 
 class ReviewRatingHeader extends StatelessWidget {

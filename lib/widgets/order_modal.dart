@@ -1,7 +1,9 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/cart_provider.dart';
-import 'package:decal/providers/orders_provider.dart';
+import 'package:decal/providers/notification_provider.dart';
+
+import '../helpers/material_helper.dart';
+import '../helpers/modal_helper.dart';
+import '../providers/cart_provider.dart';
+import '../providers/orders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -137,7 +139,24 @@ class OrderModal extends StatelessWidget {
               'Order',
               () async {
                 orderProvider.addOrder(
-                    cartProvider.carts, cartProvider.totalCartPrice);
+                  cartProvider.items,
+                  cartProvider.totalCartPrice,
+                );
+                cartProvider.clearCart();
+                // if (orderProvider.orders.isNotEmpty) {
+                //   Provider.of<NotificationProviderModel>(
+                //     context,
+                //     listen: false,
+                //   ).addNotification(
+                //     NotificationItemModel(
+                //       text: 'Order Placed Successfully.',
+                //       id: DateTime.now().toString(),
+                //       title: 'Order',
+                //       icon: Icons.shopping_cart_rounded,
+                //     ),
+                //   );
+                //   debugPrint('in order noti add');
+                // }
                 Navigator.of(context).pop();
                 ModalHelpers.createInfoSnackbar(
                   context,

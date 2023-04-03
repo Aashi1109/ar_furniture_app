@@ -1,7 +1,10 @@
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/cart_provider.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/screens/view_ar_screen.dart';
+import 'package:decal/constants.dart';
+import 'package:decal/providers/notification_provider.dart';
+
+import '../helpers/modal_helper.dart';
+import '../providers/cart_provider.dart';
+import '../providers/products_provider.dart';
+import '../screens/view_ar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +14,10 @@ class ProductDetailBottomTabbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foundProduct =
-        Provider.of<ProductProviderModel>(context, listen: false)
-            .getProductById(id);
+    final productProvider =
+        Provider.of<ProductProviderModel>(context, listen: false);
+
+    final foundProduct = productProvider.getProductById(id);
     return SizedBox(
       height: 90,
       child: Row(
@@ -34,8 +38,10 @@ class ProductDetailBottomTabbar extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Provider.of<CartProviderModel>(context, listen: false)
-                  .addItemToCart(
+              final cartProvider =
+                  Provider.of<CartProviderModel>(context, listen: false);
+
+              cartProvider.addItemToCart(
                 prodId: id,
                 title: foundProduct.title,
                 price: foundProduct.price,
@@ -44,6 +50,19 @@ class ProductDetailBottomTabbar extends StatelessWidget {
               );
 
               ModalHelpers.createInfoSnackbar(context, 'Product Added to cart');
+              if (cartProvider.wasCartEmpty && cartProvider.items.isNotEmpty) {
+                // Provider.of<NotificationProviderModel>(
+                //   context,
+                //   listen: false,
+                // ).addNotification(
+                //   NotificationItemModel(
+                //     text: cartNotifications['t1']!['text']!,
+                //     id: DateTime.now().toString(),
+                //     title: cartNotifications['t1']!['title']!,
+                //     icon: Icons.shopping_cart_rounded,
+                //   ),
+                // );
+              }
             },
             style: ElevatedButton.styleFrom(minimumSize: const Size(130, 45)),
             child: const Text('Add to cart'),

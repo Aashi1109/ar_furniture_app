@@ -1,5 +1,5 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/providers/products_provider.dart';
+import '../helpers/material_helper.dart';
+import '../providers/products_provider.dart';
 
 import 'package:flutter/material.dart';
 import '../widgets/products_grid_view.dart';

@@ -1,6 +1,6 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/models/order.dart';
-import 'package:decal/widgets/cart/cart_item.dart';
+import '../helpers/material_helper.dart';
+import '../models/order.dart';
+import 'cart/cart_item.dart';
 import 'package:flutter/material.dart';
 
 class OrderItem extends StatefulWidget {

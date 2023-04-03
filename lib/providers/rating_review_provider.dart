@@ -1,5 +1,6 @@
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/models/rating_review.dart';
+import '../helpers/firebase/review_helper.dart';
+import '../helpers/firebase_helper.dart';
+import '../models/rating_review.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +74,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
     }
     if (!isDataSet) {
       try {
-        FirebaseHelper.addReviewsInFirestore(
+        ReviewHelper.addReviewsInFirestore(
           {
             ...reviewData,
             'productId': isDataSet ? reviewData['productId'] : productId,
@@ -89,7 +90,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
   Future<void> getAndSetReviews() async {
     debugPrint('in review fetch');
     try {
-      final reviewData = await FirebaseHelper.getReviewsFromFirestore();
+      final reviewData = await ReviewHelper.getReviewsFromFirestore();
       // debugPrint(reviewData.docs.toString());
 
       for (var element in reviewData.docs) {
@@ -131,7 +132,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
         );
 
         try {
-          FirebaseHelper.addReviewsInFirestore(
+          ReviewHelper.addReviewsInFirestore(
             {
               ...reviewData,
               'productId': productId,

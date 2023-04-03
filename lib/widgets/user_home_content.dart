@@ -1,4 +1,4 @@
-import 'package:decal/providers/products_provider.dart';
+import '../providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'product_vertical_view.dart';
 import 'search_filter.dart';

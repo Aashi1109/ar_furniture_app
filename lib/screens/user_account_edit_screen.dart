@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:decal/constants.dart';
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/auth_provider.dart';
-import 'package:decal/widgets/auth/auth_form.dart';
+import '../constants.dart';
+import '../helpers/firebase/profile_helper.dart';
+import '../helpers/firebase_helper.dart';
+import '../helpers/material_helper.dart';
+import '../helpers/modal_helper.dart';
+import '../providers/auth_provider.dart';
+import '../widgets/auth/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,7 +43,7 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
           if ((formData['image'] as String).isNotEmpty) {
             final imagePath = formData['image'];
             final imagePathSplit = imagePath.toString().split('/');
-            final imageUploadTask = FirebaseHelper.uploadImage(
+            final imageUploadTask = ProfileHelper.uploadImage(
               File(imagePath.toString()),
               imagePathSplit[imagePathSplit.length - 1],
             );
@@ -50,7 +51,7 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
             userNewData['imageUrl'] = imageUrl;
           }
 
-          await FirebaseHelper.saveExtraUserDataInFirestore(userNewData);
+          await ProfileHelper.saveExtraUserDataInFirestore(userNewData);
           debugPrint("Password updated successfully!");
           ModalHelpers.createInfoSnackbar(
               context, 'Account Info Updated Successfully');

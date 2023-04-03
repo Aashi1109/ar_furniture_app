@@ -1,6 +1,6 @@
-import 'package:decal/helpers/shared_preferences_helper.dart';
-import 'package:decal/screens/auth_screen.dart';
-import 'package:decal/widgets/onboard/onboard_item.dart';
+import '../helpers/shared_preferences_helper.dart';
+import 'auth_screen.dart';
+import '../widgets/onboard/onboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

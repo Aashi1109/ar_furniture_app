@@ -1,6 +1,6 @@
-import 'package:decal/helpers/material_helper.dart';
+import '../helpers/material_helper.dart';
 
-import 'package:decal/providers/orders_provider.dart';
+import '../providers/orders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/order_item.dart';
@@ -19,7 +19,10 @@ class OrderScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            MaterialHelper.buildCustomAppbar(context, 'Orders', ),
+            MaterialHelper.buildCustomAppbar(
+              context,
+              'Orders',
+            ),
             const SizedBox(
               height: 10,
             ),

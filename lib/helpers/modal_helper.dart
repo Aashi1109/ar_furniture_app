@@ -44,6 +44,7 @@ class ModalHelpers {
   }
 
   static createInfoSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

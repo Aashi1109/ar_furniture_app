@@ -1,6 +1,6 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/widgets/filters/filters.dart';
+import '../helpers/material_helper.dart';
+import '../providers/products_provider.dart';
+import '../widgets/filters/filters.dart';
 import '../widgets/products_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

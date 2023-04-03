@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/widgets/auth/auth_form.dart';
+import '../helpers/firebase/profile_helper.dart';
+import '../helpers/firebase_helper.dart';
+import '../helpers/modal_helper.dart';
+import '../widgets/auth/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -49,13 +50,13 @@ class _AuthScreenState extends State<AuthScreen> {
         debugPrint('User created successfully');
         final imagePath = formData['image'];
         final imagePathSplit = imagePath.toString().split('/');
-        final imageUploadTask = FirebaseHelper.uploadImage(
+        final imageUploadTask = ProfileHelper.uploadImage(
           File(imagePath.toString()),
           imagePathSplit[imagePathSplit.length - 1],
         );
         final imageUrl = await (await imageUploadTask).ref.getDownloadURL();
 
-        await FirebaseHelper.saveExtraUserDataInFirestore({
+        await ProfileHelper.saveExtraUserDataInFirestore({
           'imageUrl': imageUrl,
           'name': formData['name'],
           'createdAt': Timestamp.now(),

@@ -1,4 +1,4 @@
-import 'package:decal/helpers/material_helper.dart';
+import '../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
 import '../widgets/ar_handler.dart';
 

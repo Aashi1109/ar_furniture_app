@@ -1,8 +1,8 @@
-import 'package:decal/widgets/bottom_tabbar.dart';
-import 'package:decal/widgets/filters/filters.dart';
-import 'package:decal/widgets/furniture_item.dart';
-import 'package:decal/widgets/product_vertical_view.dart';
-import 'package:decal/widgets/search_filter.dart';
+import '../widgets/bottom_tabbar.dart';
+import '../widgets/filters/filters.dart';
+import '../widgets/furniture_item.dart';
+import '../widgets/product_vertical_view.dart';
+import '../widgets/search_filter.dart';
 import 'package:flutter/material.dart';
 import '../widgets/special_message_section.dart';
 

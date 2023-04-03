@@ -1,6 +1,6 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/providers/rating_review_provider.dart';
-import 'package:decal/widgets/review/review_item.dart';
+import '../helpers/material_helper.dart';
+import '../providers/rating_review_provider.dart';
+import '../widgets/review/review_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -75,8 +75,7 @@ class ReviewRatingScreen extends StatelessWidget {
                           // userName: authProvider.userName,
                         );
                       },
-                      itemCount:
-                          productReviews.length < 4 ? productReviews.length : 3,
+                      itemCount: productReviews.length,
                     ),
             ),
           ],

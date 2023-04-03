@@ -1,4 +1,4 @@
-import 'package:decal/helpers/firebase_helper.dart';
+import '../helpers/firebase/profile_helper.dart';
 import 'package:flutter/material.dart';
 import '../models/auth.dart';
 
@@ -11,7 +11,7 @@ class AuthProviderModel extends ChangeNotifier {
 
   Future<void> getAndSetAuthData() async {
     try {
-      final authResp = await FirebaseHelper.getUserProfileDataFromFirestore();
+      final authResp = await ProfileHelper.getUserProfileDataFromFirestore();
       // for (var element in authResp.docs) {
       // debugPrint(element.data().toString());
       // debugPrint(authResp.data().toString());

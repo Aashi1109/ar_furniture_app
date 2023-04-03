@@ -1,11 +1,11 @@
-import 'package:decal/providers/auth_provider.dart';
-import 'package:decal/providers/rating_review_provider.dart';
-import 'package:decal/screens/review_rating_screen.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/rating_review_provider.dart';
+import '../../screens/review_rating_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './review_item.dart';
-import './review_header.dart';
+import 'review_item.dart';
+import 'review_header.dart';
 
 class ReviewRatingSection extends StatelessWidget {
   const ReviewRatingSection(this.id, {super.key});

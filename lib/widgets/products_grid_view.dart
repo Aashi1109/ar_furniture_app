@@ -1,4 +1,4 @@
-import 'package:decal/widgets/furniture_item.dart';
+import 'furniture_item.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridView extends StatelessWidget {

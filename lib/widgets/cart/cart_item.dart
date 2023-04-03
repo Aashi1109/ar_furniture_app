@@ -1,6 +1,9 @@
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/screens/product_detail_screen.dart';
+import 'package:decal/constants.dart';
+import 'package:decal/providers/notification_provider.dart';
+
+import '../../helpers/general_helper.dart';
+import '../../helpers/material_helper.dart';
+import '../../screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
@@ -27,7 +30,8 @@ class CartItem extends StatelessWidget {
     final themeColorScheme = Theme.of(context).colorScheme;
     final cartProvider = Provider.of<CartProviderModel>(
       context,
-      listen: isOrderItem ? false : true,
+      // listen: isOrderItem ? false : true,
+      listen: false,
     );
     final cartItem = isOrderItem ? null : cartProvider.getCartitemById(id);
     // debugPrint(cartItem?.title.toString());
@@ -82,10 +86,12 @@ class CartItem extends StatelessWidget {
               if (!isOrderItem)
                 Positioned(
                   right: -8,
-                  bottom: 0,
+                  bottom: 2,
                   child: SizedBox(
                     width: 107,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
@@ -98,10 +104,15 @@ class CartItem extends StatelessWidget {
                                 },
                           iconSize: 26,
                         ),
-                        const Text(
-                          '1',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4,
+                          ),
+                          child: Text(
+                            '1',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         MaterialHelper.buildRoundedElevatedButton(
@@ -144,23 +155,34 @@ class CartItem extends StatelessWidget {
                           buttonColor: themeColorScheme.tertiary,
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 20,
                         ),
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           Icons.add_shopping_cart_rounded,
                           themeColorScheme,
                           () {
-                            Provider.of<CartProviderModel>(
-                              context,
-                              listen: false,
-                            ).addItemToCart(
+                            cartProvider.addItemToCart(
                               prodId: id,
                               title: title,
                               price: total / quantity,
                               quantity: 1,
                               imageUrl: imageUrl,
                             );
+                            // if (cartProvider.wasCartEmpty &&
+                            //     cartProvider.items.isNotEmpty) {
+                            //   Provider.of<NotificationProviderModel>(
+                            //     context,
+                            //     listen: false,
+                            //   ).addNotification(
+                            //     NotificationItemModel(
+                            //       text: cartNotifications['t1']!['text']!,
+                            //       id: DateTime.now().toString(),
+                            //       title: cartNotifications['t1']!['title']!,
+                            //       icon: Icons.shopping_cart_rounded,
+                            //     ),
+                            //   );
+                            // }
                           },
                           iconSize: 22,
                           buttonColor: themeColorScheme.tertiary,

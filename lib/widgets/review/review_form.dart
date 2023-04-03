@@ -1,6 +1,6 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/rating_review_provider.dart';
+import '../../helpers/material_helper.dart';
+import '../../helpers/modal_helper.dart';
+import '../../providers/rating_review_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

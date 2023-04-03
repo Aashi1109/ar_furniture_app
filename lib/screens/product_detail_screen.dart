@@ -1,14 +1,14 @@
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/providers/rating_review_provider.dart';
-import 'package:decal/widgets/description.dart';
+import '../helpers/material_helper.dart';
+import '../helpers/modal_helper.dart';
+import '../providers/products_provider.dart';
+import '../providers/rating_review_provider.dart';
+import '../widgets/description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/image_slider.dart';
 import '../widgets/product_detail_bottom_tabbar.dart';
 import '../widgets/star_ratings.dart';
-import './review_rating_screen.dart';
+import 'review_rating_screen.dart';
 import '../widgets/review/review_rating.dart';
 import '../widgets/review/review_form.dart';
 
@@ -108,7 +108,7 @@ class ProductDetailScreen extends StatelessWidget {
                           softWrap: true,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       // const Spacer(),
                     ],
                   ),

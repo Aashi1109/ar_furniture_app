@@ -113,6 +113,6 @@ flutter:
 #   image_path: "assets/images/logo2.png"
 
 flutter_native_splash:
-  image: "assets/images/splash.png"
+  image: "assets/images/splash2.png"
   color: "#FFFFFF"
   fill: true

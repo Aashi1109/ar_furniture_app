@@ -1,5 +1,7 @@
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/models/product.dart';
+import '../helpers/firebase/favourite_helper.dart';
+import '../helpers/firebase/product_helper.dart';
+import '../helpers/firebase_helper.dart';
+import '../models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductProviderModel extends ChangeNotifier {
@@ -37,7 +39,8 @@ class ProductProviderModel extends ChangeNotifier {
 
     notifyListeners();
     try {
-      await FirebaseHelper.toggleFavouritesInFirestore(id, product.isFavourite);
+      await FavouriteHelper.toggleFavouritesInFirestore(
+          id, product.isFavourite);
     } catch (error) {
       product.isFavourite = prevFavStat;
       if (product.isFavourite) {
@@ -53,7 +56,7 @@ class ProductProviderModel extends ChangeNotifier {
   Future<void> getAndSetProducts() async {
     debugPrint('sdkdsjdjfdjndndkfndakkad');
     try {
-      final productsCollection = FirebaseHelper.getProductsCollection();
+      final productsCollection = ProductHelper.getProductsCollection();
       final products = await productsCollection.get();
       await getAndSetFavourites();
 
@@ -88,7 +91,7 @@ class ProductProviderModel extends ChangeNotifier {
 
   Future<void> getAndSetFavourites() async {
     final userFavouritesCollection =
-        FirebaseHelper.getUserFavouritesCollection();
+        FavouriteHelper.getUserFavouritesCollection();
     final favourites = await userFavouritesCollection.get();
     final List<String> loadedFavourites = [];
     for (var element in favourites.docs) {
