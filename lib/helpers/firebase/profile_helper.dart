@@ -24,15 +24,19 @@ class ProfileHelper {
     return userProfileImagesCollection;
   }
 
-  static UploadTask uploadImage(File image, String imageName,
+  static UploadTask uploadImage(String imagePath,
       {String uploadPath = userProfileImagesPath}) {
+    final image = File(imagePath.toString());
+    final imagePathSplit = imagePath.toString().split('/');
+    final imageName = imagePathSplit[imagePathSplit.length - 1];
+
     final ref =
         FirebaseStorage.instance.ref().child(uploadPath).child(imageName);
 
     return ref.putFile(image);
   }
 
-  static Future<void> saveExtraUserDataInFirestore(
+  static Future<void> saveProfileDataInFirestore(
     Map<String, dynamic> data,
   ) {
     final userProfilesCollection = getUserProfileDataCollection();
@@ -50,5 +54,28 @@ class ProfileHelper {
       userId: userId,
     );
     return userProfileDataCollection.doc(userProfileDataPath).get();
+  }
+
+  static Future<void> saveUserDataInFirestore(
+    String imgPath,
+    String name, {
+    bool isUpdate = false,
+    String? imageUrl,
+  }) async {
+    Map<String, dynamic> dataToPush = {
+      'name': name,
+    };
+    if (imgPath.isNotEmpty) {
+      final imageUploadTask = ProfileHelper.uploadImage(imgPath);
+      dataToPush['imageUrl'] =
+          await (await imageUploadTask).ref.getDownloadURL();
+    }
+    if (!isUpdate) {
+      dataToPush['createdAt'] = Timestamp.now();
+    }
+    if (imageUrl != null) {
+      dataToPush['imageUrl'] = imageUrl;
+    }
+    await ProfileHelper.saveProfileDataInFirestore(dataToPush);
   }
 }

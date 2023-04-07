@@ -1,3 +1,5 @@
+import '../providers/general_provider.dart';
+
 import '../providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -38,6 +40,8 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final isDataSaverOn =
+        Provider.of<GeneralProviderModel>(context, listen: false).isDataSaverOn;
     return Column(children: [
       Expanded(
         child: CarouselSlider.builder(
@@ -59,12 +63,24 @@ class _CarouselWithIndicatorState extends State<ImageSlider> {
                 borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(
-                        GeneralHelper.genReducedImageUrl(
-                          imgList[index],
-                        ),
-                        fit: BoxFit.contain,
-                        width: 1000.0),
+                    FadeInImage(
+                      image: NetworkImage(
+                        !isDataSaverOn
+                            ? imgList[index]
+                            : GeneralHelper.genReducedImageUrl(
+                                imgList[index],
+                              ),
+                      ),
+                      placeholder: const AssetImage(
+                        'assets/images/defaults/product.jpeg',
+                      ),
+                      fit: BoxFit.contain,
+                      width: 1000.0,
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                        'assets/images/defaults/default_product.png',
+                      ),
+                    ),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,

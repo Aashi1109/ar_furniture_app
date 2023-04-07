@@ -1,11 +1,12 @@
-import '../../helpers/material_helper.dart';
-import '../../helpers/modal_helper.dart';
-import '../../providers/rating_review_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'review_stars_form.dart';
+
 import '../../constants.dart';
+import '../../helpers/material_helper.dart';
+import '../../helpers/modal_helper.dart';
+import '../../providers/rating_review_provider.dart';
+import 'review_stars_form.dart';
 
 class ReviewRatingForm extends StatelessWidget {
   ReviewRatingForm(this.id, {super.key, this.isEditForm = false});
@@ -63,7 +64,7 @@ class ReviewRatingForm extends StatelessWidget {
 
         // debugPrint(reviewData.toString());
         _reviewData['rating'] = (reviewData?.rating).toString();
-        _reviewData['message'] = (reviewData?.reviewMessage as String);
+        _reviewData['message'] = (reviewData?.reviewMessage as String).trim();
         _reviewData['reviewId'] = (reviewData?.reviewId as String);
 
         // debugPrint(_reviewData.toString());

@@ -32,13 +32,13 @@ class SearchFilter extends StatelessWidget {
             },
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.tune_rounded,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
+        // IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(
+        //     Icons.tune_rounded,
+        //     color: Theme.of(context).colorScheme.primary,
+        //   ),
+        // ),
       ],
     );
   }

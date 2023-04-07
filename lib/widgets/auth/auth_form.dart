@@ -1,8 +1,11 @@
 import 'dart:io';
-import '../../helpers/modal_helper.dart';
+
 import 'package:flutter/material.dart';
+
 import '../../helpers/material_helper.dart';
+import '../../helpers/modal_helper.dart';
 import '../circle_image_input.dart';
+import 'auth_bottom_button.dart';
 
 class AuthForm extends StatefulWidget {
   const AuthForm(
@@ -30,6 +33,11 @@ class _AuthFormState extends State<AuthForm> {
   bool _autoValidate = false;
 
   void _getSelectedImage(File image) => _selectedImage = image;
+  void _authWithHandler(String handler) {
+    widget.setFormData({
+      'handler': handler,
+    }, '');
+  }
 
   Map<String, Object> _enteredData = {
     'name': '',
@@ -212,7 +220,7 @@ class _AuthFormState extends State<AuthForm> {
                           MaterialHelper.buildClickableText(
                             context,
                             _isLoginForm
-                                ? 'Don\' have an account ? '
+                                ? 'Don\'t have an account ? '
                                 : 'Have account ? ',
                             _isLoginForm ? 'Signup' : 'Login',
                             () {
@@ -227,63 +235,11 @@ class _AuthFormState extends State<AuthForm> {
                 ),
               ),
               if (!widget.isEditForm)
-                if (!widget.isLoading) ...[
-                  IntrinsicHeight(
-                    child: Row(
-                      children: [
-                        const Flexible(
-                          child: Divider(
-                            thickness: 1,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'OR ${_isLoginForm ? 'login' : 'signup'} with',
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Flexible(
-                          child: Divider(
-                            thickness: 1,
-                          ),
-                        ),
-                      ],
-                    ),
+                if (!widget.isLoading)
+                  AuthBottom(
+                    _isLoginForm,
+                    _authWithHandler,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: CircleAvatar(
-                          backgroundImage:
-                              const AssetImage('assets/icons/google.png'),
-                          backgroundColor: themeColorScheme.onPrimary,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/icons/facebook.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
             ],
           ),
         ),

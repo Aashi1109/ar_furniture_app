@@ -1,6 +1,7 @@
-import 'package:decal/providers/notification_provider.dart';
-import 'package:decal/widgets/notifications/notification_item.dart';
 import 'package:flutter/material.dart';
+
+import '../../providers/notification_provider.dart';
+import 'notification_item.dart';
 
 class NotificationListview extends StatelessWidget {
   const NotificationListview(this.notifications, {super.key});
@@ -8,20 +9,28 @@ class NotificationListview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final mediaQuerySize = MediaQuery.of(context).size.height;
     return Expanded(
+      // height:
+      //     MediaQuery.of(context).size.height * (.105 * notifications.length),
       child: ListView.builder(
         padding: EdgeInsets.zero,
         itemBuilder: (ctx, index) {
+          final id = notifications[index].id;
+          // final title = notifications[index].title;
+          // final text = notifications[index].text;
+          // final icon = notifications[index].icon;
+          // final isRead = notifications[index].isRead;
+          // final createdAt = notifications[index].createdAt;
           return Container(
-            margin: const EdgeInsets.only(
-              bottom: 10,
-            ),
+            margin: const EdgeInsets.only(bottom: 10),
             child: NotificationItem(
-              id: notifications[index].id,
-              title: notifications[index].title,
-              text: notifications[index].text,
-              icon: notifications[index].icon,
-              isRead: notifications[index].isRead,
+              id: id,
+              // title: title,
+              // text: text,
+              // icon: icon,
+              // isRead: isRead,
+              // createdAt: createdAt,
             ),
           );
         },

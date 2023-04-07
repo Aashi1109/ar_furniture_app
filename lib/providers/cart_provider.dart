@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decal/constants.dart';
-import 'package:decal/providers/notification_provider.dart';
+import '../constants.dart';
+import '../helpers/general_helper.dart';
+import 'notification_provider.dart';
 import '../helpers/firebase/cart_helper.dart';
-import '../helpers/firebase_helper.dart';
+
 import '../models/cart.dart';
 
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class CartProviderModel with ChangeNotifier {
   bool _isOrdered = false;
   List<CartItemModel> _items = [];
   bool _wasCartEmpty = true;
+  bool _isDataInit = true;
 
   List<CartItemModel> get items {
     if (!_isOrdered) {
@@ -70,7 +72,12 @@ class CartProviderModel with ChangeNotifier {
             id: DateTime.now().toString(),
             title: cartNotifications['t1']!['title']!,
             icon: Icons.shopping_cart_rounded,
+            action: {
+              'action': 'cart',
+              'params': '',
+            },
           ),
+          isNew: true,
         );
       }
     }
@@ -109,7 +116,7 @@ class CartProviderModel with ChangeNotifier {
   }
 
   Future<void> pushCartDataToFirestore({bool isSave = true}) async {
-    debugPrint('in cart push');
+    // debugPrint('in cart push');
     try {
       await CartHelper.setCartDataInFirestore({
         'items': _items.map((cartItem) => {
@@ -132,29 +139,53 @@ class CartProviderModel with ChangeNotifier {
   }
 
   Future<void> getAndSetCartData() async {
-    try {
-      final cartData = await CartHelper.getCartDataFromFirestore();
-      if (cartData == null) {
-        return;
-      }
-      final List<CartItemModel> cartItems = [];
-      cartData['items'].forEach((cartItem) {
-        // debugPrint('cartItem ${cartItem.toString()}');
-        cartItems.add(CartItemModel(
-          id: cartItem['id'],
-          title: cartItem['title'],
-          price: cartItem['price'],
-          quantity: cartItem['quantity'],
-          imageUrl: cartItem['imageUrl'],
-        ));
-      });
-      _items = cartItems;
-      _isOrdered = cartData['isOrdered'] ?? false;
-      notifyListeners();
-    } catch (error) {
-      debugPrint(
-          'error in getting cart data from firestore ${error.toString()}');
-    }
+    return GeneralHelper.getAndSetWrapper(
+      _isDataInit,
+      () async {
+        final cartData = await CartHelper.getCartDataFromFirestore();
+        if (cartData == null) {
+          return;
+        }
+        final List<CartItemModel> cartItems = [];
+        cartData['items'].forEach((cartItem) {
+          // debugPrint('cartItem ${cartItem.toString()}');
+          cartItems.add(CartItemModel(
+            id: cartItem['id'],
+            title: cartItem['title'],
+            price: cartItem['price'],
+            quantity: cartItem['quantity'],
+            imageUrl: cartItem['imageUrl'],
+          ));
+        });
+        _items = cartItems;
+        _isOrdered = cartData['isOrdered'] ?? false;
+        _isDataInit = false;
+        notifyListeners();
+      },
+    );
+    // try {
+    //   final cartData = await CartHelper.getCartDataFromFirestore();
+    //   if (cartData == null) {
+    //     return;
+    //   }
+    //   final List<CartItemModel> cartItems = [];
+    //   cartData['items'].forEach((cartItem) {
+    //     // debugPrint('cartItem ${cartItem.toString()}');
+    //     cartItems.add(CartItemModel(
+    //       id: cartItem['id'],
+    //       title: cartItem['title'],
+    //       price: cartItem['price'],
+    //       quantity: cartItem['quantity'],
+    //       imageUrl: cartItem['imageUrl'],
+    //     ));
+    //   });
+    //   _items = cartItems;
+    //   _isOrdered = cartData['isOrdered'] ?? false;
+    //   notifyListeners();
+    // } catch (error) {
+    //   debugPrint(
+    //       'error in getting cart data from firestore ${error.toString()}');
+    // }
   }
 
   double get totalCartPrice {

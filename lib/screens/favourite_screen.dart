@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../helpers/material_helper.dart';
 import '../providers/products_provider.dart';
-
-import 'package:flutter/material.dart';
 import '../widgets/products_grid_view.dart';
-import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});

@@ -1,5 +1,6 @@
-import 'furniture_item.dart';
 import 'package:flutter/material.dart';
+
+import 'furniture_item.dart';
 
 class ProductGridView extends StatelessWidget {
   const ProductGridView(this.products, this.mediaQuery, {super.key});

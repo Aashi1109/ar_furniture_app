@@ -1,7 +1,7 @@
-import 'package:decal/providers/notification_provider.dart';
+import '../../providers/notification_provider.dart';
 
-import 'package:decal/widgets/notifications/notification_item.dart';
-import 'package:decal/widgets/notifications/notification_listview.dart';
+import 'notification_item.dart';
+import 'notification_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,15 +62,16 @@ class NotificationModalWindow extends StatelessWidget {
                       'All',
                       style: smallTextStyle,
                     ),
-                    InkWell(
-                      onTap: () => notiProvider.markAsRead("", toAll: true),
-                      child: Text(
-                        'Mark all as read.',
-                        style: smallTextStyle.copyWith(
-                          color: Theme.of(context).colorScheme.secondary,
+                    if (notiProvider.unreadNotifications.isNotEmpty)
+                      InkWell(
+                        onTap: () => notiProvider.markAsRead("", toAll: true),
+                        child: Text(
+                          'Mark all as read.',
+                          style: smallTextStyle.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               const SizedBox(
@@ -94,10 +95,15 @@ class NotificationModalWindow extends StatelessWidget {
                         ],
                       );
               }),
-              if (notiProvider.notifications.isNotEmpty)
+              if (notiProvider.notifications.isNotEmpty) ...[
+                const SizedBox(
+                  height: 5,
+                ),
                 InkWell(
-                  onTap: () =>
-                      notiProvider.removeNotification('', deleteAll: true),
+                  onTap: () {
+                    notiProvider.toggleNotiWindow();
+                    notiProvider.removeNotification('', deleteAll: true);
+                  },
                   child: Text(
                     'Delete All Notifications',
                     style: smallTextStyle.copyWith(
@@ -105,6 +111,7 @@ class NotificationModalWindow extends StatelessWidget {
                     ),
                   ),
                 ),
+              ],
             ],
           ),
         ),

@@ -26,14 +26,14 @@ class ProductDetailScreen extends StatelessWidget {
     final foundProduct =
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(routeArgsId);
-    final reviewProvider = Provider.of<ReviewRatingProviderModel>(
-      context,
-      listen: false,
-    );
+    // final reviewProvider = Provider.of<ReviewRatingProviderModel>(
+    //   context,
+    //   listen: false,
+    // );
 
-    final userReviewIndex = reviewProvider.getUserReviewIndexonProduct(
-      routeArgsId,
-    );
+    // final userReviewIndex = reviewProvider.getUserReviewIndexonProduct(
+    //   routeArgsId,
+    // );
 
     return Scaffold(
       backgroundColor: themeColorScheme.onPrimary,
@@ -149,30 +149,35 @@ class ProductDetailScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: ProductDetailBottomTabbar(routeArgsId),
-      floatingActionButton: userReviewIndex >= 0
-          ? null
-          : ElevatedButton.icon(
-              onPressed: () {
-                ModalHelpers.createBottomModal(
-                  context,
-                  ReviewRatingForm(routeArgsId),
-                );
-              },
-              icon: const Icon(
-                Icons.edit_rounded,
-              ),
-              label: const Text('Write a Review'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 15,
+      floatingActionButton:
+          Consumer<ReviewRatingProviderModel>(builder: (context, provider, ch) {
+        final userReviewIndex =
+            provider.getUserReviewIndexonProduct(routeArgsId);
+        return userReviewIndex >= 0
+            ? const SizedBox.shrink()
+            : ElevatedButton.icon(
+                onPressed: () {
+                  ModalHelpers.createBottomModal(
+                    context,
+                    ReviewRatingForm(routeArgsId),
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit_rounded,
                 ),
-                backgroundColor: themeColorScheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                label: const Text('Write a Review'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
+                  ),
+                  backgroundColor: themeColorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
-              ),
-            ),
+              );
+      }),
     );
   }
 }

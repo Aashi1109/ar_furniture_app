@@ -1,5 +1,5 @@
-import 'package:decal/constants.dart';
-import 'package:decal/providers/notification_provider.dart';
+import '../constants.dart';
+import '../providers/notification_provider.dart';
 
 import '../helpers/modal_helper.dart';
 import '../providers/cart_provider.dart';

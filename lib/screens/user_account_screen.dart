@@ -9,6 +9,8 @@ import 'favourite_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'user_account_edit_screen.dart';
+import '../widgets/user/user_settings.dart';
+import 'screenshots_screen.dart';
 
 class UserAccountScreen extends StatelessWidget {
   const UserAccountScreen({super.key});
@@ -148,38 +150,71 @@ class UserAccountScreen extends StatelessWidget {
                         Text(FirebaseAuth.instance.currentUser?.email ?? ''),
                   ),
                   ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(OrderScreen.namedRoute);
+                    },
                     leading: Icon(
                       Icons.credit_card_rounded,
                       color: themeColorScheme.primary,
                     ),
-                    title: const Text('Orders'),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: themeColorScheme.primary,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(OrderScreen.namedRoute);
-                      },
+                    title: const Text('Order History'),
+                    // trailing: IconButton(
+                    //   icon: Icon(
+                    //     Icons.keyboard_arrow_right_rounded,
+                    //     color: themeColorScheme.primary,
+                    //   ),
+                    //   onPressed: () {
+                    //     Navigator.of(context).pushNamed(OrderScreen.namedRoute);
+                    //   },
+                    // ),
+                    trailing: const Icon(
+                      Icons.keyboard_arrow_right_rounded,
                     ),
                   ),
                   ListTile(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(FavouriteScreen.namedRoute);
+                    },
                     leading: Icon(
                       Icons.favorite_outline_rounded,
                       color: themeColorScheme.primary,
                     ),
                     title: const Text('Favourites'),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        color: themeColorScheme.primary,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(FavouriteScreen.namedRoute);
-                      },
+                    // trailing: IconButton(
+                    //   icon: Icon(
+                    //     Icons.keyboard_arrow_right_rounded,
+                    //     color: themeColorScheme.primary,
+                    //   ),
+                    //   onPressed: () {
+                    //     Navigator.of(context)
+                    //         .pushNamed(FavouriteScreen.namedRoute);
+                    //   },
+                    // ),
+                    trailing: const Icon(
+                      Icons.keyboard_arrow_right_rounded,
                     ),
                   ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(ScreenshotsScreen.namedRoute);
+                    },
+                    leading: Icon(
+                      Icons.image_rounded,
+                      color: themeColorScheme.primary,
+                    ),
+                    title: const Text(
+                      'Screenshots',
+                      style: TextStyle(
+                          // color: themeColorScheme.error,
+                          ),
+                    ),
+                    trailing: const Icon(
+                      Icons.keyboard_arrow_right_rounded,
+                    ),
+                  ),
+                  UserSettings(),
                   const Spacer(),
                   ListTile(
                     onTap: () {

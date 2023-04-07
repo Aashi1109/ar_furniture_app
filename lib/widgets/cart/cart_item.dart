@@ -1,5 +1,6 @@
-import 'package:decal/constants.dart';
-import 'package:decal/providers/notification_provider.dart';
+import '../../constants.dart';
+import '../../providers/general_provider.dart';
+import '../../providers/notification_provider.dart';
 
 import '../../helpers/general_helper.dart';
 import '../../helpers/material_helper.dart';
@@ -34,17 +35,29 @@ class CartItem extends StatelessWidget {
       listen: false,
     );
     final cartItem = isOrderItem ? null : cartProvider.getCartitemById(id);
+    final isDataSaverOn =
+        Provider.of<GeneralProviderModel>(context, listen: false).isDataSaverOn;
     // debugPrint(cartItem?.title.toString());
+    final tempImgUrl = isOrderItem ? imageUrl : cartItem!.imageUrl;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.network(
-          GeneralHelper.genReducedImageUrl(
-              isOrderItem ? imageUrl : cartItem!.imageUrl),
+        FadeInImage(
+          image: NetworkImage(
+            !isDataSaverOn
+                ? tempImgUrl
+                : GeneralHelper.genReducedImageUrl(
+                    tempImgUrl,
+                  ),
+            // color: Colors.amber,
+          ),
+          placeholder: const AssetImage('assets/images/defaults/product.jpeg'),
           height: 90,
           width: 100,
           fit: BoxFit.contain,
-          // color: Colors.amber,
+          imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+            'assets/images/default/default_product.png',
+          ),
         ),
         const SizedBox(
           width: 10,

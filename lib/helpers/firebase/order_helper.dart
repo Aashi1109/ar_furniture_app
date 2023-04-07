@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../firebase_helper.dart';
+
 import '../../models/order.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../firebase_helper.dart';
 
 class OrderHelper {
   static const ordersCollectionPath = 'orders';

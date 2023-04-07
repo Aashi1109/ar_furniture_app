@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../constants.dart';
 import '../helpers/firebase/profile_helper.dart';
-import '../helpers/firebase_helper.dart';
+
 import '../helpers/material_helper.dart';
 import '../helpers/modal_helper.dart';
 import '../providers/auth_provider.dart';
@@ -39,29 +39,23 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
           Map<String, String> userNewData = {
             'name': formData['name'],
           };
-
-          if ((formData['image'] as String).isNotEmpty) {
-            final imagePath = formData['image'];
-            final imagePathSplit = imagePath.toString().split('/');
-            final imageUploadTask = ProfileHelper.uploadImage(
-              File(imagePath.toString()),
-              imagePathSplit[imagePathSplit.length - 1],
-            );
-            final imageUrl = await (await imageUploadTask).ref.getDownloadURL();
-            userNewData['imageUrl'] = imageUrl;
-          }
-
-          await ProfileHelper.saveExtraUserDataInFirestore(userNewData);
-          debugPrint("Password updated successfully!");
           ModalHelpers.createInfoSnackbar(
               context, 'Account Info Updated Successfully');
+          if ((formData['image'] as String).isNotEmpty) {
+            await ProfileHelper.saveUserDataInFirestore(
+              formData['image'],
+              userNewData['name']!,
+              isUpdate: true,
+            );
+          }
+
+          debugPrint("Password updated successfully!");
         }).catchError((error) {
           debugPrint("Error updating password: $error");
         });
       }
       await Provider.of<AuthProviderModel>(context, listen: false)
-          .getAndSetAuthData();
-
+          .getAndSetAuthData(isUpdate: true);
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (error) {
       ModalHelpers.createAlertDialog(

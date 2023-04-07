@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../helpers/authentication_helper.dart';
 import '../helpers/firebase/profile_helper.dart';
-import '../helpers/firebase_helper.dart';
+
 import '../helpers/modal_helper.dart';
 import '../widgets/auth/auth_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,43 +28,66 @@ class _AuthScreenState extends State<AuthScreen> {
   ) async {
     debugPrint(formData.toString());
 
-    final _auth = FirebaseAuth.instanceFor(
-      app: Firebase.app(),
-    );
+    // final _auth = FirebaseAuth.instanceFor(
+    //   app: await Firebase.initializeApp(
+    //     name: 'decal',
+    //     options: Firebase.app().options,
+    //   ),
+    // );
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    // _auth = FirebaseAuth.instance;
+
     UserCredential userCredential;
     setState(() {
       _isLoading = true;
     });
     try {
-      if (authType == 'login') {
-        userCredential = await _auth.signInWithEmailAndPassword(
-          email: formData['email'],
-          password: formData['password'],
-        );
-      }
-      if (authType == 'signup') {
-        userCredential = await _auth.createUserWithEmailAndPassword(
-          email: formData['email'],
-          password: formData['password'],
-        );
-        // debugPrint(value.toString());
-        debugPrint('User created successfully');
-        final imagePath = formData['image'];
-        final imagePathSplit = imagePath.toString().split('/');
-        final imageUploadTask = ProfileHelper.uploadImage(
-          File(imagePath.toString()),
-          imagePathSplit[imagePathSplit.length - 1],
-        );
-        final imageUrl = await (await imageUploadTask).ref.getDownloadURL();
+      if (formData['handler'] != null) {
+        if (formData['handler'] == 'google') {
+          // final userCred = ;
+          userCredential = await _auth.signInWithCredential(
+            await AuthenticationHelper.authWithGoogle(),
+          );
+          if (userCredential.additionalUserInfo?.isNewUser == true) {
+            // if (userCredential.additionalUserInfo?.isNewUser == true) {
+            await ProfileHelper.saveUserDataInFirestore(
+              userCredential.user?.displayName ?? '',
+              '',
+              imageUrl: userCredential.user?.photoURL,
+            );
+          }
+          // else {
+          //   userCredential = await _auth.signInWithCredential(
+          //     await AuthenticationHelper.authWithFacebook(),
+          //   );
+          // }
 
-        await ProfileHelper.saveExtraUserDataInFirestore({
-          'imageUrl': imageUrl,
-          'name': formData['name'],
-          'createdAt': Timestamp.now(),
-        });
+          // }
+        }
+      } else {
+        if (authType == 'login') {
+          debugPrint('in login');
+          userCredential = await _auth.signInWithEmailAndPassword(
+            email: formData['email'],
+            password: formData['password'],
+          );
+        }
+        if (authType == 'signup') {
+          userCredential = await _auth.createUserWithEmailAndPassword(
+            email: formData['email'],
+            password: formData['password'],
+          );
+          // debugPrint(value.toString());
+          debugPrint('User created successfully');
+          await ProfileHelper.saveUserDataInFirestore(
+            formData['image'],
+            formData['name'],
+          );
+        }
       }
+      // Navigator.of(context).pus
     } on FirebaseAuthException catch (err) {
-      var errMsg = 'Something went wrong';
+      // var errMsg = 'Something went wrong';
 
       ModalHelpers.createAlertDialog(
           context, err.code.split('-').join(' ').toUpperCase(), err.message!);
@@ -80,9 +104,11 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context)?.settings.arguments;
-    var type;
+    String type = '';
     if (routeArgs != null) {
-      debugPrint(routeArgs.toString());
+      // debugPrint(
+      //   routeArgs.toString(),
+      // );
       type = routeArgs as String;
     }
 
@@ -96,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
           child: AuthForm(
             _getFormData,
             _isLoading,
-            type: type ?? '',
+            type: type,
           ),
         ),
       ),

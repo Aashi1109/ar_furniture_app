@@ -1,8 +1,8 @@
-import '../helpers/material_helper.dart';
-
-import '../providers/orders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../helpers/material_helper.dart';
+import '../providers/orders_provider.dart';
 import '../widgets/order_item.dart';
 
 class OrderScreen extends StatelessWidget {

@@ -17,25 +17,25 @@ class ModalHelpers {
     );
   }
 
-  static createAlertDialog(
+  static Future<T?> createAlertDialog<T>(
     BuildContext context,
     String title,
     String content, {
-    bool? closeContent = false,
-    List<Widget>? actions,
+    bool closeContent = true,
+    List<Widget> actions = const [],
   }) {
-    showDialog(
+    return showDialog<T>(
       context: context,
       builder: (context) => AlertDialog(
         actions: [
-          if (!closeContent!)
+          if (closeContent)
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: const Text('Okay'),
             ),
-          if (!closeContent) ...?actions,
+          if (!closeContent) ...actions,
         ],
         content: Text(content),
         title: Text(title),

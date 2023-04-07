@@ -41,15 +41,15 @@ class _UserHomeContentState extends State<UserHomeContent> {
           const SizedBox(
             height: 15,
           ),
-          VerticalSection('New Arrival of Chairs', 'chair'),
+          const VerticalSection('New Arrival of Chairs', 'chair'),
           const SizedBox(
             height: 15,
           ),
-          VerticalSection('Trending Furnitures', 'furniture'),
+          const VerticalSection('Trending Furnitures', 'furniture'),
           const SizedBox(
             height: 15,
           ),
-          VerticalSection(
+          const VerticalSection(
             'Decors for home',
             'decor',
           ),

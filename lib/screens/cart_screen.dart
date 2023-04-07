@@ -13,9 +13,9 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeColorScheme = Theme.of(context).colorScheme;
-    final cartProvider = Provider.of<CartProviderModel>(context).items;
+    // final cartProvider = Provider.of<CartProviderModel>(context).items;
 
-    debugPrint(cartProvider.length.toString());
+    // debugPrint(cartProvider.length.toString());
 
     return Scaffold(
       backgroundColor: themeColorScheme.tertiary,

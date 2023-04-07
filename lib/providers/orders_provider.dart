@@ -1,5 +1,6 @@
-import 'package:decal/constants.dart';
-import 'package:decal/providers/notification_provider.dart';
+import '../constants.dart';
+import '../helpers/general_helper.dart';
+import 'notification_provider.dart';
 
 import '../helpers/firebase/order_helper.dart';
 
@@ -13,6 +14,7 @@ class OrderProviderModel with ChangeNotifier {
   // OrderProviderModel({this.notificationProvider});
 
   NotificationProviderModel? _notificationProvider;
+  bool _isOrderDataInit = true;
 
   set notificationProvider(NotificationProviderModel notificationProvider) {
     _notificationProvider = notificationProvider;
@@ -37,11 +39,15 @@ class OrderProviderModel with ChangeNotifier {
     if (_orders.isNotEmpty) {
       _notificationProvider?.addNotification(
         NotificationItemModel(
-          text: orderNotifications['t1']!['text']!,
-          id: DateTime.now().toString(),
-          title: orderNotifications['t1']!['title']!,
-          icon: Icons.shopping_bag,
-        ),
+            text: orderNotifications['t1']!['text']!,
+            id: DateTime.now().toString(),
+            title: orderNotifications['t1']!['title']!,
+            icon: Icons.shopping_bag,
+            action: {
+              'action': 'order',
+              'params': '',
+            }),
+        isNew: true,
       );
     }
     // debugPrint('in order add');
@@ -59,7 +65,7 @@ class OrderProviderModel with ChangeNotifier {
   }
 
   Future<void> getAndSetOrdersData() async {
-    try {
+    return GeneralHelper.getAndSetWrapper(_isOrderDataInit, () async {
       final orders = await OrderHelper.getOrdersFromFirestore();
       // debugPrint(orders[0].toString());
       final loadedOrders = List<OrderItemModel>.from(
@@ -87,10 +93,39 @@ class OrderProviderModel with ChangeNotifier {
 
       _orders = loadedOrders;
       notifyListeners();
-    } catch (error) {
-      debugPrint(
-          'error in fetching order data from firestore ${error.toString()}');
-      debugPrintStack();
-    }
+    });
+    // try {
+    //   final orders = await OrderHelper.getOrdersFromFirestore();
+    //   // debugPrint(orders[0].toString());
+    //   final loadedOrders = List<OrderItemModel>.from(
+    //     orders
+    //         .map(
+    //           (e) => OrderItemModel(
+    //             id: e.id,
+    //             amount: e['amount'],
+    //             placedAt: e['placedAt'].toDate(),
+    //             products: List<CartItemModel>.from(
+    //               (e['products'])
+    //                   .map((e) => CartItemModel(
+    //                         id: e['id'],
+    //                         title: e['title'],
+    //                         price: e['price'],
+    //                         quantity: e['quantity'],
+    //                         imageUrl: e['imageUrl'],
+    //                       ))
+    //                   .toList(),
+    //             ),
+    //           ),
+    //         )
+    //         .toList(),
+    //   );
+
+    //   _orders = loadedOrders;
+    //   notifyListeners();
+    //   } catch (error) {
+    //     debugPrint(
+    //         'error in fetching order data from firestore ${error.toString()}');
+    //     debugPrintStack();
+    //   }
   }
 }

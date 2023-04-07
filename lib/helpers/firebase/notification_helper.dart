@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/providers/notification_provider.dart';
+import '../firebase_helper.dart';
+import '../general_helper.dart';
+import '../../providers/notification_provider.dart';
 
 class NotficationHelper {
   static const notificationCollectionPath = 'notifications';
@@ -19,6 +19,7 @@ class NotficationHelper {
       'title': notiData.title,
       'iconData': GeneralHelper.getIconDataString(notiData.icon),
       'createdAt': Timestamp.now(),
+      'action': notiData.action,
     });
   }
 
@@ -36,9 +37,24 @@ class NotficationHelper {
       {bool deleteAll = false}) {
     final notiCollection = getNotificationCollection();
     if (deleteAll) {
-      return FirebaseHelper.clearCollection(notiCollection);
+      return FirebaseHelper.clearFirestoreCollection(notiCollection);
     } else {
       return notiCollection.doc(notiId).delete();
+    }
+  }
+
+  static Future<void> markNotiAsReadInFirestore(String notiId,
+      {bool updateAll = false}) async {
+    final notiCollection = getNotificationCollection();
+    final notiDocs = await notiCollection.get();
+    for (var noti in notiDocs.docs) {
+      if (updateAll) {
+        notiCollection.doc(noti.id).update({'isRead': true});
+      } else {
+        if (noti.id == notiId) {
+          notiCollection.doc(noti.id).update({'isRead': true});
+        }
+      }
     }
   }
 }

@@ -43,7 +43,7 @@ class _CircleImageInputState extends State<CircleImageInput> {
                   : _pickedImage != null
                       ? FileImage(_pickedImage!) as ImageProvider
                       : const AssetImage(
-                          'assets/icons/default_user.png',
+                          'assets/images/defaults/default_user.png',
                         ),
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           radius: 40,

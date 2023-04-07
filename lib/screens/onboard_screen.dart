@@ -109,7 +109,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                         ? () async {
                             Navigator.of(context).pushReplacementNamed(
                               AuthScreen.namedRoute,
-                              arguments: 'signup',
+                              // arguments: 'signup',
                             );
                             SharedPreferences preferences =
                                 await SharedPreferencesHelper.preferences;

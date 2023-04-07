@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import '../helpers/material_helper.dart';
 import '../models/order.dart';
 import 'cart/cart_item.dart';
-import 'package:flutter/material.dart';
 
 class OrderItem extends StatefulWidget {
   const OrderItem({

@@ -67,7 +67,12 @@ class StarRatings extends StatelessWidget {
               child: IntrinsicHeight(
                 child: Row(
                   children: [
-                    Text(rating.toStringAsFixed(1)),
+                    Text(
+                      rating.toStringAsFixed(1).replaceAll(
+                            RegExp(r"([.]*0)(?!.*\d)"),
+                            "",
+                          ),
+                    ),
                     const VerticalDivider(
                       thickness: 1,
                     ),

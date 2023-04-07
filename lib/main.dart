@@ -1,5 +1,7 @@
-import 'package:decal/providers/notification_provider.dart';
+import 'providers/notification_provider.dart';
+import 'screens/screenshots_screen.dart';
 
+import 'providers/general_provider.dart';
 import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
@@ -56,33 +58,38 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AuthProviderModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => NotificationProviderModel(),
+          create: (context) => GeneralProviderModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => ProductProviderModel(),
         ),
         ChangeNotifierProvider(
+          create: (context) => NotificationProviderModel(),
+        ),
+        ChangeNotifierProxyProvider<NotificationProviderModel,
+            ReviewRatingProviderModel>(
           create: (context) => ReviewRatingProviderModel(),
+          update: (context, notiProvider, ratingProvider) {
+            ratingProvider?.notificationProvider = notiProvider;
+            return ratingProvider!;
+          },
+        ),
+        ChangeNotifierProxyProvider<NotificationProviderModel,
+            AuthProviderModel>(
+          create: (context) => AuthProviderModel(),
+          update: (_, notiProvider, authProvider) {
+            authProvider?.notificationProvider = notiProvider;
+            return authProvider!;
+          },
         ),
         ChangeNotifierProxyProvider<NotificationProviderModel,
             CartProviderModel>(
           create: (_) => CartProviderModel(),
-
           update: (_, notiProvider, cartProvider) {
             cartProvider?.notificationProvider = notiProvider;
             return cartProvider!;
           },
-          // CartProviderModel(notificationProvider: notificationProvider),
         ),
-        // ChangeNotifierProvider(
-        //   create: (_) => CartProviderModel(),
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (_) => OrderProviderModel(),
-        // ),
         ChangeNotifierProxyProvider<NotificationProviderModel,
             OrderProviderModel>(
           create: (context) => OrderProviderModel(),
@@ -94,6 +101,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Decal',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Overpass',
           colorScheme: ColorScheme.fromSwatch(
@@ -126,16 +134,24 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            // bool isOnboardingShown = false;
+            // SharedPreferencesHelper.preferences.then(
+            //   (value) {
+            //     isOnboardingShown = value.getBool('viewedOnboard')!;
+            //     debugPrint(
+            //         'in shared pref then ${isOnboardingShown.toString()}');
+            //   },
+            // );
+            if (snapshot.data != null) {
               return const MainApp();
             }
             return isOnboardingShown
                 ? const AuthScreen()
                 : const OnboardScreen();
+            // return const CircularProgressIndicator();
           },
         ),
         routes: {
@@ -152,8 +168,8 @@ class MyApp extends StatelessWidget {
           UserAccountEditScreen.namedRoute: (context) =>
               const UserAccountEditScreen(),
           AuthScreen.namedRoute: (context) => const AuthScreen(),
+          ScreenshotsScreen.namedRoute: (context) => const ScreenshotsScreen()
         },
-        // home: CatalogScreen(),
       ),
     );
   }
@@ -195,14 +211,14 @@ class _MainAppState extends State<MainApp> {
       );
     }
     if (index == 3) {
-      Navigator.of(context)
-          .pushNamed(UserAccountScreen.namedRoute)
-          .then((value) {
-        setState(() {
-          _selectedPageIndex = 0;
-          // resetIndex = true;
-        });
-      });
+      Navigator.of(context).pushNamed(UserAccountScreen.namedRoute).then(
+        (value) {
+          setState(() {
+            _selectedPageIndex = 0;
+            // resetIndex = true;
+          });
+        },
+      );
     }
   }
 

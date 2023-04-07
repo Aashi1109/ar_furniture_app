@@ -1,3 +1,5 @@
+import '../helpers/general_helper.dart';
+
 import '../helpers/firebase/favourite_helper.dart';
 import '../helpers/firebase/product_helper.dart';
 import '../helpers/firebase_helper.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 class ProductProviderModel extends ChangeNotifier {
   List<ProductItemModel> _products = [];
   List<String> _favourites = [];
+  bool _isProductDataInit = true;
 
   List get products {
     return [..._products];
@@ -54,8 +57,8 @@ class ProductProviderModel extends ChangeNotifier {
   }
 
   Future<void> getAndSetProducts() async {
-    debugPrint('sdkdsjdjfdjndndkfndakkad');
-    try {
+    // debugPrint('sdkdsjdjfdjndndkfndakkad');
+    return GeneralHelper.getAndSetWrapper(_isProductDataInit, () async {
       final productsCollection = ProductHelper.getProductsCollection();
       final products = await productsCollection.get();
       await getAndSetFavourites();
@@ -84,9 +87,39 @@ class ProductProviderModel extends ChangeNotifier {
       _products = loadedProducts;
       // print(products.docs);
       notifyListeners();
-    } catch (error) {
-      debugPrint(error.toString());
-    }
+    });
+    // try {
+    // final productsCollection = ProductHelper.getProductsCollection();
+    // final products = await productsCollection.get();
+    // await getAndSetFavourites();
+
+    // // print(products);
+    // final List<ProductItemModel> loadedProducts = [];
+    // for (var element in products.docs) {
+    //   // print(element.data()['images']['main']);
+    //   // print(element.data()['modelUrl']);
+    //   loadedProducts.add(ProductItemModel(
+    //     id: element.id,
+    //     title: element.data()['title'],
+    //     description: element.data()['description'],
+    //     price: double.parse(element.data()['price']),
+    //     images: Map<String, dynamic>.from(element.data()['images']),
+
+    //     vector: element.data()['vector'],
+    //     categories: List<String>.from(element.data()['category']),
+    //     modelUrl: element.data()['modelUrl'] ?? '',
+    //     isFavourite: _favourites.contains(element.id) ? true : false,
+    //     // rating: 4.5, // Have to be fetched from firebase
+    //   ));
+    // }
+    // // print(loadedProducts.toString());
+
+    // _products = loadedProducts;
+    // // print(products.docs);
+    // notifyListeners();
+    // } catch (error) {
+    //   debugPrint(error.toString());
+    // }
   }
 
   Future<void> getAndSetFavourites() async {

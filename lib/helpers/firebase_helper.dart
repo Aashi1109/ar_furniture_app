@@ -9,7 +9,7 @@ class FirebaseHelper {
     return FirebaseFirestore.instance.collection(usersCollectionPath).doc(uid);
   }
 
-  static Future<void> clearCollection(
+  static Future<void> clearFirestoreCollection(
       CollectionReference<Map<String, dynamic>> collection) async {
     QuerySnapshot querySnapshot = await collection.get();
     List<QueryDocumentSnapshot> docs = querySnapshot.docs;

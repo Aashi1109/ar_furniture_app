@@ -59,10 +59,9 @@ class _DescriptionState extends State<Description> {
               overflow:
                   _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
               // softWrap: false,
-              maxLines:
-                  _isExpanded ? null : (widget.description.length > 35 ? 4 : 1),
+              maxLines: _isExpanded ? null : 4,
             ),
-            if (widget.description.length > 35)
+            if (widget.description.length > 105)
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(

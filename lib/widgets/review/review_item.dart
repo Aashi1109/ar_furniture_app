@@ -14,11 +14,13 @@ class ReviewItem extends StatelessWidget {
     required this.productId,
     required this.rating,
     required this.reviewMessage,
+    required this.reviewId,
   });
   final String userId;
   final String reviewMessage;
   final int rating;
   final String productId;
+  final String reviewId;
 
   // final String userImageUrl;
   // String? userImageUrl;
@@ -115,6 +117,7 @@ class ReviewItem extends StatelessWidget {
                   ),
                   // const Divider(),
                   Description(
+                    // '$reviewMessage \n $reviewId',
                     reviewMessage,
                     bgColor: Theme.of(context).colorScheme.onPrimary,
                     title: 'Review',

@@ -47,16 +47,17 @@ class VerticalSection extends StatelessWidget {
           ),
           Flexible(
             child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: catergorizedProducts
-                    .map(
-                      (product) => Container(
-                        margin: const EdgeInsets.only(right: 15),
-                        child: FurnitureItem(product.id),
-                      ),
-                    )
-                    .toList()),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: catergorizedProducts
+                  .map(
+                    (product) => Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      child: FurnitureItem(product.id),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),

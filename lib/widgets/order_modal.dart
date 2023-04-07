@@ -1,4 +1,4 @@
-import 'package:decal/providers/notification_provider.dart';
+import '../providers/notification_provider.dart';
 
 import '../helpers/material_helper.dart';
 import '../helpers/modal_helper.dart';

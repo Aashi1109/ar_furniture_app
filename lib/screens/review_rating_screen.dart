@@ -72,6 +72,7 @@ class ReviewRatingScreen extends StatelessWidget {
                           userId: productReviews[index].userId,
                           rating: productReviews[index].rating,
                           reviewMessage: productReviews[index].reviewMessage,
+                          reviewId: productReviews[index].reviewId,
                           // userName: authProvider.userName,
                         );
                       },

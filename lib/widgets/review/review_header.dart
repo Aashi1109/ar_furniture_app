@@ -23,7 +23,9 @@ class ReviewRatingHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              averageRating.toStringAsFixed(1),
+              averageRating
+                  .toStringAsFixed(1)
+                  .replaceAll(RegExp(r"([.]*0)(?!.*\d)"), ""),
               style: const TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
