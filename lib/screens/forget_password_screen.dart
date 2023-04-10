@@ -2,6 +2,7 @@ import 'package:decal/constants.dart';
 import 'package:decal/helpers/material_helper.dart';
 import 'package:decal/widgets/forget_password/forget_password_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../helpers/modal_helper.dart';
 import 'package:flutter/material.dart';
 import '../widgets/current_page_shower.dart';
 import '../widgets/forget_password/forget_stage_1.dart';
@@ -102,36 +103,68 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         'hideLoginArrow': true,
       },
     ];
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(
-          kDefaultPadding,
-        ),
-        child: Column(
-          children: [
-            MaterialHelper.buildCustomAppbar(
-              context,
-              '',
+    return WillPopScope(
+      onWillPop: () async {
+        bool? exit = await ModalHelpers.createAlertDialog<bool>(
+          context,
+          'Are you sure',
+          'Do you not want to recover your password?',
+          closeContent: false,
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text(
+                'No',
+              ),
             ),
-            const Spacer(
-              flex: 4,
-            ),
-            ForgetScreenItem(
-              title: _forgetScreenMsg[_currentIndex]['title'] as String,
-              text: _forgetScreenMsg[_currentIndex]['text'] as String,
-              actionWidget: _forgetScreenMsg[_currentIndex]['widget'] as Widget,
-              icon: _forgetScreenMsg[_currentIndex]['icon'] as IconData,
-              showLoginButton:
-                  !((_forgetScreenMsg[_currentIndex]['hideLoginArrow'] ?? false)
-                      as bool),
-            ),
-            const Spacer(
-              flex: 6,
-            ),
-            BottomPageShower(
-              currentIndex: _currentIndex + 1,
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text(
+                'Yes',
+              ),
             ),
           ],
+        );
+
+        if (exit != null) {
+          if (exit == true) {
+            return true;
+          }
+        }
+        return false;
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(
+            kDefaultPadding,
+          ),
+          child: Column(
+            children: [
+              MaterialHelper.buildCustomAppbar(
+                context,
+                '',
+              ),
+              const Spacer(
+                flex: 4,
+              ),
+              ForgetScreenItem(
+                title: _forgetScreenMsg[_currentIndex]['title'] as String,
+                text: _forgetScreenMsg[_currentIndex]['text'] as String,
+                actionWidget:
+                    _forgetScreenMsg[_currentIndex]['widget'] as Widget,
+                icon: _forgetScreenMsg[_currentIndex]['icon'] as IconData,
+                showLoginButton: !((_forgetScreenMsg[_currentIndex]
+                        ['hideLoginArrow'] ??
+                    false) as bool),
+              ),
+              const Spacer(
+                flex: 6,
+              ),
+              BottomPageShower(
+                currentIndex: _currentIndex + 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

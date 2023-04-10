@@ -11,8 +11,9 @@ class VerticalSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productProvider =
-        Provider.of<ProductProviderModel>(context, listen: false);
+    final productProvider = Provider.of<ProductProviderModel>(
+      context,
+    );
 
     final catergorizedProducts =
         productProvider.getProductsByCategory(category);

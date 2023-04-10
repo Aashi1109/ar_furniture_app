@@ -36,7 +36,7 @@ class _ViewMoreScreenState extends State<ViewMoreScreen> {
               'View More',
             ),
             FilterHorizontal((val) {
-              debugPrint(val);
+              // debugPrint(val);
               setState(() {
                 _newFilter = val.toLowerCase();
               });

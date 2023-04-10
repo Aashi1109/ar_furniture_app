@@ -16,7 +16,10 @@ class AuthenticationHelper {
   /// authenticating with it.
   static Future<OAuthCredential> authWithGoogle() async {
     // Trigger the authentication flow
-    await GoogleSignIn().disconnect();
+    if (await GoogleSignIn().isSignedIn()) {
+      await GoogleSignIn().disconnect();
+    }
+
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request

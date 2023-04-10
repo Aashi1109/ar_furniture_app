@@ -42,6 +42,7 @@ class GeneralProviderModel extends ChangeNotifier {
 
   Future<void> getAndSetSettings() async {
     return GeneralHelper.getAndSetWrapper(_isSettingDataInit, () async {
+      debugPrint('in set auth');
       final loadedSettings =
           await SettingHelper.getSettingsFromFirestore().get();
       // debugPrint(loadedSettings.data().toString());
@@ -81,9 +82,6 @@ class GeneralProviderModel extends ChangeNotifier {
       debugPrint('error in saving settings in firestore ${error.toString()}');
     }
   }
-
-
-  
 
   // This is for screenshots
   List<ScreenshotItemModel> _screenshots = [];

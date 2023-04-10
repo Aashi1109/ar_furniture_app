@@ -10,6 +10,7 @@ import '../screens/user_home_screen.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
+  static const namedRoute = '/mainapp';
 
   @override
   State<MainApp> createState() => _MainAppState();

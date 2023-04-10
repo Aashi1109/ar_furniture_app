@@ -15,6 +15,7 @@ class ViewARScreen extends StatelessWidget {
   static const namedRoute = '/view-ar';
   ScreenshotController _screenshotController = ScreenshotController();
   // Uint8List? _imageFile;
+  final _globalKey = GlobalKey<ObjectGesturesWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ViewARScreen extends StatelessWidget {
     );
     final routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    debugPrint(routeArgs.toString());
+    // debugPrint(routeArgs.toString());
     final productId = routeArgs['productId'];
     final modelUrl = routeArgs['modelUrl'];
     final vector = routeArgs['vector'];
@@ -35,12 +36,17 @@ class ViewARScreen extends StatelessWidget {
       body: Stack(
         children: [
           Screenshot(
-            child: Container(
-              color: Colors.amber,
-              height: double.infinity,
-              width: double.infinity,
-            ),
             controller: _screenshotController,
+            child: StatefulBuilder(builder: (
+              context,
+              setstate,
+            ) {
+              return ArHandler(
+                modelUrl ?? '',
+                vector ?? '',
+                key: _globalKey,
+              );
+            }),
           ),
           Positioned(
             left: 10,
@@ -73,6 +79,17 @@ class ViewARScreen extends StatelessWidget {
                 }
               },
               iconSize: 22,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: (MediaQuery.of(context).size.width / 2),
+            child: ElevatedButton.icon(
+              onPressed: _globalKey.currentState?.onRemoveEverything,
+              icon: const Icon(
+                Icons.remove_rounded,
+              ),
+              label: const Text('Remove Items'),
             ),
           ),
         ],

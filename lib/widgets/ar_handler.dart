@@ -13,19 +13,33 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class ArHandler extends StatefulWidget {
-  const ArHandler({Key? key}) : super(key: key);
+  const ArHandler(this.modelUrl, this.vector, {super.key});
+  final String modelUrl;
+  final String vector;
   @override
   // ignore: library_private_types_in_public_api
-  _ObjectGesturesWidgetState createState() => _ObjectGesturesWidgetState();
+  ObjectGesturesWidgetState createState() => ObjectGesturesWidgetState();
 }
 
-class _ObjectGesturesWidgetState extends State<ArHandler> {
+class ObjectGesturesWidgetState extends State<ArHandler> {
   ARSessionManager? _arSessionManager;
   ARObjectManager? _arObjectManager;
   ARAnchorManager? _arAnchorManager;
 
   List<ARNode> _nodes = [];
   List<ARAnchor> _anchors = [];
+
+  Vector3 getVector3Values(String vector3String) {
+    RegExp regex = RegExp(r'[-]?\d+([.]\d+)?');
+    Iterable<Match> matches = regex.allMatches(vector3String);
+    List<double> values =
+        matches.map((match) => double.parse(match.group(0)!)).toList();
+    return Vector3(
+      values[0],
+      values[1],
+      values[2],
+    );
+  }
 
   @override
   void dispose() {
@@ -90,7 +104,7 @@ class _ObjectGesturesWidgetState extends State<ArHandler> {
     _arObjectManager!.onRotationEnd = _onRotationEnded;
   }
 
-  Future<void> _onRemoveEverything() async {
+  Future<void> onRemoveEverything() async {
     /*nodes.forEach((node) {
       this.arObjectManager.removeNode(node);
     });*/
@@ -113,9 +127,9 @@ class _ObjectGesturesWidgetState extends State<ArHandler> {
         // Add note to anchor
         var newNode = ARNode(
           type: NodeType.webGLB,
-          uri:
-              "https://github.com/AakashMahadik03/glTF-Sample-Models/raw/master/2.0/Chair/glTF-Binary/Chair.glb",
-          scale: Vector3(0.5, 0.5, 0.5),
+          uri: widget.modelUrl,
+          // scale: Vector3(0.5, 0.5, 0.5),
+          scale: getVector3Values(widget.vector),
           position: Vector3(0.0, 0.0, 0.0),
           rotation: Vector4(1.0, 0.0, 0.0, 0.0),
         );

@@ -84,17 +84,16 @@ class GeneralHelper {
     elsePart ??= () {
       return;
     };
-    return () {
-      if (initVariable) {
-        try {
-          tryPart();
-        } catch (error) {
-          debugPrint('error happened in wrapper ${error.toString()}');
-        }
-      } else {
-        elsePart!();
+
+    if (initVariable) {
+      try {
+        tryPart();
+      } catch (error) {
+        debugPrint('error happened in wrapper ${error.toString()}');
       }
-    };
+    } else {
+      elsePart();
+    }
   }
 }
 

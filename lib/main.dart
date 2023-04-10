@@ -135,15 +135,6 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            // bool isOnboardingShown = false;
-            // SharedPreferencesHelper.preferences.then(
-            //   (value) {
-            //     isOnboardingShown = value.getBool('viewedOnboard')!;
-            //     debugPrint(
-            //         'in shared pref then ${isOnboardingShown.toString()}');
-            //   },
-            // );
-            // FirebaseAuth.instance.signOut();
             if (snapshot.data != null) {
               if (FirebaseAuth.instance.currentUser?.emailVerified ?? true) {
                 return const MainApp();
@@ -158,6 +149,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
+          MainApp.namedRoute: (context) => const MainApp(),
           ForgetPasswordScreen.namedRoute: (context) =>
               const ForgetPasswordScreen(),
           EmailVerificationScreen.namedRoute: (context) =>

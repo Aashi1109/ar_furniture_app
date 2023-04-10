@@ -25,18 +25,22 @@ class UserHomeScreen extends StatelessWidget {
     final generalProvider =
         Provider.of<GeneralProviderModel>(context, listen: false);
     final cartProvider = Provider.of<CartProviderModel>(context, listen: false);
-    final orderProvider =
-        Provider.of<OrderProviderModel>(context, listen: false);
+    // final orderProvider =
+    //     Provider.of<OrderProviderModel>(context, listen: false);
 
     final List<Future> futures = [
+      // Provider.of<GeneralProviderModel>(context, listen: false)
       generalProvider.getAndSetSettings(),
       Provider.of<ProductProviderModel>(context, listen: false)
           .getAndSetProducts(),
       Provider.of<AuthProviderModel>(context, listen: false)
           .getAndSetAuthData(),
-      cartProvider.getAndSetCartData(),
-      orderProvider.getAndSetOrdersData(),
-      notiProvider.getAndSetNotiData(),
+      // Provider.of<CartProviderModel>(context, listen: false)
+      // cartProvider.getAndSetCartData(),
+      // Provider.of<OrderProviderModel>(context, listen: false)
+      // orderProvider.getAndSetOrdersData(),
+      Provider.of<NotificationProviderModel>(context, listen: false)
+          .getAndSetNotiData(),
     ];
     return GestureDetector(
       onTap: () {
@@ -73,7 +77,9 @@ class UserHomeScreen extends StatelessWidget {
                 if (exit != null) {
                   if (exit == true) {
                     final saveFutures = [
+                      // Provider.of<GeneralProviderModel>(context, listen: false)
                       generalProvider.saveSettings(),
+                      // Provider.of<CartProviderModel>(context, listen: false)
                       cartProvider.pushCartDataToFirestore(),
                     ];
 

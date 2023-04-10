@@ -38,14 +38,20 @@ class UserHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               child:
                   Consumer<AuthProviderModel>(builder: (context, provider, _) {
-                return Image.network(
-                  provider.userImageUrl,
+                return FadeInImage(
+                  image: NetworkImage(
+                    provider.userImageUrl,
+                  ),
+                  placeholder: const AssetImage(
+                    'assets/images/defaults/default_user.png',
+                  ),
                   height: 40,
                   width: 40,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
+                  imageErrorBuilder: (context, error, stackTrace) {
                     return Image.asset(
-                        'assets/images/defaults/default_user.png');
+                      'assets/images/defaults/default_user.png',
+                    );
                   },
                 );
               }),

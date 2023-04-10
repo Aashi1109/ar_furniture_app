@@ -22,11 +22,12 @@ class ProductDetailBottomTabbar extends StatelessWidget {
         children: [
           OutlinedButton(
             onPressed: () {
-              if (foundProduct.modelUrl.isEmpty) {
+              if (foundProduct.modelUrl.isEmpty ||
+                  foundProduct.vector.isEmpty) {
                 ModalHelpers.createAlertDialog(
                   context,
-                  'Model Error',
-                  'Invalid model url please try again later after the model url is fixed',
+                  'Product Error',
+                  'Model URL or Vector3 is not set properly. Please try again later after the issue is fixed',
                 );
               } else {
                 Navigator.of(context).pushNamed(

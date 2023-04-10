@@ -84,7 +84,7 @@ class ProductProviderModel extends ChangeNotifier {
 
       _products = loadedProducts;
       _isProductDataInit = false;
-      // print(products.docs);
+
       notifyListeners();
     });
     // try {

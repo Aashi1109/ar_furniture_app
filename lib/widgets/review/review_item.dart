@@ -29,7 +29,11 @@ class ReviewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final authData = await FirebaseHelper.getUserProfileDataFromFirestore();
-    final isUserReview = userId == FirebaseAuth.instance.currentUser?.uid;
+    final curUserId = FirebaseAuth.instance.currentUser?.uid;
+    final isUserReview = curUserId == userId;
+    // debugPrint(curUserId);
+    // debugPrint(userId);
+
     return FutureBuilder(
         future: ProfileHelper.getUserProfileDataFromFirestore(
           userId: userId,

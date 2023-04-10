@@ -1,3 +1,6 @@
+import 'package:decal/providers/cart_provider.dart';
+import 'package:decal/providers/orders_provider.dart';
+
 import '../helpers/material_helper.dart';
 import '../helpers/modal_helper.dart';
 import '../providers/products_provider.dart';
@@ -10,6 +13,7 @@ import '../widgets/product_detail_bottom_tabbar.dart';
 import '../widgets/star_ratings.dart';
 import '../widgets/review/review_rating.dart';
 import '../widgets/review/review_form.dart';
+import '../constants.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const namedRoute = '/product-detail';
@@ -30,130 +34,149 @@ class ProductDetailScreen extends StatelessWidget {
       backgroundColor: themeColorScheme.onPrimary,
       body: Padding(
         padding: const EdgeInsets.only(
-          right: 20,
-          left: 20,
-          top: 40,
-          bottom: 20,
+          right: kDefaultPadding,
+          left: kDefaultPadding,
+          top: kDefaultPadding + 20,
+          bottom: kDefaultPadding,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  // this will show images of product
-                  SizedBox(
-                    height: mediaQuery.size.height * .3,
-                    child: ImageSlider(routeArgsId),
-                  ),
-
-                  // Button to go back to previous screen
-                  MaterialHelper.buildRoundedElevatedButton(
-                    context,
-                    null,
-                    themeColorScheme,
-                    () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-
-                  // This is show favourite status of product
-                  Positioned(
-                    top: 10,
-                    right: 5,
-                    child: Consumer<ProductProviderModel>(
-                        builder: (context, productProvider, ch) {
-                      return IconButton(
-                        onPressed: () {
-                          productProvider.toggleFavourite(routeArgsId);
-                        },
-                        icon: Icon(
-                          foundProduct.isFavourite
-                              ? Icons.favorite_rounded
-                              : Icons.favorite_outline_rounded,
-                          color: themeColorScheme.primary,
-                          size: 30,
+        child: FutureBuilder(
+            future: Future.wait(
+              [
+                Provider.of<OrderProviderModel>(context, listen: false)
+                    .getAndSetOrdersData(),
+                Provider.of<CartProviderModel>(context, listen: false)
+                    .getAndSetCartData(),
+              ],
+            ),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        // this will show images of product
+                        SizedBox(
+                          height: mediaQuery.size.height * .3,
+                          child: ImageSlider(routeArgsId),
                         ),
-                        // style: IconButton.styleFrom(),
-                        constraints: const BoxConstraints(),
-                        padding: EdgeInsets.zero,
-                      );
-                    }),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
 
-              // This is to show actual product details
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // To show title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          foundProduct.title,
-                          // 'adjfad afdafaryrg sggshs',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge
-                              ?.copyWith(
+                        // Button to go back to previous screen
+                        MaterialHelper.buildRoundedElevatedButton(
+                          context,
+                          null,
+                          themeColorScheme,
+                          () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+
+                        // This is show favourite status of product
+                        Positioned(
+                          top: 10,
+                          right: 5,
+                          child: Consumer<ProductProviderModel>(
+                              builder: (context, productProvider, ch) {
+                            return IconButton(
+                              onPressed: () {
+                                productProvider.toggleFavourite(routeArgsId);
+                              },
+                              icon: Icon(
+                                foundProduct.isFavourite
+                                    ? Icons.favorite_rounded
+                                    : Icons.favorite_outline_rounded,
                                 color: themeColorScheme.primary,
+                                size: 30,
                               ),
-                          softWrap: true,
-                        ),
-                      ),
-                      const Spacer(),
-                      // const Spacer(),
-                    ],
-                  ),
-
-                  // To show rating for product
-                  Positioned(
-                    right: 0,
-                    child: Consumer<ReviewRatingProviderModel>(
-                      builder: (context, provider, ch) {
-                        return StarRatings(
-                          provider.getAverageRatingForProduct(routeArgsId),
-                          provider.getReviewsForProduct(routeArgsId).length,
-                        );
-                      },
+                              // style: IconButton.styleFrom(),
+                              constraints: const BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                            );
+                          }),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+                    const SizedBox(
+                      height: 15,
+                    ),
 
-              // To show product price
-              Row(
-                children: [
-                  const Text('Price : '),
-                  Text(
-                    '\$${foundProduct.price.toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
+                    // This is to show actual product details
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // To show title
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                foundProduct.title,
+                                // 'adjfad afdafaryrg sggshs',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge
+                                    ?.copyWith(
+                                      color: themeColorScheme.primary,
+                                    ),
+                                softWrap: true,
+                              ),
+                            ),
+                            const Spacer(),
+                            // const Spacer(),
+                          ],
+                        ),
 
-              // To show product description
-              Description(
-                foundProduct.description,
-              ),
+                        // To show rating for product
+                        Positioned(
+                          right: 0,
+                          child: Consumer<ReviewRatingProviderModel>(
+                            builder: (context, provider, ch) {
+                              return StarRatings(
+                                provider
+                                    .getAverageRatingForProduct(routeArgsId),
+                                provider
+                                    .getReviewsForProduct(routeArgsId)
+                                    .length,
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
-              // To show reviews section
-              ReviewRatingSection(routeArgsId),
-            ],
-          ),
-        ),
+                    // To show product price
+                    Row(
+                      children: [
+                        const Text('Price : '),
+                        Text(
+                          '\$${foundProduct.price.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+
+                    // To show product description
+                    Description(
+                      foundProduct.description,
+                    ),
+
+                    // To show reviews section
+                    ReviewRatingSection(routeArgsId),
+                  ],
+                ),
+              );
+            }),
       ),
       bottomNavigationBar: ProductDetailBottomTabbar(routeArgsId),
       floatingActionButton:

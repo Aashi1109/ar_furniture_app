@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:decal/widgets/main_app.dart';
 import '../helpers/authentication_helper.dart';
 import '../helpers/firebase/profile_helper.dart';
 
@@ -70,7 +71,11 @@ class _AuthScreenState extends State<AuthScreen> {
           );
         }
       }
-      // Navigator.of(context).pus
+      // Navigator.of(context).pu
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        MainApp.namedRoute,
+        (route) => false,
+      );
     } on FirebaseAuthException catch (err) {
       // var errMsg = 'Something went wrong';
 
