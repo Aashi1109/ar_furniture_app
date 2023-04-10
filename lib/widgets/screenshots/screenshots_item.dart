@@ -63,10 +63,10 @@ class ScreenshotsItem extends StatelessWidget {
           ),
           child: FadeInImage(
             image: NetworkImage(imageUrl),
-            placeholder: const AssetImage('assets/images/default/ss.png'),
+            placeholder: const AssetImage('assets/images/defaults/ss.jpg'),
             fit: BoxFit.cover,
             imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-              'assets/images/default/ss_not_found.png',
+              'assets/images/defaults/ss_not_found.png',
             ),
           ),
         ),

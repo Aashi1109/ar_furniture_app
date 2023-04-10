@@ -1,3 +1,5 @@
+import 'dart:typed_data' show Uint8List;
+
 import '../helpers/firebase/profile_helper.dart';
 import '../helpers/firebase/screenshot_helper.dart';
 import '../helpers/firebase/settings_helper.dart';
@@ -16,6 +18,9 @@ class ScreenshotItemModel {
   }) : id = id ?? DateTime.now().toString();
 }
 
+/// It provides data related to user app settings and screenshots data
+/// and exposes
+/// various methods to read and write that data.
 class GeneralProviderModel extends ChangeNotifier {
   // This is for settings
   static const dataSaverKey = 'isDataSaverOn';
@@ -77,6 +82,9 @@ class GeneralProviderModel extends ChangeNotifier {
     }
   }
 
+
+  
+
   // This is for screenshots
   List<ScreenshotItemModel> _screenshots = [];
   bool _isSSDataInit = true;
@@ -86,12 +94,12 @@ class GeneralProviderModel extends ChangeNotifier {
   }
 
   Future<void> addScreenshot(
-    String imagePath,
+    Uint8List image,
     String productId,
   ) async {
     try {
       final downloadUrl = await (await ProfileHelper.uploadImage(
-        imagePath,
+        imageData: image,
         uploadPath: ScreenshotHelper.screenshotStoragePath,
       ))
           .ref
@@ -104,6 +112,10 @@ class GeneralProviderModel extends ChangeNotifier {
         ),
       );
       notifyListeners();
+      await ScreenshotHelper.saveSsToFirestore({
+        'productId': productId,
+        'imageUrl': downloadUrl,
+      });
     } catch (error) {
       debugPrint('error uploading file to storage ${error.toString()}');
     }

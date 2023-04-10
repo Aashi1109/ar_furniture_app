@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../widgets/image_slider.dart';
 import '../widgets/product_detail_bottom_tabbar.dart';
 import '../widgets/star_ratings.dart';
-import 'review_rating_screen.dart';
 import '../widgets/review/review_rating.dart';
 import '../widgets/review/review_form.dart';
 
@@ -26,14 +25,6 @@ class ProductDetailScreen extends StatelessWidget {
     final foundProduct =
         Provider.of<ProductProviderModel>(context, listen: false)
             .getProductById(routeArgsId);
-    // final reviewProvider = Provider.of<ReviewRatingProviderModel>(
-    //   context,
-    //   listen: false,
-    // );
-
-    // final userReviewIndex = reviewProvider.getUserReviewIndexonProduct(
-    //   routeArgsId,
-    // );
 
     return Scaffold(
       backgroundColor: themeColorScheme.onPrimary,
@@ -49,10 +40,13 @@ class ProductDetailScreen extends StatelessWidget {
             children: [
               Stack(
                 children: [
+                  // this will show images of product
                   SizedBox(
                     height: mediaQuery.size.height * .3,
                     child: ImageSlider(routeArgsId),
                   ),
+
+                  // Button to go back to previous screen
                   MaterialHelper.buildRoundedElevatedButton(
                     context,
                     null,
@@ -61,6 +55,8 @@ class ProductDetailScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
+
+                  // This is show favourite status of product
                   Positioned(
                     top: 10,
                     right: 5,
@@ -88,9 +84,12 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
+
+              // This is to show actual product details
               Stack(
                 clipBehavior: Clip.none,
                 children: [
+                  // To show title
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,6 +111,8 @@ class ProductDetailScreen extends StatelessWidget {
                       // const Spacer(),
                     ],
                   ),
+
+                  // To show rating for product
                   Positioned(
                     right: 0,
                     child: Consumer<ReviewRatingProviderModel>(
@@ -128,6 +129,8 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
+
+              // To show product price
               Row(
                 children: [
                   const Text('Price : '),
@@ -140,9 +143,13 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
+
+              // To show product description
               Description(
                 foundProduct.description,
               ),
+
+              // To show reviews section
               ReviewRatingSection(routeArgsId),
             ],
           ),

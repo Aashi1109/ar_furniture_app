@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:decal/screens/forget_password_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../helpers/material_helper.dart';
@@ -188,6 +189,25 @@ class _AuthFormState extends State<AuthForm> {
                           _enteredData['password'] = newValue!.trim();
                         },
                       ),
+                      if (_isLoginForm && !widget.isEditForm) ...[
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: const Alignment(1, 0),
+                          child: MaterialHelper.buildWholeClickableText(
+                            text: 'Forget Password?',
+                            onPressHandler: () {
+                              Navigator.of(context)
+                                  .pushNamed(ForgetPasswordScreen.namedRoute);
+                            },
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              color: themeColorScheme.secondary,
+                            ),
+                          ),
+                        ),
+                      ],
                       const SizedBox(
                         height: 20,
                       ),

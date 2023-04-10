@@ -54,11 +54,12 @@ class NotificationProviderModel extends ChangeNotifier {
   }
 
   void addNotification(NotificationItemModel data, {bool isNew = true}) {
-    bool toAddNoti = _notifications.any((element) => element.text == data.text);
-    if (isNew) {
-      toAddNoti = false;
-    }
-    if (!toAddNoti) {
+    // bool toAddNoti = _notifications.any((element) => element.text == data.text);
+    // if (isNew) {
+    //   toAddNoti = false;
+    // }
+    // if (!toAddNoti)
+    {
       _notifications.insert(
         0,
         data,

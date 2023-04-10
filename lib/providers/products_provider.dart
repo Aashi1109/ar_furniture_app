@@ -74,17 +74,16 @@ class ProductProviderModel extends ChangeNotifier {
           description: element.data()['description'],
           price: double.parse(element.data()['price']),
           images: Map<String, dynamic>.from(element.data()['images']),
-
           vector: element.data()['vector'],
           categories: List<String>.from(element.data()['category']),
           modelUrl: element.data()['modelUrl'] ?? '',
           isFavourite: _favourites.contains(element.id) ? true : false,
-          // rating: 4.5, // Have to be fetched from firebase
         ));
       }
       // print(loadedProducts.toString());
 
       _products = loadedProducts;
+      _isProductDataInit = false;
       // print(products.docs);
       notifyListeners();
     });

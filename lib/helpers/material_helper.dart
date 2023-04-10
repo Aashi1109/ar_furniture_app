@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+/// Contains helpers related to flutter widgets and material.
 class MaterialHelper {
+  /// Creates a Material swatch from `Color`
   static MaterialColor createMaterialColor(Color color) {
     List strengths = <double>[.05];
     Map<int, Color> swatch = {};
@@ -24,8 +26,11 @@ class MaterialHelper {
     return MaterialColor(color.value, swatch);
   }
 
+  /// Build custom appbar having elevated button which by default takes back to
+  /// previous screen but this can be modified by setting `onPress` parameter.
+  /// One action button can be used by using `action` parameter.
   static Widget buildCustomAppbar(BuildContext context, String appBarTitle,
-      {VoidCallback? onPress}) {
+      {VoidCallback? onPress, Widget? action}) {
     final themeColorScheme = Theme.of(context).colorScheme;
     onPress ??= () {
       Navigator.of(context).pop();
@@ -50,14 +55,17 @@ class MaterialHelper {
                 ),
           ),
           const Spacer(),
-          const SizedBox(
+          SizedBox(
             width: 32,
+            child: action,
           ),
         ],
       ),
     );
   }
 
+  /// This builds clickable some clickable texts in a paragraph of text. Click
+  /// action can be handled by assigning `clickHandler` parameter.
   static buildClickableText(BuildContext context, String text,
       String clickableText, VoidCallback clickHandler) {
     TextStyle defaultStyle =
@@ -75,19 +83,17 @@ class MaterialHelper {
             style: linkStyle,
             recognizer: TapGestureRecognizer()..onTap = clickHandler,
           )
-          // TextSpan(text: ' and that you have read our '),
-          // TextSpan(
-          //     text: 'Privacy Policy',
-          //     style: linkStyle,
-          //     recognizer: TapGestureRecognizer()
-          //       ..onTap = () {
-          //         print('Privacy Policy"');
-          //       }),
         ],
       ),
     );
   }
 
+  /// Creates a rounded elevated button having icon not texts. The icons and button
+  /// can be totally modified by leveraging different parameters.
+  ///
+  ///  By default,
+  /// icon used is `Icons.Icons.keyboard_arrow_left_rounded`, color is primary and
+  /// button size is 32. All this can be modified.
   static Widget buildRoundedElevatedButton(
     BuildContext context,
     IconData? iconData,
@@ -122,24 +128,49 @@ class MaterialHelper {
     );
   }
 
+  /// Builds large elevated button having text not icon covering whole width and
+  /// height is 35.
   static buildLargeElevatedButton(
-      BuildContext context, String title, VoidCallback pressHandler) {
+    BuildContext context,
+    String title,
+    VoidCallback pressHandler, {
+    OutlinedBorder? border,
+    double? buttonSize,
+    double? textSize,
+    double? padding,
+  }) {
     final themeColorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
       onPressed: pressHandler,
       style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        minimumSize: const Size.fromHeight(35),
-        padding: const EdgeInsets.all(
-          15,
+        shape: border ?? const StadiumBorder(),
+        minimumSize: Size.fromHeight(buttonSize ?? 35),
+        padding: EdgeInsets.all(
+          padding ?? 15,
         ),
       ),
       child: Text(
         title,
         style: Theme.of(context).textTheme.displayMedium?.copyWith(
               fontWeight: FontWeight.bold,
+              fontSize: textSize,
               color: themeColorScheme.onPrimary,
             ),
+      ),
+    );
+  }
+
+  /// Creates clickable text
+  static Widget buildWholeClickableText({
+    required String text,
+    required VoidCallback onPressHandler,
+    TextStyle? textStyle,
+  }) {
+    return InkWell(
+      onTap: onPressHandler,
+      child: Text(
+        text,
+        style: textStyle,
       ),
     );
   }

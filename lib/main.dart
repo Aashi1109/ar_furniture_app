@@ -1,6 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'widgets/main_app.dart';
+import 'screens/email_verification_screen.dart';
 import 'providers/notification_provider.dart';
 import 'screens/screenshots_screen.dart';
-
 import 'providers/general_provider.dart';
 import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
@@ -14,22 +21,13 @@ import 'screens/onboard_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/user_account_edit_screen.dart';
 import 'screens/view_more_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-
+import 'screens/forget_password_screen.dart';
 import 'screens/user_account_screen.dart';
-import 'screens/user_home_screen.dart';
 import 'screens/view_ar_screen.dart';
-
-import 'widgets/bottom_tabbar.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'screens/auth_screen.dart';
 import 'helpers/material_helper.dart';
 import 'screens/order_screen.dart';
 import 'screens/review_rating_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'helpers/shared_preferences_helper.dart';
 
 void main() async {
@@ -145,9 +143,14 @@ class MyApp extends StatelessWidget {
             //         'in shared pref then ${isOnboardingShown.toString()}');
             //   },
             // );
+            // FirebaseAuth.instance.signOut();
             if (snapshot.data != null) {
-              return const MainApp();
+              if (FirebaseAuth.instance.currentUser?.emailVerified ?? true) {
+                return const MainApp();
+              }
+              return EmailVerificationScreen();
             }
+
             return isOnboardingShown
                 ? const AuthScreen()
                 : const OnboardScreen();
@@ -155,11 +158,15 @@ class MyApp extends StatelessWidget {
           },
         ),
         routes: {
+          ForgetPasswordScreen.namedRoute: (context) =>
+              const ForgetPasswordScreen(),
+          EmailVerificationScreen.namedRoute: (context) =>
+              EmailVerificationScreen(),
           CartScreen.namedRoute: (context) => const CartScreen(),
           OrderScreen.namedRoute: (context) => const OrderScreen(),
           FavouriteScreen.namedRoute: (context) => const FavouriteScreen(),
           UserAccountScreen.namedRoute: (context) => const UserAccountScreen(),
-          ViewARScreen.namedRoute: (context) => const ViewARScreen(),
+          ViewARScreen.namedRoute: (context) => ViewARScreen(),
           ViewMoreScreen.namedRoute: (context) => const ViewMoreScreen(),
           ProductDetailScreen.namedRoute: (context) =>
               const ProductDetailScreen(),
@@ -171,62 +178,6 @@ class MyApp extends StatelessWidget {
           ScreenshotsScreen.namedRoute: (context) => const ScreenshotsScreen()
         },
       ),
-    );
-  }
-}
-
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
-
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  int _selectedPageIndex = 0;
-  // bool resetIndex = false;
-
-  final List _screens = [
-    const UserHomeScreen(),
-    const FavouriteScreen(),
-  ];
-  getCurPageIndex(int index) {
-    setState(() {
-      // if(index == 3) {}
-      if (index < 2) {
-        _selectedPageIndex = index;
-        // resetIndex = false;
-      }
-    });
-    if (index == 2) {
-      Navigator.of(context).pushNamed(CartScreen.namedRoute).then(
-        (value) {
-          Provider.of<CartProviderModel>(context, listen: false)
-              .pushCartDataToFirestore();
-          setState(() {
-            _selectedPageIndex = 0;
-            // resetIndex = true;
-          });
-        },
-      );
-    }
-    if (index == 3) {
-      Navigator.of(context).pushNamed(UserAccountScreen.namedRoute).then(
-        (value) {
-          setState(() {
-            _selectedPageIndex = 0;
-            // resetIndex = true;
-          });
-        },
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedPageIndex],
-      bottomNavigationBar: BottomTabBar(getCurPageIndex),
     );
   }
 }

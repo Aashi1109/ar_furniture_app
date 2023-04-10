@@ -43,8 +43,8 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
               context, 'Account Info Updated Successfully');
           if ((formData['image'] as String).isNotEmpty) {
             await ProfileHelper.saveUserDataInFirestore(
-              formData['image'],
-              userNewData['name']!,
+              imgPath: formData['image'],
+              name: userNewData['name']!,
               isUpdate: true,
             );
           }

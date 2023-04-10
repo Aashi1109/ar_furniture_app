@@ -1,6 +1,3 @@
-import '../constants.dart';
-import '../providers/notification_provider.dart';
-
 import '../helpers/modal_helper.dart';
 import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
@@ -25,8 +22,22 @@ class ProductDetailBottomTabbar extends StatelessWidget {
         children: [
           OutlinedButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(ViewARScreen.namedRoute, arguments: id);
+              if (foundProduct.modelUrl.isEmpty) {
+                ModalHelpers.createAlertDialog(
+                  context,
+                  'Model Error',
+                  'Invalid model url please try again later after the model url is fixed',
+                );
+              } else {
+                Navigator.of(context).pushNamed(
+                  ViewARScreen.namedRoute,
+                  arguments: {
+                    'productId': id,
+                    'modelUrl': foundProduct.modelUrl,
+                    'vector': foundProduct.vector,
+                  },
+                );
+              }
             },
             style: OutlinedButton.styleFrom(minimumSize: const Size(130, 45)),
             child: const Text(
@@ -50,19 +61,19 @@ class ProductDetailBottomTabbar extends StatelessWidget {
               );
 
               ModalHelpers.createInfoSnackbar(context, 'Product Added to cart');
-              if (cartProvider.wasCartEmpty && cartProvider.items.isNotEmpty) {
-                // Provider.of<NotificationProviderModel>(
-                //   context,
-                //   listen: false,
-                // ).addNotification(
-                //   NotificationItemModel(
-                //     text: cartNotifications['t1']!['text']!,
-                //     id: DateTime.now().toString(),
-                //     title: cartNotifications['t1']!['title']!,
-                //     icon: Icons.shopping_cart_rounded,
-                //   ),
-                // );
-              }
+              // if (cartProvider.wasCartEmpty && cartProvider.items.isNotEmpty) {
+              // Provider.of<NotificationProviderModel>(
+              //   context,
+              //   listen: false,
+              // ).addNotification(
+              //   NotificationItemModel(
+              //     text: cartNotifications['t1']!['text']!,
+              //     id: DateTime.now().toString(),
+              //     title: cartNotifications['t1']!['title']!,
+              //     icon: Icons.shopping_cart_rounded,
+              //   ),
+              // );
+              // }
             },
             style: ElevatedButton.styleFrom(minimumSize: const Size(130, 45)),
             child: const Text('Add to cart'),

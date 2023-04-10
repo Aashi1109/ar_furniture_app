@@ -44,11 +44,24 @@ class AuthBottom extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-              onTap: () => setAuthHandler('google'),
-              child: CircleAvatar(
-                backgroundImage: const AssetImage('assets/icons/google.png'),
-                backgroundColor: themeColorScheme.onPrimary,
+            // InkWell(
+            //   onTap: () => setAuthHandler('google'),
+            //   child: CircleAvatar(
+            //     backgroundImage: const AssetImage('assets/icons/google.png'),
+            //     backgroundColor: themeColorScheme.onPrimary,
+            //   ),
+            // ),
+            OutlinedButton.icon(
+              onPressed: () => setAuthHandler('google'),
+              icon: Image.asset(
+                'assets/icons/google.png',
+                width: 28,
+              ),
+              label: Text(
+                '${isLoginForm ? "Login" : "Signup"} with Google',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
             // const SizedBox(

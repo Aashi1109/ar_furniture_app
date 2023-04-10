@@ -8,6 +8,8 @@ import '../models/cart.dart';
 
 import 'package:flutter/material.dart';
 
+/// It provides data for Cart and expose methods to access or change
+/// this data.
 class CartProviderModel with ChangeNotifier {
   NotificationProviderModel? _notificationProvider;
 
@@ -16,11 +18,13 @@ class CartProviderModel with ChangeNotifier {
   }
 
   // CartProviderModel({this.notificationProvider});
-
+  // This is used while saving our cart to check whether the recent cart data
+  //is ordered or not. Also we show cart dart which is not ordered.
   bool _isOrdered = false;
   List<CartItemModel> _items = [];
+  // This will be used to generate notification message when new cart data is created.
   bool _wasCartEmpty = true;
-  bool _isDataInit = true;
+  bool _isDataInit = true; // Used to initalize data for first time.
 
   List<CartItemModel> get items {
     if (!_isOrdered) {
@@ -29,10 +33,8 @@ class CartProviderModel with ChangeNotifier {
     return [];
   }
 
-  bool get wasCartEmpty {
-    return _wasCartEmpty;
-  }
-
+  /// This method adds item to cart or increase its quantity when present.
+  /// Also generate notification when cart is not ordered.
   void addItemToCart({
     required String prodId,
     required String title,
@@ -63,7 +65,7 @@ class CartProviderModel with ChangeNotifier {
         price: price,
         imageUrl: imageUrl,
       );
-      debugPrint('in update item new');
+      // debugPrint('in update item new');
       _items.add(newCartItem);
       if (_items.isNotEmpty && _wasCartEmpty) {
         _notificationProvider?.addNotification(
@@ -77,7 +79,6 @@ class CartProviderModel with ChangeNotifier {
               'params': '',
             },
           ),
-          isNew: true,
         );
       }
     }
@@ -86,8 +87,13 @@ class CartProviderModel with ChangeNotifier {
     _wasCartEmpty = _items.isEmpty;
   }
 
+  /// Decreases quantity of items by 1 by default can be changed by setting
+  /// `removeQuantity`. If `removeQuantity` is greater than item quantity,
+  ///  `quantity` will
+  /// only be decreased by one.
   void removeItemFromCart({
     required String prodId,
+    int removeQuantity = 1,
   }) {
     // _items.remove(item);
     final existingCartitemIndex =
@@ -95,11 +101,13 @@ class CartProviderModel with ChangeNotifier {
 
     if (existingCartitemIndex >= 0) {
       final existingCartitem = _items[existingCartitemIndex];
+      final removeQuant =
+          removeQuantity < existingCartitem.quantity ? removeQuantity : 1;
 
       final modifiedCartItem = CartItemModel(
         id: prodId,
         title: existingCartitem.title,
-        quantity: existingCartitem.quantity - 1,
+        quantity: existingCartitem.quantity - removeQuant,
         price: existingCartitem.price,
         imageUrl: existingCartitem.imageUrl,
       );
@@ -109,12 +117,17 @@ class CartProviderModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Clears all the cart data
   void clearCart() {
     _items.clear();
     _wasCartEmpty = true;
     notifyListeners();
   }
 
+  /// Push data to firestore
+  /// `isSave = true` ensures that our cart data only saves because it is not
+  /// ordered and can be fetched when user wants it. When it is `false`
+  /// that means order is placed and cartData should be cleared for next cart.
   Future<void> pushCartDataToFirestore({bool isSave = true}) async {
     // debugPrint('in cart push');
     try {
@@ -138,12 +151,13 @@ class CartProviderModel with ChangeNotifier {
     }
   }
 
+  /// Fetch cart data and set only unordered ones.
   Future<void> getAndSetCartData() async {
     return GeneralHelper.getAndSetWrapper(
       _isDataInit,
       () async {
         final cartData = await CartHelper.getCartDataFromFirestore();
-        if (cartData == null) {
+        if (!cartData.exists) {
           return;
         }
         final List<CartItemModel> cartItems = [];

@@ -4,6 +4,7 @@ import '../widgets/onboard/onboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// This screen will show  when user launch app for first time
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
 
@@ -113,8 +114,8 @@ class _OnboardScreenState extends State<OnboardScreen> {
                             );
                             SharedPreferences preferences =
                                 await SharedPreferencesHelper.preferences;
-                            preferences.setBool('viewedOnboard', true);
-                            debugPrint('after setting onboard data');
+                            await preferences.setBool('viewedOnboard', true);
+                            // debugPrint('after setting onboard data');
                           }
                         : _clickSwipeHandler,
                     child: Text(

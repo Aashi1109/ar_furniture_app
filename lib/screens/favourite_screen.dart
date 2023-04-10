@@ -32,25 +32,26 @@ class FavouriteScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            if (isPagePushed)
-              MaterialHelper.buildCustomAppbar(
-                context,
-                'Favourites',
-              ),
-            if (!isPagePushed)
-              Row(
-                children: [
-                  const Spacer(),
-                  Text(
+            // We are checking first is page is pushed on not to show appbar or elevated button
+            isPagePushed
+                ? MaterialHelper.buildCustomAppbar(
+                    context,
                     'Favourites',
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                  )
+                : Row(
+                    children: [
+                      const Spacer(),
+                      Text(
+                        'Favourites',
+                        style:
+                            Theme.of(context).textTheme.displayLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                      ),
+                      const Spacer(),
+                    ],
                   ),
-                  const Spacer(),
-                ],
-              ),
             const SizedBox(
               height: 10,
             ),

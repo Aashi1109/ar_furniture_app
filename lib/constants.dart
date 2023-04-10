@@ -1,6 +1,7 @@
 const double kDefaultPadding = 20;
+const kVerificationCodeTimeoutSeconds = 30;
 
-// Notifications
+// Notifications messages
 const cartNotifications = {
   't1': {
     'title': 'Cart',

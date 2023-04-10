@@ -8,6 +8,7 @@ import '../models/cart.dart';
 import '../models/order.dart';
 import 'package:flutter/material.dart';
 
+/// Provides data related to orders and methods to access and change these data
 class OrderProviderModel with ChangeNotifier {
   // NotificationProviderModel? notificationProvider;
 

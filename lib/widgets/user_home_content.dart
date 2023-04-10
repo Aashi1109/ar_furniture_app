@@ -26,8 +26,10 @@ class _UserHomeContentState extends State<UserHomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    final productProvider =
-        Provider.of<ProductProviderModel>(context, listen: false);
+    final productProvider = Provider.of<ProductProviderModel>(
+      context,
+      listen: false,
+    );
     final mediaQuery = MediaQuery.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,

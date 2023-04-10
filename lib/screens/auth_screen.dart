@@ -26,16 +26,9 @@ class _AuthScreenState extends State<AuthScreen> {
     formData,
     String authType,
   ) async {
-    debugPrint(formData.toString());
-
-    // final _auth = FirebaseAuth.instanceFor(
-    //   app: await Firebase.initializeApp(
-    //     name: 'decal',
-    //     options: Firebase.app().options,
-    //   ),
-    // );
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    // _auth = FirebaseAuth.instance;
+    // debugPrint(formData.toString());
+    FirebaseAuth _auth =
+        FirebaseAuth.instance; // _auth = FirebaseAuth.instance;
 
     UserCredential userCredential;
     setState(() {
@@ -44,25 +37,17 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       if (formData['handler'] != null) {
         if (formData['handler'] == 'google') {
+          // await FirebaseAuth.instance.signOut();
           // final userCred = ;
           userCredential = await _auth.signInWithCredential(
             await AuthenticationHelper.authWithGoogle(),
           );
           if (userCredential.additionalUserInfo?.isNewUser == true) {
-            // if (userCredential.additionalUserInfo?.isNewUser == true) {
             await ProfileHelper.saveUserDataInFirestore(
-              userCredential.user?.displayName ?? '',
-              '',
-              imageUrl: userCredential.user?.photoURL,
+              imageUrl: userCredential.user?.photoURL ?? '',
+              name: userCredential.user?.displayName,
             );
           }
-          // else {
-          //   userCredential = await _auth.signInWithCredential(
-          //     await AuthenticationHelper.authWithFacebook(),
-          //   );
-          // }
-
-          // }
         }
       } else {
         if (authType == 'login') {
@@ -80,8 +65,8 @@ class _AuthScreenState extends State<AuthScreen> {
           // debugPrint(value.toString());
           debugPrint('User created successfully');
           await ProfileHelper.saveUserDataInFirestore(
-            formData['image'],
-            formData['name'],
+            imgPath: formData['image'],
+            name: formData['name'],
           );
         }
       }

@@ -1,14 +1,19 @@
-import '../../constants.dart';
-import '../../providers/general_provider.dart';
-import '../../providers/notification_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/general_provider.dart';
 import '../../helpers/general_helper.dart';
 import '../../helpers/material_helper.dart';
 import '../../screens/product_detail_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
 
+/// It is used to show items of cart and order.
+/// Based on isOrderItem it is decided whether it is item of order or not.
+/// It true it is order item.
+/// When it is order item non required parameters are used like [total], [title],
+/// [quantity] and [imageUrl].
+///
+/// When it is cart item it uses `CartProviderModel` to get all these values.
 class CartItem extends StatelessWidget {
   const CartItem({
     super.key,

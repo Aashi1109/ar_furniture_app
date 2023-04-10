@@ -6,6 +6,8 @@ import '../helpers/firebase/profile_helper.dart';
 import 'package:flutter/material.dart';
 import '../models/auth.dart';
 
+/// It provides data for Authentication and expose methods to access or change
+/// this data.
 class AuthProviderModel extends ChangeNotifier {
   NotificationProviderModel? _notificationProvider;
 
@@ -19,11 +21,14 @@ class AuthProviderModel extends ChangeNotifier {
     userCreationDate: DateTime.now(),
   );
   bool _isInitData = true;
-  bool _isUserDataUpdated = false;
+  // bool _isUserDataUpdated = false;
 
+  /// Get and set data for auth for the first time amd when `isUpdate` is true.
+  /// isUpdate is used to generate notification message for data updated and also
+  /// helpful when we have to reinitialize data.
   Future<void> getAndSetAuthData({bool isUpdate = false}) async {
     return GeneralHelper.getAndSetWrapper(
-      _isInitData,
+      _isInitData || isUpdate,
       () async {
         final authResp = await ProfileHelper.getUserProfileDataFromFirestore();
         _auth = AuthModel(
@@ -34,8 +39,8 @@ class AuthProviderModel extends ChangeNotifier {
         );
 
         notifyListeners();
-        _isUserDataUpdated = isUpdate;
-        if (_isUserDataUpdated) {
+        // _isUserDataUpdated = isUpdate;
+        if (isUpdate) {
           _notificationProvider?.addNotification(
             NotificationItemModel(
                 text: authNotification['t1']!['text']!,
@@ -48,7 +53,6 @@ class AuthProviderModel extends ChangeNotifier {
                 }),
           );
           _isInitData = false;
-          _isUserDataUpdated = false;
         }
       },
     );
