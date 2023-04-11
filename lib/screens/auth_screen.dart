@@ -72,10 +72,10 @@ class _AuthScreenState extends State<AuthScreen> {
         }
       }
       // Navigator.of(context).pu
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        MainApp.namedRoute,
-        (route) => false,
-      );
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //   MainApp.namedRoute,
+      //   (route) => false,
+      // );
     } on FirebaseAuthException catch (err) {
       // var errMsg = 'Something went wrong';
 

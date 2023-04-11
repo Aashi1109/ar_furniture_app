@@ -135,6 +135,10 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
+            bool showOnboard = isOnboardingShown;
+            SharedPreferencesHelper.preferences.then((value) {
+              showOnboard = value.getBool('viewedOnboard') ?? true;
+            });
             if (snapshot.data != null) {
               if (FirebaseAuth.instance.currentUser?.emailVerified ?? true) {
                 return const MainApp();
@@ -142,9 +146,7 @@ class MyApp extends StatelessWidget {
               return EmailVerificationScreen();
             }
 
-            return isOnboardingShown
-                ? const AuthScreen()
-                : const OnboardScreen();
+            return showOnboard ? const AuthScreen() : const OnboardScreen();
             // return const CircularProgressIndicator();
           },
         ),
