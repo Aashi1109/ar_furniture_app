@@ -31,7 +31,7 @@ dependencies:
   ar_flutter_plugin: ^0.7.3
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.4.5
-  connectivity_plus: ^3.0.3
+
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.3.0
   firebase_core: ^2.8.0
@@ -39,7 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^6.0.2
-  http: ^0.13.5
+
   image: ^4.0.15
   image_picker: ^0.8.7
   path_provider: ^2.0.14

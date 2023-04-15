@@ -1,16 +1,7 @@
-# decal
+# Decal
 
-A new Flutter project.
+A Augmented Reality application for furnitures and interiors.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+It a simple furniture application which uses Augmented Reality to show product in real time in our world. It has basic authentication and allows user to place reviews on product.
