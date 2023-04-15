@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../helpers/firebase/notification_helper.dart';
 import '../helpers/general_helper.dart';
-import 'package:flutter/material.dart';
 
 class NotificationItemModel {
   final String text;

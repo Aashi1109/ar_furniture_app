@@ -20,10 +20,6 @@ class _UserSettingsState extends State<UserSettings> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text('Settings'),
-        ),
         SwitchListTile(
           value: settingProvider.isDataSaverOn,
           onChanged: (value) {
@@ -36,6 +32,20 @@ class _UserSettingsState extends State<UserSettings> {
           ),
           subtitle: const Text(
             'Load reduced quality images',
+          ),
+        ),
+        SwitchListTile(
+          value: settingProvider.isCurrencyInUs,
+          onChanged: (value) {
+            setState(() {});
+            // debugPrint(value.toString());
+            settingProvider.setCurrency = value;
+          },
+          title: const Text(
+            'Currency',
+          ),
+          subtitle: const Text(
+            'Show price in US \$',
           ),
         ),
       ],

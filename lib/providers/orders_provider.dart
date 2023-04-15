@@ -1,12 +1,11 @@
+import 'package:flutter/material.dart';
+
 import '../constants.dart';
-import '../helpers/general_helper.dart';
-import 'notification_provider.dart';
-
 import '../helpers/firebase/order_helper.dart';
-
+import '../helpers/general_helper.dart';
 import '../models/cart.dart';
 import '../models/order.dart';
-import 'package:flutter/material.dart';
+import 'notification_provider.dart';
 
 /// Provides data related to orders and methods to access and change these data
 class OrderProviderModel with ChangeNotifier {

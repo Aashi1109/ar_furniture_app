@@ -45,7 +45,10 @@ class MaterialHelper {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MaterialHelper.buildRoundedElevatedButton(
-              context, null, themeColorScheme, onPress),
+            context,
+            null,
+            onPress,
+          ),
           const Spacer(),
           Text(
             appBarTitle,
@@ -97,14 +100,14 @@ class MaterialHelper {
   static Widget buildRoundedElevatedButton(
     BuildContext context,
     IconData? iconData,
-    ColorScheme themeColorScheme,
+    // ColorScheme themeColorScheme,
     VoidCallback? onPressedHandler, {
     OutlinedBorder? borderStyle,
     double? iconSize,
     double? buttonSize,
     Color? buttonColor,
   }) {
-    // final themeColorScheme = Theme.of(context).colorScheme;
+    final themeColorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
       onPressed: onPressedHandler,
       style: ElevatedButton.styleFrom(
@@ -132,8 +135,8 @@ class MaterialHelper {
   /// height is 35.
   static buildLargeElevatedButton(
     BuildContext context,
-    String title,
-    VoidCallback pressHandler, {
+    String title, {
+    VoidCallback? pressHandler,
     OutlinedBorder? border,
     double? buttonSize,
     double? textSize,

@@ -1,8 +1,12 @@
 import 'dart:io';
-import 'package:decal/constants.dart';
+import 'package:decal/helpers/firebase_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as Img;
 import 'package:path_provider/path_provider.dart';
+
+import '../helpers/firebase/profile_helper.dart';
+
+import '../constants.dart';
 
 /// Contains some general helpers methods.
 /// List of available methods.
@@ -94,6 +98,84 @@ class GeneralHelper {
     } else {
       elsePart();
     }
+  }
+
+  static Future<bool> checkAdminRight(String code) async {
+    final userProfileData =
+        await ProfileHelper.getUserProfileDataFromFirestore();
+    final isUserHaveAdminRight = userProfileData.data()?['isAdmin'] ?? false;
+    final resCode = await FirebaseHelper.getAccessCode('adminAccess');
+    final adminAcessCode = resCode.data()?['code'] ?? '';
+    if (adminAcessCode == '') {
+      return false;
+    }
+
+    if (isUserHaveAdminRight) {
+      // debugPrint('in check after admin check');
+      // final res = code == 'aaKsl09d2';
+      final res = code == adminAcessCode;
+      // debugPrint('code incoming $code, res value $res');
+      return res;
+    }
+    return false;
+  }
+
+  static String removeZerosFromPrice(
+    double numDouble, {
+    bool isUs = true,
+  }) {
+    // String numStr = num.toString();
+    String numStr = numDouble.toString();
+    if (!isUs) {
+      numStr = (numDouble * 80).toStringAsFixed(2);
+    }
+    List<String> parts = numStr.split(".");
+    if (parts.length == 2 && parts[1].split("").every((d) => d == "0")) {
+      return parts[0];
+    } else {
+      return numStr;
+    }
+  }
+
+  static Map<String, Object> formatImagesToDataMap(Map<String, String> data) {
+    Map<String, Object> temp = {};
+    for (var entry in data.entries) {
+      if (entry.key == 'main') {
+        temp['main'] = entry.value;
+      } else {
+        if (temp.containsKey('all')) {
+          (temp['all'] as List<String>).add(entry.value);
+        } else {
+          temp['all'] = [entry.value];
+        }
+      }
+    }
+    if (data.length == 1) {
+      temp['all'] = [
+        temp['main'],
+      ];
+    }
+
+    return temp;
+  }
+
+  static formatImageToInputMap(Map<String, Object> data) {
+    // debugPrint(data.toString());
+    Map<String, String> temp = {};
+    for (var entry in data.entries) {
+      if (entry.key == 'main') {
+        temp['main'] = entry.value as String;
+      }
+      if (entry.key == 'all') {
+        int index = 1;
+        for (var link in data[entry.key] as List) {
+          temp['link$index'] = link;
+          index++;
+        }
+      }
+    }
+
+    return temp;
   }
 }
 

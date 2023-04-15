@@ -1,9 +1,8 @@
-import '../../providers/notification_provider.dart';
-
-import 'notification_item.dart';
-import 'notification_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/notification_provider.dart';
+import 'notification_listview.dart';
 
 class NotificationModalWindow extends StatelessWidget {
   const NotificationModalWindow({

@@ -44,7 +44,7 @@ class ObjectGesturesWidgetState extends State<ArHandler> {
   @override
   void dispose() {
     super.dispose();
-    _arSessionManager!.dispose();
+    _arSessionManager?.dispose();
   }
 
   @override

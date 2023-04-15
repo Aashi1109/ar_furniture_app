@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
 import '../constants.dart';
 import '../helpers/general_helper.dart';
 import 'notification_provider.dart';
 import '../helpers/firebase/cart_helper.dart';
-
 import '../models/cart.dart';
 
-import 'package:flutter/material.dart';
 
 /// It provides data for Cart and expose methods to access or change
 /// this data.

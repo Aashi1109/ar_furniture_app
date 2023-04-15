@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/user_account_screen.dart';
-import '../widgets/bottom_tabbar.dart';
 import '../providers/cart_provider.dart';
-import '../screens/cart_screen.dart';
-import '../screens/favourite_screen.dart';
-import '../screens/user_home_screen.dart';
+import '../screens/user/cart_screen.dart';
+import '../screens/user/favourite_screen.dart';
+import '../screens/user/user_account_screen.dart';
+import '../screens/user/user_home_screen.dart';
+import '../widgets/bottom_tabbar.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -24,43 +24,65 @@ class _MainAppState extends State<MainApp> {
     const UserHomeScreen(),
     const FavouriteScreen(),
   ];
-  getCurPageIndex(int index) {
+
+  Widget _buildBody() {
+    switch (_selectedPageIndex) {
+      case 0:
+        return _screens[0];
+      case 1:
+        return _screens[1];
+      case 2:
+        Future.delayed(
+            const Duration(
+              milliseconds: 100,
+            ), () {
+          if (mounted) {
+            Navigator.of(context).pushNamed(CartScreen.namedRoute).then(
+              (value) {
+                if (mounted) {
+                  Provider.of<CartProviderModel>(context, listen: false)
+                      .pushCartDataToFirestore();
+                  _setIndex(0);
+                }
+              },
+            );
+          }
+        });
+        break;
+      case 3:
+        Future.delayed(
+            const Duration(
+              milliseconds: 100,
+            ), () {
+          if (mounted) {
+            Navigator.of(context).pushNamed(UserAccountScreen.namedRoute).then(
+              (value) {
+                if (mounted) {
+                  _setIndex(0);
+                }
+              },
+            );
+          }
+        });
+        break;
+    }
+    return Container();
+  }
+
+  void _setIndex(int index) {
     setState(() {
-      // if(index == 3) {}
-      if (index < 2) {
-        _selectedPageIndex = index;
-        // resetIndex = false;
-      }
+      _selectedPageIndex = index;
     });
-    if (index == 2) {
-      Navigator.of(context).pushNamed(CartScreen.namedRoute).then(
-        (value) {
-          Provider.of<CartProviderModel>(context, listen: false)
-              .pushCartDataToFirestore();
-          setState(() {
-            _selectedPageIndex = 0;
-            // resetIndex = true;
-          });
-        },
-      );
-    }
-    if (index == 3) {
-      Navigator.of(context).pushNamed(UserAccountScreen.namedRoute).then(
-        (value) {
-          setState(() {
-            _selectedPageIndex = 0;
-            // resetIndex = true;
-          });
-        },
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedPageIndex],
-      bottomNavigationBar: BottomTabBar(getCurPageIndex),
+      body: _buildBody(),
+      bottomNavigationBar: BottomTabBar(
+        _selectedPageIndex,
+        _setIndex,
+      ),
     );
   }
 }

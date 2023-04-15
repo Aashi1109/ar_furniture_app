@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 
-class BottomTabBar extends StatefulWidget {
-  const BottomTabBar(this.setCurIndex, {super.key});
-  final Function setCurIndex;
-  // final bool resetIndex;
-
-  @override
-  State<BottomTabBar> createState() => _BottomTabBarState();
-}
-
-class _BottomTabBarState extends State<BottomTabBar> {
-  var _currentIndex = 0;
+class BottomTabBar extends StatelessWidget {
+  const BottomTabBar(this.currentIndex, this.setIndex, {super.key});
+  final int currentIndex;
+  final Function setIndex;
 
   Widget buildSelectedTab(
       BuildContext context, int index, int curIndex, IconData icon) {
@@ -31,24 +24,16 @@ class _BottomTabBarState extends State<BottomTabBar> {
     );
   }
 
-  _bottomNavTapHandler(int index) {
-    setState(() {
-      _currentIndex = index;
-      // if (widget.resetIndex) {
-      //   _currentIndex = 0;
-      // }
-    });
-    widget.setCurIndex(_currentIndex);
-  }
+  _bottomNavTapHandler(int index) {}
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       enableFeedback: true,
-      currentIndex: _currentIndex,
+      currentIndex: currentIndex,
       elevation: 0,
-      onTap: _bottomNavTapHandler,
+      onTap: (index) => setIndex(index),
       showSelectedLabels: false,
       showUnselectedLabels: false,
       items: [
@@ -56,7 +41,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
           icon: buildSelectedTab(
             context,
             0,
-            _currentIndex,
+            currentIndex,
             Icons.home_rounded,
           ),
           label: '',
@@ -65,7 +50,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
           icon: buildSelectedTab(
             context,
             1,
-            _currentIndex,
+            currentIndex,
             Icons.favorite_outline_rounded,
           ),
           label: '',
@@ -74,7 +59,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
           icon: buildSelectedTab(
             context,
             2,
-            _currentIndex,
+            currentIndex,
             Icons.shopping_cart_outlined,
           ),
           label: '',
@@ -83,7 +68,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
           icon: buildSelectedTab(
             context,
             3,
-            _currentIndex,
+            currentIndex,
             Icons.person_3_outlined,
           ),
           label: '',

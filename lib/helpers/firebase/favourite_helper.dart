@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../firebase_helper.dart';
 
 // It holds methods to add and update favourites data in firestore

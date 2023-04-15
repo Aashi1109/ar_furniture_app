@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 /// Contains some helpers methods related to firebase
 class FirebaseHelper {
   static const usersCollectionPath = 'users';
+  static const acessCodeCollectionPath = 'accessCodes';
 
   /// Returns used doc for current user. By giving `uid` doc for other used can be
   /// accessed.
@@ -27,5 +28,23 @@ class FirebaseHelper {
 
   static Future<void> sendVerificationMailToUser() async {
     return FirebaseAuth.instance.currentUser?.sendEmailVerification();
+  }
+
+  static Future<void> sendForgetPasswordMail(String email) async {
+    return FirebaseAuth.instance.sendPasswordResetEmail(
+      email: email,
+    );
+  }
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getAccessCode(
+      String accessCode) {
+    return FirebaseFirestore.instance
+        .collection(acessCodeCollectionPath)
+        .doc(accessCode)
+        .get();
+  }
+
+  static Future<QuerySnapshot<Map<String, dynamic>>> getUserCollection() async {
+    return FirebaseFirestore.instance.collection(usersCollectionPath).get();
   }
 }

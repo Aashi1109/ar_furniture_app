@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/general_provider.dart';
-import '../../screens/product_detail_screen.dart';
+import '../../screens/product/product_detail_screen.dart';
 
 class ScreenshotsItem extends StatelessWidget {
   const ScreenshotsItem({

@@ -1,4 +1,4 @@
-import 'package:decal/helpers/material_helper.dart';
+import '../../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
 
 class ForgetStage1 extends StatelessWidget {
@@ -61,7 +61,7 @@ class ForgetStage1 extends StatelessWidget {
           MaterialHelper.buildLargeElevatedButton(
             context,
             buttonText,
-            () => _submitData(context),
+            pressHandler: () => _submitData(context),
             border: const RoundedRectangleBorder(),
           ),
         ],

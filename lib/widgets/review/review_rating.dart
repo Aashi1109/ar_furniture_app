@@ -1,8 +1,8 @@
-import '../../providers/rating_review_provider.dart';
-import '../../screens/review_rating_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/rating_review_provider.dart';
+import '../../screens/product/review_rating_screen.dart';
 import 'review_item.dart';
 
 class ReviewRatingSection extends StatelessWidget {

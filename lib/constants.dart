@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const double kDefaultPadding = 20;
 const kVerificationCodeTimeoutSeconds = 30;
 
@@ -30,3 +32,7 @@ const reviewNotification = {
     'text': 'Edited review successfully',
   }
 };
+
+const primaryColor = Color(0xff030A4E);
+const secondaryColor = Color(0xff44bde2);
+const tertiaryColor = Color(0xfff3f3f3);

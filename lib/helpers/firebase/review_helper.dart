@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 /// It holds all the methods to add, delete and update review data in
 /// firestore. review data is stored in `review` collection.
@@ -24,6 +25,7 @@ class ReviewHelper {
       {isUpdate = false, String? reviewId}) {
     final reviewsCollection = getReviewsCollection();
     if (isUpdate) {
+      // debugPrint('reviewData from helper $review');
       return reviewsCollection.doc(reviewId).set(review);
     }
     return reviewsCollection.add(

@@ -61,6 +61,7 @@ class ReviewRatingForm extends StatelessWidget {
           context,
           listen: false,
         ).reviews[id]?[index];
+        // debugPrint('data from form ${reviewData?.reviewId}');
 
         // debugPrint(reviewData.toString());
         _reviewData['rating'] = (reviewData?.rating).toString();
@@ -112,8 +113,8 @@ class ReviewRatingForm extends StatelessWidget {
                 if (value!.isEmpty) {
                   return 'Provide a valid review';
                 }
-                if (value.length < 10) {
-                  return 'Review should be 10 characters long';
+                if (value.length < 4) {
+                  return 'Review should be 4 characters long';
                 }
                 return null;
               },
@@ -125,7 +126,7 @@ class ReviewRatingForm extends StatelessWidget {
           MaterialHelper.buildLargeElevatedButton(
             context,
             isEditForm ? 'Update Review' : 'Post Review',
-            () => _submitHandler(context),
+            pressHandler: () => _submitHandler(context),
           ),
           const SizedBox(
             height: 20,

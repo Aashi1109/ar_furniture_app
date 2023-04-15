@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
 import '../../helpers/firebase/profile_helper.dart';
 import '../../helpers/material_helper.dart';
 import '../../helpers/modal_helper.dart';
-import '../description.dart';
+import '../inputs/description.dart';
 import 'review_form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:flutter/material.dart';
 
 class ReviewItem extends StatelessWidget {
   const ReviewItem({
@@ -32,7 +32,7 @@ class ReviewItem extends StatelessWidget {
     final curUserId = FirebaseAuth.instance.currentUser?.uid;
     final isUserReview = curUserId == userId;
     // debugPrint(curUserId);
-    // debugPrint(userId);
+    // debugPrint(reviewId);
 
     return FutureBuilder(
         future: ProfileHelper.getUserProfileDataFromFirestore(
@@ -98,7 +98,6 @@ class ReviewItem extends StatelessWidget {
                             MaterialHelper.buildRoundedElevatedButton(
                               context,
                               Icons.edit_rounded,
-                              Theme.of(context).colorScheme,
                               () {
                                 ModalHelpers.createBottomModal(
                                   context,

@@ -1,10 +1,10 @@
 import 'dart:typed_data' show Uint8List;
+import 'package:flutter/material.dart';
 
 import '../helpers/firebase/profile_helper.dart';
 import '../helpers/firebase/screenshot_helper.dart';
 import '../helpers/firebase/settings_helper.dart';
 import '../helpers/general_helper.dart';
-import 'package:flutter/material.dart';
 
 class ScreenshotItemModel {
   final String id;
@@ -24,9 +24,11 @@ class ScreenshotItemModel {
 class GeneralProviderModel extends ChangeNotifier {
   // This is for settings
   static const dataSaverKey = 'isDataSaverOn';
+  static const currencyKey = 'currencyInUs\$';
   bool _isSettingDataInit = true;
   Map<String, dynamic> _settings = {
     dataSaverKey: false,
+    currencyKey: true,
   };
 
   // getter and setter for imageQuality
@@ -34,8 +36,19 @@ class GeneralProviderModel extends ChangeNotifier {
     return _settings[dataSaverKey];
   }
 
+  bool get isCurrencyInUs {
+    return _settings[currencyKey];
+  }
+
   set setDataSaver(bool highQuality) {
     _settings[dataSaverKey] = highQuality;
+
+    // notifyListeners();
+    saveSettings();
+  }
+
+  set setCurrency(bool inUS) {
+    _settings[currencyKey] = inUS;
     // notifyListeners();
     saveSettings();
   }

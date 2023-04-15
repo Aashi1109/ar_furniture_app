@@ -1,7 +1,7 @@
-import 'package:decal/constants.dart';
-import 'package:decal/helpers/firebase_helper.dart';
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/material_helper.dart';
+import '../../constants.dart';
+import '../../helpers/firebase_helper.dart';
+import '../../helpers/general_helper.dart';
+import '../../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
 
 class VerificationCodeTimer extends StatefulWidget {

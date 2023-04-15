@@ -1,12 +1,13 @@
-import '../../helpers/general_helper.dart';
-import '../../providers/notification_provider.dart';
-import '../../screens/auth_screen.dart';
-import '../../screens/cart_screen.dart';
-import '../../screens/order_screen.dart';
-import '../../screens/product_detail_screen.dart';
-import '../../screens/review_rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../helpers/general_helper.dart';
+import '../../providers/notification_provider.dart';
+import '../../screens/auth/auth_screen.dart';
+import '../../screens/user/cart_screen.dart';
+import '../../screens/user/order_screen.dart';
+import '../../screens/product/product_detail_screen.dart';
+import '../../screens/product/review_rating_screen.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({

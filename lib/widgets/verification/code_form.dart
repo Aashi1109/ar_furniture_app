@@ -1,4 +1,4 @@
-import 'package:decal/helpers/material_helper.dart';
+import '../../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
 import 'code_field.dart';
 
@@ -106,7 +106,7 @@ class _EmailCodeFormState extends State<EmailCodeForm> {
           MaterialHelper.buildLargeElevatedButton(
             context,
             widget.buttonText,
-            _submitHandler,
+            pressHandler: _submitHandler,
             border: const RoundedRectangleBorder(),
           ),
         ],

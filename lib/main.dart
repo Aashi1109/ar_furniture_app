@@ -1,34 +1,39 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'widgets/main_app.dart';
-import 'screens/email_verification_screen.dart';
-import 'providers/notification_provider.dart';
-import 'screens/screenshots_screen.dart';
-import 'providers/general_provider.dart';
+import 'constants.dart';
 import 'firebase_options.dart';
+
+import 'screens/admin/product/admin_product_screen.dart';
+import 'screens/admin/product/admin_add_product_screen.dart';
+import 'screens/admin/users/admin_user_screen.dart';
+import 'screens/admin/admin_screen.dart';
+import 'helpers/material_helper.dart';
+import 'widgets/auth/auth_stream_handler.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
+import 'providers/general_provider.dart';
+import 'providers/notification_provider.dart';
 import 'providers/orders_provider.dart';
 import 'providers/products_provider.dart';
 import 'providers/rating_review_provider.dart';
-import 'screens/cart_screen.dart';
-import 'screens/favourite_screen.dart';
-import 'screens/onboard_screen.dart';
-import 'screens/product_detail_screen.dart';
-import 'screens/user_account_edit_screen.dart';
-import 'screens/view_more_screen.dart';
-import 'screens/forget_password_screen.dart';
-import 'screens/user_account_screen.dart';
-import 'screens/view_ar_screen.dart';
-import 'screens/auth_screen.dart';
-import 'helpers/material_helper.dart';
-import 'screens/order_screen.dart';
-import 'screens/review_rating_screen.dart';
-import 'helpers/shared_preferences_helper.dart';
+import 'screens/auth/auth_screen.dart';
+import 'screens/user/cart_screen.dart';
+import 'screens/auth/email_verification_screen.dart';
+import 'screens/auth/forget_password_screen.dart';
+import 'widgets/app_launch.dart';
+import 'screens/user/order_screen.dart';
+import 'screens/product/review_rating_screen.dart';
+import 'screens/product/view_ar_screen.dart';
+import 'screens/product/view_more_screen.dart';
+import 'screens/product/product_detail_screen.dart';
+import 'screens/user/favourite_screen.dart';
+import 'screens/user/screenshots_screen.dart';
+import 'screens/user/user_account_edit_screen.dart';
+import 'screens/user/user_account_screen.dart';
+import 'widgets/main_app.dart';
+import 'screens/user/user_settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,19 +41,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SharedPreferences preferences = await SharedPreferencesHelper.preferences;
-  final isOnboardShown = preferences.getBool('viewedOnboard');
 
   runApp(
-    MyApp(
-      isOnboardShown ?? false,
-    ),
+    const MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp(this.isOnboardingShown, {super.key});
-  final bool isOnboardingShown;
+  const MyApp({super.key});
+  // final bool isOnboardingShown;
 
   // This widget is the root of your application.
   @override
@@ -104,13 +105,11 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Overpass',
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: MaterialHelper.createMaterialColor(
-              const Color(0xff030A4E),
+              primaryColor,
             ),
           ).copyWith(
-            // primary: const Color(0x00030A4E),
-            // tertiary: Color.fromARGB(255, 202, 201, 201),
-            tertiary: const Color(0xfff3f3f3),
-            secondary: const Color(0xff44bde2),
+            tertiary: tertiaryColor,
+            secondary: secondaryColor,
           ),
           textTheme: Theme.of(context).textTheme.copyWith(
                 // titleLarge: const TextStyle(fontSize: 32),
@@ -132,25 +131,17 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            bool showOnboard = isOnboardingShown;
-            SharedPreferencesHelper.preferences.then((value) {
-              showOnboard = value.getBool('viewedOnboard') ?? true;
-            });
-            if (snapshot.data != null) {
-              if (FirebaseAuth.instance.currentUser?.emailVerified ?? true) {
-                return const MainApp();
-              }
-              return EmailVerificationScreen();
-            }
-
-            return showOnboard ? const AuthScreen() : const OnboardScreen();
-            // return const CircularProgressIndicator();
-          },
-        ),
+        home: const AppLaunch(),
         routes: {
+          AdminProductScreen.namedRoute: (context) =>
+              const AdminProductScreen(),
+          AdminScreen.namedRoute: (context) => const AdminScreen(),
+          AdminAddProductScreen.namedRoute: (context) =>
+              const AdminAddProductScreen(),
+          AdminUsersScreen.namedRoute: (context) => const AdminUsersScreen(),
+          UserSettingsScreen.namedRoute: (context) =>
+              const UserSettingsScreen(),
+          AuthStreamHandler.namedRoute: (context) => const AuthStreamHandler(),
           MainApp.namedRoute: (context) => const MainApp(),
           ForgetPasswordScreen.namedRoute: (context) =>
               const ForgetPasswordScreen(),

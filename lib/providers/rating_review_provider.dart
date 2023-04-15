@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'notification_provider.dart';
 
+import 'notification_provider.dart';
 import '../constants.dart';
 import '../helpers/general_helper.dart';
 import '../helpers/firebase/review_helper.dart';
@@ -92,7 +92,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
     String productId,
     Map<String, String> reviewData, {
     bool isDataSet = false,
-  }) {
+  }) async {
     // debugPrint('add user review called');
     if (_reviews.containsKey(productId)) {
       _reviews[productId]?.add(
@@ -134,11 +134,14 @@ class ReviewRatingProviderModel extends ChangeNotifier {
       );
 
       try {
-        ReviewHelper.addReviewsInFirestore(
+        await ReviewHelper.addReviewsInFirestore(
           {
             ...reviewData,
             'productId': isDataSet ? reviewData['productId'] : productId,
           },
+        );
+        await getAndSetReviews(
+          isUpdate: true,
         );
       } catch (error) {
         debugPrint('error in saving review data ${error.toString()}');
@@ -151,12 +154,16 @@ class ReviewRatingProviderModel extends ChangeNotifier {
   /// uses [_isReviewDataInit] so that data is initilized only once because
   /// we are calling it on different number of places.
   /// Internally uses [addReview()] and [moveUserReviewOnTop()]
-  Future<void> getAndSetReviews() async {
+  Future<void> getAndSetReviews({bool isUpdate = false}) async {
     // debugPrint('get and set review called');
-    return GeneralHelper.getAndSetWrapper(_isReviewDataInit, () async {
+    return GeneralHelper.getAndSetWrapper(_isReviewDataInit || isUpdate,
+        () async {
       try {
         final reviewData = await ReviewHelper.getReviewsFromFirestore();
         // debugPrint(reviewData.docs.toString());
+        if (isUpdate) {
+          _reviews = {};
+        }
 
         for (var element in reviewData.docs) {
           // debugPrint(element.data().toString());
@@ -179,33 +186,6 @@ class ReviewRatingProviderModel extends ChangeNotifier {
         debugPrint('error in getting product reviews ${error.toString()}');
       }
     });
-    // debugPrint('in review fetch');
-    // if (_reviews.isEmpty) {
-    // try {
-    //   final reviewData = await ReviewHelper.getReviewsFromFirestore();
-    //   // debugPrint(reviewData.docs.toString());
-
-    //   for (var element in reviewData.docs) {
-    //     // debugPrint(element.data().toString());
-    //     addReview(
-    //       element.data()['productId'],
-    //       {
-    //         'rating': element.data()['rating'],
-    //         'message': element.data()['message'],
-    //         'userId': element.data()['userId'],
-    //         'reviewId': element.id,
-    //       },
-    //       isDataSet: true,
-    //     );
-    //   }
-
-    //   moveUserReviewOnTop();
-    // } catch (error) {
-    //   debugPrint('error in getting product reviews ${error.toString()}');
-    // }
-    // } else {
-    //   return;
-    // }
   }
 
   /// Returns average rating for a product.
@@ -218,7 +198,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
     return (totalReview / (reviews.isEmpty ? 1 : reviews.length));
   }
 
-  /// Update a certain review places by user
+  /// Update a certain review placed by user
   /// Uses [getUserReviewIndexonProduct()] to find and update it. It also
   /// updates it in the cloud too and generates notification for the same.
   void updateReview(String productId, reviewData) {
@@ -234,6 +214,7 @@ class ReviewRatingProviderModel extends ChangeNotifier {
         );
 
         try {
+          // debugPrint('data from provider ${reviewData['reviewId']}');
           ReviewHelper.addReviewsInFirestore(
             {
               ...reviewData,

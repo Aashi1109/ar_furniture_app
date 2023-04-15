@@ -26,17 +26,24 @@ class ProductHelper {
   }
 
   /// Adds new product in firestore's `products` collection
-  static Future<void> addProductInFirestore(ProductItemModel product) async {
+  static Future<void> addProductInFirestore(
+    Map<String, Object> product, {
+    String? productId,
+  }) async {
     final productsCollection = getProductsCollection();
-    await productsCollection.add({
-      'title': product.title,
-      'price': product.price,
-      'description': product.description,
-      'images': product.images,
-      'vector': product.vector,
-      'modelUrl': product.modelUrl,
-      'categories': product.categories,
-      'createdAt': Timestamp.now(),
+    await productsCollection
+        .doc(
+      productId,
+    )
+        .set({
+      'title': product['title'],
+      'price': product['price'],
+      'description': product['description'],
+      'images': product['imagesFor'],
+      'vector': product['vector'],
+      'modelUrl': product['modelUrl'],
+      'category': product['category'],
+      if (productId == null) 'createdAt': Timestamp.now(),
     });
   }
 }

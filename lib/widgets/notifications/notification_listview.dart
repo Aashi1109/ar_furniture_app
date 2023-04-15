@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../providers/notification_provider.dart';
 import 'notification_item.dart';
+import '../../providers/notification_provider.dart';
 
 class NotificationListview extends StatelessWidget {
   const NotificationListview(this.notifications, {super.key});

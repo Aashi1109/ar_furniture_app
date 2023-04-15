@@ -1,9 +1,9 @@
-import '../providers/general_provider.dart';
-
-import '../providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/general_provider.dart';
+import '../providers/products_provider.dart';
 import '../helpers/general_helper.dart';
 
 class ImageSlider extends StatefulWidget {

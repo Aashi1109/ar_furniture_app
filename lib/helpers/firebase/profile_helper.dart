@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../firebase_helper.dart';
 import 'dart:typed_data' show Uint8List;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../firebase_helper.dart';
 
 /// It holds all the methods to add and update profile data in
 /// firestore. profile data is store in userDoc having id as

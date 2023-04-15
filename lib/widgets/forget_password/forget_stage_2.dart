@@ -1,5 +1,6 @@
-import 'package:decal/widgets/verification/code_form.dart';
 import 'package:flutter/material.dart';
+
+import '../verification/code_form.dart';
 
 class ForgetStage2 extends StatelessWidget {
   const ForgetStage2(this.setData, this.buttonText, {super.key});

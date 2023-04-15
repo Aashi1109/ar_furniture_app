@@ -1,4 +1,7 @@
+import 'package:decal/screens/admin/admin_screen.dart';
+import 'package:decal/widgets/admin/admin_code_form.dart';
 import 'package:flutter/material.dart';
+import 'general_helper.dart';
 
 /// It contains methods to create dialogs and snackbars to increase interactivity
 /// with user and provide them with valid error and app states.
@@ -28,6 +31,7 @@ class ModalHelpers {
     BuildContext context,
     String title,
     String content, {
+    Widget? cusContent,
     bool closeContent = true,
     List<Widget> actions = const [],
   }) {
@@ -44,7 +48,7 @@ class ModalHelpers {
             ),
           if (!closeContent) ...actions,
         ],
-        content: Text(content),
+        content: cusContent ?? Text(content),
         title: Text(title),
       ),
     );
@@ -63,6 +67,33 @@ class ModalHelpers {
           seconds: duration,
         ),
       ),
+    );
+  }
+
+  static Future<bool?> confirmUserChoiceDialog(
+    BuildContext context,
+    String title,
+    String contentText,
+  ) async {
+    return ModalHelpers.createAlertDialog<bool>(
+      context,
+      title,
+      contentText,
+      closeContent: false,
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text(
+            'No',
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text(
+            'Yes',
+          ),
+        ),
+      ],
     );
   }
 }

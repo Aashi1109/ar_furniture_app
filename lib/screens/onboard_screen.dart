@@ -1,8 +1,10 @@
-import '../helpers/shared_preferences_helper.dart';
-import 'auth_screen.dart';
-import '../widgets/onboard/onboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../helpers/shared_preferences_helper.dart';
+import 'auth/auth_screen.dart';
+import '../widgets/onboard/onboard_item.dart';
+import '../widgets/auth/auth_stream_handler.dart';
 
 /// This screen will show  when user launch app for first time
 class OnboardScreen extends StatefulWidget {
@@ -61,11 +63,14 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 child: Align(
                   alignment: const Alignment(-.5, 0),
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async {
                       Navigator.of(context).pushReplacementNamed(
-                        AuthScreen.namedRoute,
+                        AuthStreamHandler.namedRoute,
                         arguments: 'signup',
                       );
+                      SharedPreferences preferences =
+                          await SharedPreferencesHelper.preferences;
+                      await preferences.setBool('viewedOnboard', true);
                     },
                     child: Text(
                       'Get Started ->',
@@ -109,8 +114,8 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     onTap: _curIndex == _onboardData.length - 1
                         ? () async {
                             Navigator.of(context).pushReplacementNamed(
-                              AuthScreen.namedRoute,
-                              // arguments: 'signup',
+                              AuthStreamHandler.namedRoute,
+                              arguments: 'login',
                             );
                             SharedPreferences preferences =
                                 await SharedPreferencesHelper.preferences;

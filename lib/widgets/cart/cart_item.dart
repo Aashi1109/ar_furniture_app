@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/cart_provider.dart';
 import '../../providers/general_provider.dart';
 import '../../helpers/general_helper.dart';
 import '../../helpers/material_helper.dart';
-import '../../screens/product_detail_screen.dart';
-import '../../providers/cart_provider.dart';
+import '../../screens/product/product_detail_screen.dart';
 
 /// It is used to show items of cart and order.
 /// Based on isOrderItem it is decided whether it is item of order or not.
@@ -114,7 +114,6 @@ class CartItem extends StatelessWidget {
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           Icons.remove_rounded,
-                          themeColorScheme,
                           cartItem!.quantity == 1
                               ? null
                               : () {
@@ -136,7 +135,6 @@ class CartItem extends StatelessWidget {
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           Icons.add_rounded,
-                          themeColorScheme,
                           () {
                             cartProvider.addItemToCart(
                               prodId: id,
@@ -162,7 +160,6 @@ class CartItem extends StatelessWidget {
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           Icons.remove_red_eye,
-                          themeColorScheme,
                           () {
                             Navigator.of(context).pushNamed(
                               ProductDetailScreen.namedRoute,
@@ -178,7 +175,6 @@ class CartItem extends StatelessWidget {
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           Icons.add_shopping_cart_rounded,
-                          themeColorScheme,
                           () {
                             cartProvider.addItemToCart(
                               prodId: id,

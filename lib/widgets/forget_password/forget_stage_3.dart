@@ -1,7 +1,7 @@
-import 'package:decal/helpers/material_helper.dart';
 import 'package:flutter/material.dart';
 
-import '../password_strength.dart';
+import '../../helpers/material_helper.dart';
+import '../inputs/password_strength.dart';
 
 class ForgetStage3 extends StatelessWidget {
   ForgetStage3(this.setData, this.buttonText, {super.key});
@@ -57,7 +57,7 @@ class ForgetStage3 extends StatelessWidget {
           MaterialHelper.buildLargeElevatedButton(
             context,
             buttonText,
-            () => _submitHandler(
+            pressHandler: () => _submitHandler(
               context,
             ),
             border: const RoundedRectangleBorder(),

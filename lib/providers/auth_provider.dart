@@ -1,10 +1,10 @@
-import '../constants.dart';
-import '../helpers/general_helper.dart';
-import 'notification_provider.dart';
-
-import '../helpers/firebase/profile_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../constants.dart';
+import '../helpers/firebase/profile_helper.dart';
+import '../helpers/general_helper.dart';
 import '../models/auth.dart';
+import 'notification_provider.dart';
 
 /// It provides data for Authentication and expose methods to access or change
 /// this data.
@@ -34,6 +34,7 @@ class AuthProviderModel extends ChangeNotifier {
         _auth = AuthModel(
           imageUrl: authResp.data()?['imageUrl'],
           name: authResp.data()?['name'],
+          isAdmin: authResp.data()?['isAdmin'] ?? false,
           userCreationDate:
               authResp.data()?['userCreationDate']?.toDate() ?? DateTime.now(),
         );
@@ -102,5 +103,9 @@ class AuthProviderModel extends ChangeNotifier {
 
   DateTime get userCreationDate {
     return _auth.userCreationDate;
+  }
+
+  bool get isAdmin {
+    return _auth.isAdmin;
   }
 }

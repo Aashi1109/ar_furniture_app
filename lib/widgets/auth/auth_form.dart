@@ -1,11 +1,10 @@
 import 'dart:io';
-
-import 'package:decal/screens/forget_password_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../screens/auth/forget_password_screen.dart';
 import '../../helpers/material_helper.dart';
 import '../../helpers/modal_helper.dart';
-import '../circle_image_input.dart';
+import '../inputs/circle_image_input.dart';
 import 'auth_bottom_button.dart';
 
 class AuthForm extends StatefulWidget {
@@ -16,12 +15,14 @@ class AuthForm extends StatefulWidget {
     this.isEditForm = false,
     this.type = 'login',
     this.editData = const {},
+    this.canChangePass = true,
   });
   final Function setFormData;
   final bool isLoading;
   final bool isEditForm;
   final String type;
   final Map<String, String> editData;
+  final bool canChangePass;
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -80,6 +81,7 @@ class _AuthFormState extends State<AuthForm> {
     final mediaQuery = MediaQuery.of(context);
     final themeTextTheme = Theme.of(context).textTheme;
     final themeColorScheme = Theme.of(context).colorScheme;
+    // debugPrint(widget.canChangePass.toString());
 
     return SingleChildScrollView(
       child: AnimatedContainer(
@@ -157,7 +159,7 @@ class _AuthFormState extends State<AuthForm> {
                             _enteredData['email'] = newValue!.trim();
                           },
                         ),
-                      if (widget.isEditForm)
+                      if (widget.isEditForm && widget.canChangePass)
                         TextFormField(
                           decoration: const InputDecoration(
                             label: Text('Current Password'),
@@ -172,23 +174,25 @@ class _AuthFormState extends State<AuthForm> {
                             _enteredData['prevPassword'] = newValue!.trim();
                           },
                         ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          label: Text(
-                              widget.isEditForm ? 'New Password' : 'Password'),
-                          hintText: widget.isEditForm
-                              ? 'Your new password'
-                              : 'Your Password',
+                      if (widget.canChangePass)
+                        TextFormField(
+                          decoration: InputDecoration(
+                            label: Text(widget.isEditForm
+                                ? 'New Password'
+                                : 'Password'),
+                            hintText: widget.isEditForm
+                                ? 'Your new password'
+                                : 'Your Password',
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty) return 'Enter valid password';
+                            return null;
+                          },
+                          onSaved: (newValue) {
+                            _enteredData['password'] = newValue!.trim();
+                          },
                         ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value!.isEmpty) return 'Enter valid password';
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _enteredData['password'] = newValue!.trim();
-                        },
-                      ),
                       if (_isLoginForm && !widget.isEditForm) ...[
                         const SizedBox(
                           height: 10,
