@@ -40,10 +40,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("../../decal.keystore")
-            storePassword "Park.1109"
-            keyAlias "decal"
-            keyPassword "Park.1109"
+            storeFile file("<your store path>")
+            storePassword "<your store password>"
+            keyAlias "<your store alias>""
+            keyPassword "<your key password>""
         }
     }
 
