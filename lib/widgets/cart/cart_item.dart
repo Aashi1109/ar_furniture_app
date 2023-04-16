@@ -1,3 +1,4 @@
+import 'package:decal/helpers/modal_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -183,6 +184,10 @@ class CartItem extends StatelessWidget {
                               price: total / quantity,
                               quantity: 1,
                               imageUrl: imageUrl,
+                            );
+                            ModalHelpers.createInfoSnackbar(
+                              context,
+                              'Product Added to cart',
                             );
                           },
                           iconSize: 22,

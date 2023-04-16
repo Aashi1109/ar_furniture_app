@@ -83,7 +83,7 @@ class ProductDetailScreen extends StatelessWidget {
                               builder: (context, productProvider, ch) {
                             return IconButton(
                               onPressed: () {
-                                productProvider.toggleFavourite(routeArgsId);
+                                productProvider.toggleFavourite(routeArgsId,);
                               },
                               icon: Icon(
                                 foundProduct.isFavourite

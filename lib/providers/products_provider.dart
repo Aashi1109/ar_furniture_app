@@ -81,7 +81,9 @@ class ProductProviderModel extends ChangeNotifier {
     notifyListeners();
     try {
       await FavouriteHelper.toggleFavouritesInFirestore(
-          id, product.isFavourite);
+        id,
+        product.isFavourite,
+      );
     } catch (error) {
       product.isFavourite = prevFavStat;
       if (product.isFavourite) {

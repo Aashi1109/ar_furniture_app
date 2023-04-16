@@ -54,7 +54,7 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
           );
         }
 
-        await Provider.of<AuthProviderModel>(context, listen: false)
+        await Provider.of<AuthProviderModel>(context, listen: false,)
             .getAndSetAuthData(isUpdate: true);
         Navigator.of(context).pop();
       }

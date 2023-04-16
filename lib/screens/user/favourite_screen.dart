@@ -21,7 +21,7 @@ class FavouriteScreen extends StatelessWidget {
           (prod) => prod.isFavourite == true,
         )
         .toList();
-    debugPrint(products.length.toString());
+    // debugPrint(products.length.toString());
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -55,9 +55,11 @@ class FavouriteScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            ProductGridView(
-              favProducts,
-              mediaQuery,
+            Expanded(
+              child: ProductGridView(
+                favProducts,
+                mediaQuery,
+              ),
             ),
           ],
         ),

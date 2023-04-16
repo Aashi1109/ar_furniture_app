@@ -1,3 +1,4 @@
+import 'package:decal/screens/product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -71,7 +72,12 @@ class SpecialSection extends StatelessWidget {
                       height: 10,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          ProductDetailScreen.namedRoute,
+                          arguments: 'oHIETOm3cezVudgpDpsJ',
+                        );
+                      },
                       child: Text(
                         'Learn More',
                         style: TextStyle(

@@ -39,6 +39,7 @@ class UserHeader extends StatelessWidget {
             authProvider,
             ch,
           ) {
+            // debugPrint('user image url ${authProvider.userImageUrl}');
             return ListTile(
               horizontalTitleGap: 10,
               contentPadding: EdgeInsets.zero,

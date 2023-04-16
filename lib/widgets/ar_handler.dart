@@ -30,15 +30,12 @@ class ObjectGesturesWidgetState extends State<ArHandler> {
   List<ARAnchor> _anchors = [];
 
   Vector3 getVector3Values(String vector3String) {
-    RegExp regex = RegExp(r'[-]?\d+([.]\d+)?');
-    Iterable<Match> matches = regex.allMatches(vector3String);
-    List<double> values =
-        matches.map((match) => double.parse(match.group(0)!)).toList();
-    return Vector3(
-      values[0],
-      values[1],
-      values[2],
-    );
+    List<String> components =
+        vector3String.substring(8, vector3String.length - 1).split(',');
+    double x = double.parse(components[0]);
+    double y = double.parse(components[1]);
+    double z = double.parse(components[2]);
+    return Vector3(x, y, z);
   }
 
   @override
