@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 const double kDefaultPadding = 20;
 const kVerificationCodeTimeoutSeconds = 30;
@@ -33,6 +33,10 @@ const reviewNotification = {
   }
 };
 
-const primaryColor = Color(0xff030A4E);
-const secondaryColor = Color(0xff44bde2);
-const tertiaryColor = Color(0xfff3f3f3);
+// const primaryColor = Color(0xff030A4E);
+// const secondaryColor = Color(0xff44bde2);
+// const tertiaryColor = Color(0xfff3f3f3);
+
+const primaryColorHex = '030A4E';
+const secondaryColorHex = '44bde2';
+const tertiaryColorHex = 'f3f3f3';

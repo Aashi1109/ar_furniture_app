@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../providers/general_provider.dart';
-import 'package:provider/provider.dart';
 import '../../helpers/material_helper.dart';
 import '../../widgets/ar_handler.dart';
-import 'package:screenshot/screenshot.dart';
 
 class ViewARScreen extends StatelessWidget {
   ViewARScreen({super.key});
@@ -31,21 +31,10 @@ class ViewARScreen extends StatelessWidget {
         children: [
           Screenshot(
             controller: _screenshotController,
-            child: StatefulBuilder(builder: (
-              context,
-              setstate,
-            ) {
-              return Container(
-                height: double.infinity,
-                width: double.infinity,
-                color: Colors.amber,
-              );
-              // return ArHandler(
-              //   modelUrl ?? '',
-              //   vector ?? '',
-
-              // );
-            }),
+            child: ArHandler(
+              modelUrl ?? '',
+              vector ?? '',
+            ),
           ),
           Positioned(
             left: 10,

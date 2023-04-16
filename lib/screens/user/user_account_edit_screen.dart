@@ -107,30 +107,32 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
     );
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(
-          bottom: kDefaultPadding,
-          right: kDefaultPadding,
-          top: kDefaultPadding + 10,
-          left: kDefaultPadding,
-        ),
-        child: Column(
-          children: [
-            MaterialHelper.buildCustomAppbar(context, 'Account Info Edit'),
-            const SizedBox(
-              height: 10,
-            ),
-            AuthForm(
-              _getFormData,
-              _isLoading,
-              isEditForm: true,
-              editData: {
-                'imageUrl': authProvider.userImageUrl,
-                'name': authProvider.userName,
-              },
-              canChangePass: canChangePass,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            bottom: kDefaultPadding,
+            right: kDefaultPadding,
+            top: kDefaultPadding + 10,
+            left: kDefaultPadding,
+          ),
+          child: Column(
+            children: [
+              MaterialHelper.buildCustomAppbar(context, 'Account Info Edit'),
+              const SizedBox(
+                height: 10,
+              ),
+              AuthForm(
+                _getFormData,
+                _isLoading,
+                isEditForm: true,
+                editData: {
+                  'imageUrl': authProvider.userImageUrl,
+                  'name': authProvider.userName,
+                },
+                canChangePass: canChangePass,
+              ),
+            ],
+          ),
         ),
       ),
     );

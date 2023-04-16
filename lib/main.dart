@@ -105,15 +105,29 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Overpass',
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: MaterialHelper.createMaterialColor(
-              primaryColor,
+              Color(
+                int.parse(
+                  '0xff$primaryColorHex',
+                ),
+              ),
             ),
           ).copyWith(
-            tertiary: tertiaryColor,
-            secondary: secondaryColor,
+            tertiary: Color(
+              int.parse(
+                '0xff$tertiaryColorHex',
+              ),
+            ),
+            secondary: Color(
+              int.parse(
+                '0xff$secondaryColorHex',
+              ),
+            ),
           ),
           textTheme: Theme.of(context).textTheme.copyWith(
                 // titleLarge: const TextStyle(fontSize: 32),
-                titleSmall: const TextStyle(fontSize: 32),
+                titleSmall: const TextStyle(
+                  fontSize: 32,
+                ),
                 displayLarge: const TextStyle(
                   fontSize: 26,
                 ),
