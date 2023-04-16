@@ -112,3 +112,4 @@ app.*.map.json
 
 *firebase_options.dart
 decal.keystore
+apks

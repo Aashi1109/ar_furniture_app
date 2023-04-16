@@ -19,7 +19,7 @@ class UserAccountEditScreen extends StatefulWidget {
 
 class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
   late bool canChangePass;
-  late User curUser;
+  late User? curUser;
   _getFormData(Map<String, dynamic> formData, String type) async {
     // debugPrint(formData.toString());
     setState(() {
@@ -33,15 +33,10 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
       if (curUser != null) {
         if (canChangePass) {
           final currentUserCredential = EmailAuthProvider.credential(
-              email: curUser.email!, password: formData['prevPassword']);
-          await curUser.reauthenticateWithCredential(currentUserCredential);
+              email: curUser?.email ?? '', password: formData['prevPassword']);
+          await curUser?.reauthenticateWithCredential(currentUserCredential);
 
-          await curUser.updatePassword(formData['password']);
-          // .then((_)  {
-          //   debugPrint("Password updated successfully!");
-          // }).catchError((error) {
-          //   debugPrint("Error updating password: $error");
-          // });
+          await curUser?.updatePassword(formData['password']);
         }
         Map<String, String> userNewData = {
           'name': formData['name'],
@@ -58,10 +53,11 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
             isUpdate: true,
           );
         }
+
+        await Provider.of<AuthProviderModel>(context, listen: false)
+            .getAndSetAuthData(isUpdate: true);
+        Navigator.of(context).pop();
       }
-      await Provider.of<AuthProviderModel>(context, listen: false)
-          .getAndSetAuthData(isUpdate: true);
-      Navigator.of(context).pop();
     } on FirebaseAuthException catch (error) {
       ModalHelpers.createAlertDialog(
         context,
@@ -87,11 +83,11 @@ class _UserAccountEditScreenState extends State<UserAccountEditScreen> {
   @override
   void initState() {
     final auth = FirebaseAuth.instance;
-    final curUser = auth.currentUser;
+    curUser = auth.currentUser;
     // bool canUserChangePass = false;
 
     if (curUser != null) {
-      List<UserInfo> providerData = curUser.providerData;
+      List<UserInfo> providerData = curUser?.providerData ?? [];
       canChangePass = false;
       for (var userInfo in providerData) {
         // debugPrint(userInfo.providerId.toString());

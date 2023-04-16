@@ -9,9 +9,8 @@ import 'package:screenshot/screenshot.dart';
 class ViewARScreen extends StatelessWidget {
   ViewARScreen({super.key});
   static const namedRoute = '/view-ar';
-  ScreenshotController _screenshotController = ScreenshotController();
+  final _screenshotController = ScreenshotController();
   // Uint8List? _imageFile;
-  final _globalKey = GlobalKey<ObjectGesturesWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +35,16 @@ class ViewARScreen extends StatelessWidget {
               context,
               setstate,
             ) {
-              return ArHandler(
-                modelUrl ?? '',
-                vector ?? '',
-                key: _globalKey,
+              return Container(
+                height: double.infinity,
+                width: double.infinity,
+                color: Colors.amber,
               );
+              // return ArHandler(
+              //   modelUrl ?? '',
+              //   vector ?? '',
+
+              // );
             }),
           ),
           Positioned(
@@ -72,17 +76,6 @@ class ViewARScreen extends StatelessWidget {
                 }
               },
               iconSize: 22,
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            right: (MediaQuery.of(context).size.width / 2),
-            child: ElevatedButton.icon(
-              onPressed: _globalKey.currentState?.onRemoveEverything,
-              icon: const Icon(
-                Icons.remove_rounded,
-              ),
-              label: const Text('Remove Items'),
             ),
           ),
         ],

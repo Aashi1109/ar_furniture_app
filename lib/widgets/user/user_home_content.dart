@@ -40,7 +40,9 @@ class _UserHomeContentState extends State<UserHomeContent> {
         const SizedBox(
           height: 10,
         ),
-        SearchFilter(_getCurrentSelectedFilter),
+        SearchFilter(
+          _getCurrentSelectedFilter,
+        ),
         if (!_isFilteringOn) ...[
           const SizedBox(
             height: 15,
@@ -117,6 +119,7 @@ class _UserHomeContentState extends State<UserHomeContent> {
                 : ProductGridView(
                     productProvider.getProductsByQuery(_filterValue!),
                     mediaQuery,
+                    childHeight: 251,
                   ),
           ),
       ],

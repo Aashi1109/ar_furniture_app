@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  ar_flutter_plugin: ^0.7.3
+  # ar_flutter_plugin: ^0.7.3
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.4.5
   cupertino_icons: ^1.0.2

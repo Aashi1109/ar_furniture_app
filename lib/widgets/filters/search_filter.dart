@@ -27,6 +27,9 @@ class SearchFilter extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
+            onTapOutside: (value) {
+              FocusScope.of(context).unfocus();
+            },
             onChanged: (val) {
               setSearchFilterQuery(val.trim());
             },

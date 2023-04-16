@@ -41,10 +41,12 @@ class _ViewMoreScreenState extends State<ViewMoreScreen> {
                 _newFilter = val.toLowerCase();
               });
             }, routeCategory),
-            ProductGridView(
-              productProvider
-                  .getProductsByCategory(_newFilter ?? routeCategory),
-              mediaQuery,
+            Expanded(
+              child: ProductGridView(
+                productProvider
+                    .getProductsByCategory(_newFilter ?? routeCategory),
+                mediaQuery,
+              ),
             ),
           ],
         ),
