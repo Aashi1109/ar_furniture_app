@@ -45,6 +45,10 @@ class FirebaseHelper {
   }
 
   static Future<QuerySnapshot<Map<String, dynamic>>> getUserCollection() async {
-    return FirebaseFirestore.instance.collection(usersCollectionPath).get();
+    return FirebaseFirestore.instance
+        .collection(
+          usersCollectionPath,
+        )
+        .get();
   }
 }

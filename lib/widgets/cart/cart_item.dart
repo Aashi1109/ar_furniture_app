@@ -69,6 +69,7 @@ class CartItem extends StatelessWidget {
         ),
         Expanded(
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,20 +184,6 @@ class CartItem extends StatelessWidget {
                               quantity: 1,
                               imageUrl: imageUrl,
                             );
-                            // if (cartProvider.wasCartEmpty &&
-                            //     cartProvider.items.isNotEmpty) {
-                            //   Provider.of<NotificationProviderModel>(
-                            //     context,
-                            //     listen: false,
-                            //   ).addNotification(
-                            //     NotificationItemModel(
-                            //       text: cartNotifications['t1']!['text']!,
-                            //       id: DateTime.now().toString(),
-                            //       title: cartNotifications['t1']!['title']!,
-                            //       icon: Icons.shopping_cart_rounded,
-                            //     ),
-                            //   );
-                            // }
                           },
                           iconSize: 22,
                           buttonColor: themeColorScheme.tertiary,

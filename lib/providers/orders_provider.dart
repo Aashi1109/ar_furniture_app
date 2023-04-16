@@ -42,7 +42,7 @@ class OrderProviderModel with ChangeNotifier {
             text: orderNotifications['t1']!['text']!,
             id: DateTime.now().toString(),
             title: orderNotifications['t1']!['title']!,
-            icon: Icons.shopping_bag,
+            icon: Icons.shopping_bag_rounded,
             action: {
               'action': 'order',
               'params': '',

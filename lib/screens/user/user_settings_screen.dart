@@ -1,5 +1,6 @@
-import 'package:decal/constants.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants.dart';
 import '../../helpers/material_helper.dart';
 import '../../widgets/user/user_settings.dart';
 
@@ -20,7 +21,7 @@ class UserSettingsScreen extends StatelessWidget {
               context,
               'Settings',
             ),
-            UserSettings(),
+            const UserSettings(),
           ],
         ),
       ),

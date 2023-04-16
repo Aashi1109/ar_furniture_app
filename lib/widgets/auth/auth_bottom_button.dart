@@ -7,7 +7,6 @@ class AuthBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColorScheme = Theme.of(context).colorScheme;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

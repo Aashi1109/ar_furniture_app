@@ -7,7 +7,6 @@ import 'notification_provider.dart';
 import '../helpers/firebase/cart_helper.dart';
 import '../models/cart.dart';
 
-
 /// It provides data for Cart and expose methods to access or change
 /// this data.
 class CartProviderModel with ChangeNotifier {
@@ -177,29 +176,6 @@ class CartProviderModel with ChangeNotifier {
         notifyListeners();
       },
     );
-    // try {
-    //   final cartData = await CartHelper.getCartDataFromFirestore();
-    //   if (cartData == null) {
-    //     return;
-    //   }
-    //   final List<CartItemModel> cartItems = [];
-    //   cartData['items'].forEach((cartItem) {
-    //     // debugPrint('cartItem ${cartItem.toString()}');
-    //     cartItems.add(CartItemModel(
-    //       id: cartItem['id'],
-    //       title: cartItem['title'],
-    //       price: cartItem['price'],
-    //       quantity: cartItem['quantity'],
-    //       imageUrl: cartItem['imageUrl'],
-    //     ));
-    //   });
-    //   _items = cartItems;
-    //   _isOrdered = cartData['isOrdered'] ?? false;
-    //   notifyListeners();
-    // } catch (error) {
-    //   debugPrint(
-    //       'error in getting cart data from firestore ${error.toString()}');
-    // }
   }
 
   double get totalCartPrice {

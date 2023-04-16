@@ -1,9 +1,10 @@
-import 'package:decal/constants.dart';
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/material_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/screens/admin/admin_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants.dart';
+import '../../helpers/general_helper.dart';
+import '../../helpers/material_helper.dart';
+import '../../helpers/modal_helper.dart';
+import '../../screens/admin/admin_screen.dart';
 
 class AdminCodeForm extends StatelessWidget {
   AdminCodeForm({super.key});

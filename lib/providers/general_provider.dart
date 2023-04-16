@@ -36,20 +36,18 @@ class GeneralProviderModel extends ChangeNotifier {
     return _settings[dataSaverKey];
   }
 
+  set setDataSaver(bool highQuality) {
+    _settings[dataSaverKey] = highQuality;
+    saveSettings();
+  }
+
+  // getter and setter for currency
   bool get isCurrencyInUs {
     return _settings[currencyKey];
   }
 
-  set setDataSaver(bool highQuality) {
-    _settings[dataSaverKey] = highQuality;
-
-    // notifyListeners();
-    saveSettings();
-  }
-
   set setCurrency(bool inUS) {
     _settings[currencyKey] = inUS;
-    // notifyListeners();
     saveSettings();
   }
 
@@ -67,25 +65,6 @@ class GeneralProviderModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    // if (_isSettingDataInit) {
-    //   try {
-    //     final loadedSettings =
-    //         await SettingHelper.getSettingsFromFirestore().get();
-    //     // debugPrint(loadedSettings.data().toString());
-    //     if (!loadedSettings.exists) {
-    //       await saveSettings();
-    //     } else {
-    //       _settings = Map<String, dynamic>.from(loadedSettings.data()!);
-    //       _isSettingDataInit = false;
-    //       notifyListeners();
-    //     }
-    //   } catch (error) {
-    //     debugPrint(
-    //         'error in fetching settings from firestore ${error.toString()}');
-    //   }
-    // } else {
-    //   return;
-    // }
   }
 
   Future<void> saveSettings() async {
@@ -164,32 +143,5 @@ class GeneralProviderModel extends ChangeNotifier {
       }
       notifyListeners();
     });
-    // if (_isSSDataInit) {
-    //   try {
-    //     final loadedSs = await ScreenshotHelper.getSsFromFirestore();
-    //     List<ScreenshotItemModel> tempSs = [];
-    //     for (var ss in loadedSs.docs) {
-    //       tempSs.add(
-    //         ScreenshotItemModel(
-    //           productId: ss.data()['productId'],
-    //           imageUrl: ss.data()['imageUrl'],
-    //           id: ss.id,
-    //         ),
-    //       );
-    //     }
-    //     _isSSDataInit = false;
-    //     if (_screenshots.isEmpty) {
-    //       // _screenshots = List<ScreenshotItemModel>.from(tempSs);
-    //       _screenshots = tempSs;
-    //     } else {
-    //       _screenshots.addAll(tempSs);
-    //     }
-    //     notifyListeners();
-    //   } catch (error) {
-    //     debugPrint('error fetching ss data ${error.toString()}');
-    //   }
-    // } else {
-    //   return;
-    // }
   }
 }

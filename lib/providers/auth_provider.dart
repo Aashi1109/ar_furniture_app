@@ -57,40 +57,6 @@ class AuthProviderModel extends ChangeNotifier {
         }
       },
     );
-    // if (_isInitData) {
-    //   try {
-    //     final authResp = await ProfileHelper.getUserProfileDataFromFirestore();
-    //     _auth = AuthModel(
-    //       imageUrl: authResp.data()?['imageUrl'],
-    //       name: authResp.data()?['name'],
-    //       userCreationDate:
-    //           authResp.data()?['userCreationDate']?.toDate() ?? DateTime.now(),
-    //     );
-
-    //     notifyListeners();
-    //     _isUserDataUpdated = isUpdate;
-    //     if (_isUserDataUpdated) {
-    //       _notificationProvider?.addNotification(
-    //         NotificationItemModel(
-    //           text: authNotification['t1']!['text']!,
-    //           id: DateTime.now().toString(),
-    //           title: authNotification['t1']!['title']!,
-    //           icon: Icons.check_circle,
-    //             action: {
-    //               'action': 'auth',
-    //               'params': '',
-    //             }
-    //         ),
-    //       );
-    //       _isUserDataUpdated = false;
-    //     }
-    //   } catch (error) {
-    //     debugPrint(error.toString());
-    //   }
-    // } else {
-    // _isInitData = false;
-    //   return;
-    // }
   }
 
   String get userName {

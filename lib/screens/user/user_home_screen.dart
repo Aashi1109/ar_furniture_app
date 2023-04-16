@@ -5,7 +5,6 @@ import '../../helpers/modal_helper.dart';
 import '../../providers/general_provider.dart';
 import '../../providers/notification_provider.dart';
 import '../../widgets/notifications/notification_modal.dart';
-
 import '../../providers/cart_provider.dart';
 import '../../providers/products_provider.dart';
 import '../../widgets/user/user_home_content.dart';

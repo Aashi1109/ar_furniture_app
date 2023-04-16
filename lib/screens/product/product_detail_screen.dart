@@ -58,6 +58,7 @@ class ProductDetailScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Stack(
+                      clipBehavior: Clip.none,
                       children: [
                         // this will show images of product
                         SizedBox(
@@ -69,7 +70,6 @@ class ProductDetailScreen extends StatelessWidget {
                         MaterialHelper.buildRoundedElevatedButton(
                           context,
                           null,
-                          
                           () {
                             Navigator.of(context).pop();
                           },
@@ -97,7 +97,7 @@ class ProductDetailScreen extends StatelessWidget {
                               padding: EdgeInsets.zero,
                             );
                           }),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(

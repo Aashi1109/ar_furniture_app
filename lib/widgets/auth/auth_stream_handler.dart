@@ -1,8 +1,9 @@
-import 'package:decal/screens/auth/auth_screen.dart';
-import 'package:decal/screens/auth/email_verification_screen.dart';
-import 'package:decal/widgets/main_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../screens/auth/auth_screen.dart';
+import '../../screens/auth/email_verification_screen.dart';
+import '../main_app.dart';
 
 class AuthStreamHandler extends StatelessWidget {
   const AuthStreamHandler({super.key});

@@ -11,8 +11,10 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orderItems =
-        Provider.of<OrderProviderModel>(context, listen: false).orders;
+    final orderItems = Provider.of<OrderProviderModel>(context, listen: false)
+        .orders
+        .reversed
+        .toList();
     final themeColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: Padding(

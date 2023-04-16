@@ -36,6 +36,7 @@ class _OrderItemState extends State<OrderItem> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +110,7 @@ class _OrderItemState extends State<OrderItem> {
             ),
             Positioned(
               right: 0,
-              top: -5,
+              top: -2,
               child: MaterialHelper.buildRoundedElevatedButton(
                 context,
                 _isExpanded

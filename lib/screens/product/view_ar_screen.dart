@@ -1,12 +1,8 @@
-import 'dart:typed_data';
-
-import '../../helpers/modal_helper.dart';
-import '../../providers/general_provider.dart';
-import '../../providers/products_provider.dart';
-import 'package:provider/provider.dart';
-
-import '../../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../../providers/general_provider.dart';
+import 'package:provider/provider.dart';
+import '../../helpers/material_helper.dart';
 import '../../widgets/ar_handler.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -19,7 +15,6 @@ class ViewARScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColorScheme = Theme.of(context).colorScheme;
     final mediaQuery = MediaQuery.of(context);
     final ssProvider = Provider.of<GeneralProviderModel>(
       context,

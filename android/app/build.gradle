@@ -21,6 +21,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -36,6 +37,14 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    signingConfigs {
+        release {
+            storeFile file("../../decal.keystore")
+            storePassword "Park.1109"
+            keyAlias "decal"
+            keyPassword "Park.1109"
+        }
     }
 
     sourceSets {
@@ -58,7 +67,11 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+
+          minifyEnabled true
+      
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

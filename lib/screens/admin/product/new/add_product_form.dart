@@ -1,10 +1,8 @@
-import 'package:decal/helpers/firebase/product_helper.dart';
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../helpers/general_helper.dart';
+import '../../../../providers/products_provider.dart';
 import '../../../../widgets/inputs/tag_input.dart';
 import '../../../../widgets/inputs/image_link_input.dart';
 import '../../../../helpers/material_helper.dart';
@@ -160,9 +158,6 @@ class _AddProductFormState extends State<AddProductForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formGlobalKey,
-      // autovalidateMode: _autoValidate
-      //     ? AutovalidateMode.onUserInteraction
-      //     : AutovalidateMode.disabled,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

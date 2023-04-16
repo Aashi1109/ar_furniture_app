@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/screens/admin/product/product_item.dart';
-import 'admin_add_product_screen.dart';
 
+import '../../../providers/products_provider.dart';
+import 'product_item.dart';
+import 'admin_add_product_screen.dart';
 import '../../../constants.dart';
 import '../../../helpers/material_helper.dart';
 

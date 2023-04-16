@@ -142,20 +142,7 @@ class OrderModal extends StatelessWidget {
                   cartProvider.totalCartPrice,
                 );
                 cartProvider.clearCart();
-                // if (orderProvider.orders.isNotEmpty) {
-                //   Provider.of<NotificationProviderModel>(
-                //     context,
-                //     listen: false,
-                //   ).addNotification(
-                //     NotificationItemModel(
-                //       text: 'Order Placed Successfully.',
-                //       id: DateTime.now().toString(),
-                //       title: 'Order',
-                //       icon: Icons.shopping_cart_rounded,
-                //     ),
-                //   );
-                //   debugPrint('in order noti add');
-                // }
+
                 Navigator.of(context).pop();
                 ModalHelpers.createInfoSnackbar(
                   context,

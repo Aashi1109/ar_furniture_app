@@ -1,7 +1,4 @@
-import 'package:decal/screens/admin/admin_screen.dart';
-import 'package:decal/widgets/admin/admin_code_form.dart';
 import 'package:flutter/material.dart';
-import 'general_helper.dart';
 
 /// It contains methods to create dialogs and snackbars to increase interactivity
 /// with user and provide them with valid error and app states.

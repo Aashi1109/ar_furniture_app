@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../helpers/material_helper.dart';
 import '../../providers/general_provider.dart';
-import 'package:flutter/material.dart';
 import '../../widgets/screenshots/screenshots_gridview.dart';
-import 'package:provider/provider.dart';
 
 class ScreenshotsScreen extends StatelessWidget {
   const ScreenshotsScreen({super.key});

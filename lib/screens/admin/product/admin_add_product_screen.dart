@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:decal/constants.dart';
-import 'package:decal/helpers/material_helper.dart';
+import '../../../constants.dart';
+import '../../../helpers/material_helper.dart';
 import 'new/add_product_form.dart';
 
 class AdminAddProductScreen extends StatelessWidget {
@@ -33,12 +33,7 @@ class AdminAddProductScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height * .85,
-              //   child: AddProductForm(
-              //     isUpdateForm: (productId == null) ? false : true,
-              //     productId: productId,
-              //   ),
+
               // ),
               AddProductForm(
                 isUpdateForm: (productId == null) ? false : true,

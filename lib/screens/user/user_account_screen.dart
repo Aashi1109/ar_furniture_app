@@ -1,16 +1,12 @@
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/screens/admin/admin_screen.dart';
-import 'package:decal/widgets/admin/admin_code_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/admin/admin_code_form.dart';
 import '../../helpers/material_helper.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/orders_provider.dart';
-
 import 'order_screen.dart';
 import 'favourite_screen.dart';
 import 'screenshots_screen.dart';
@@ -41,167 +37,166 @@ class UserAccountScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            return Column(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      color: themeColorScheme.primary,
-                      height: mediaQuery.size.height * .4,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: mediaQuery.size.height * .1,
-                          ),
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              CircleAvatar(
-                                radius: 55,
-                                backgroundColor: themeColorScheme.onPrimary,
-                                child: CircleAvatar(
-                                  backgroundColor: themeColorScheme.primary,
-                                  radius: 52,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        color: themeColorScheme.primary,
+                        height: mediaQuery.size.height * .4,
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: mediaQuery.size.height * .1,
+                            ),
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                CircleAvatar(
+                                  radius: 55,
+                                  backgroundColor: themeColorScheme.onPrimary,
                                   child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      authProvider.userImageUrl,
+                                    backgroundColor: themeColorScheme.primary,
+                                    radius: 52,
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        authProvider.userImageUrl,
+                                      ),
+                                      radius: 46,
                                     ),
-                                    radius: 46,
+                                  ),
+                                ),
+                                if (authProvider.isAdmin)
+                                  const Positioned(
+                                    top: -6,
+                                    right: -8,
+                                    child: Icon(
+                                      Icons.admin_panel_settings_rounded,
+                                      color: Colors.green,
+                                      size: 36,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.black,
+                                          blurRadius: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              authProvider.userName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium
+                                  ?.copyWith(
+                                    color: themeColorScheme.onPrimary,
+                                  ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            IntrinsicHeight(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Joined on ${DateFormat.yMMMd().format(authProvider.userCreationDate)}',
+                                    style: TextStyle(
+                                      color: themeColorScheme.onPrimary,
+                                    ),
+                                  ),
+                                  VerticalDivider(
+                                    color: themeColorScheme.tertiary,
+                                    thickness: 2,
+                                  ),
+                                  Text(
+                                    '${orderProvider.orders.length.toString()} Orders',
+                                    style: TextStyle(
+                                      color: themeColorScheme.onPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: mediaQuery.padding.top,
+                        child: PopupMenuButton(
+                          icon: Icon(
+                            Icons.more_vert_rounded,
+                            color: themeColorScheme.onPrimary,
+                          ),
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                child: TextButton.icon(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                      UserAccountEditScreen.namedRoute,
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.edit_rounded,
+                                    color: themeColorScheme.primary,
+                                  ),
+                                  label: const Text(
+                                    'Edit Account Info',
                                   ),
                                 ),
                               ),
                               if (authProvider.isAdmin)
-                                const Positioned(
-                                  top: -6,
-                                  right: -8,
-                                  child: Icon(
-                                    Icons.admin_panel_settings_rounded,
-                                    color: Colors.green,
-                                    size: 36,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black,
-                                        blurRadius: 5,
-                                      ),
-                                    ],
+                                PopupMenuItem(
+                                  child: TextButton.icon(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AdminCodeForm(),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.admin_panel_settings_rounded,
+                                      color: themeColorScheme.primary,
+                                    ),
+                                    label: const Text(
+                                      'Admin Page',
+                                    ),
                                   ),
                                 ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            authProvider.userName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium
-                                ?.copyWith(
-                                  color: themeColorScheme.onPrimary,
-                                ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          IntrinsicHeight(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Joined on ${DateFormat.yMMMd().format(authProvider.userCreationDate)}',
-                                  style: TextStyle(
-                                    color: themeColorScheme.onPrimary,
-                                  ),
-                                ),
-                                VerticalDivider(
-                                  color: themeColorScheme.tertiary,
-                                  thickness: 2,
-                                ),
-                                Text(
-                                  '${orderProvider.orders.length.toString()} Orders',
-                                  style: TextStyle(
-                                    color: themeColorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: mediaQuery.padding.top,
-                      child: PopupMenuButton(
-                        icon: Icon(
-                          Icons.more_vert_rounded,
-                          color: themeColorScheme.onPrimary,
-                        ),
-                        itemBuilder: (context) {
-                          return [
-                            PopupMenuItem(
-                              child: TextButton.icon(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                    UserAccountEditScreen.namedRoute,
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.edit_rounded,
-                                  color: themeColorScheme.primary,
-                                ),
-                                label: const Text(
-                                  'Edit Account Info',
-                                ),
-                              ),
-                            ),
-                            if (authProvider.isAdmin)
-                              PopupMenuItem(
-                                child: TextButton.icon(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AdminCodeForm(),
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.admin_panel_settings_rounded,
-                                    color: themeColorScheme.primary,
-                                  ),
-                                  label: const Text(
-                                    'Admin Page',
-                                  ),
-                                ),
-                              ),
-                          ];
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      left: 10,
-                      top: mediaQuery.padding.top,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10.0,
-                          left: 5,
-                        ),
-                        child: MaterialHelper.buildRoundedElevatedButton(
-                          context,
-                          null,
-                          () {
-                            Navigator.of(context).pop();
+                            ];
                           },
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  // height: mediaQuery.size.height * .6,
-                  child: Padding(
+                      Positioned(
+                        left: 10,
+                        top: mediaQuery.padding.top,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10.0,
+                            left: 5,
+                          ),
+                          child: MaterialHelper.buildRoundedElevatedButton(
+                            context,
+                            null,
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 20,
                     ),
@@ -286,7 +281,9 @@ class UserAccountScreen extends StatelessWidget {
                             Icons.keyboard_arrow_right_rounded,
                           ),
                         ),
-                        const Spacer(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * .12,
+                        ),
                         ListTile(
                           onTap: () {
                             FirebaseAuth.instance.signOut();
@@ -306,8 +303,8 @@ class UserAccountScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }),
     );

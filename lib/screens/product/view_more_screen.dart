@@ -1,5 +1,3 @@
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

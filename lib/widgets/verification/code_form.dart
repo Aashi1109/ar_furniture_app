@@ -1,5 +1,6 @@
-import '../../helpers/material_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../../helpers/material_helper.dart';
 import 'code_field.dart';
 
 class EmailCodeForm extends StatefulWidget {

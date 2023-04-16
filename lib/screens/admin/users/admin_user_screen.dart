@@ -1,6 +1,6 @@
-import 'package:decal/screens/admin/users/admin_user_item.dart';
 import 'package:flutter/material.dart';
 
+import 'admin_user_item.dart';
 import '../../../helpers/material_helper.dart';
 import '../../../helpers/firebase_helper.dart';
 import '../../../constants.dart';
@@ -40,8 +40,10 @@ class AdminUsersScreen extends StatelessWidget {
                         ),
                         itemBuilder: (context, index) => AdminUserItem(
                           userId: usersData[index].id,
-                          imageUrl: usersData[index]['imageUrl'],
-                          userName: usersData[index]['name'],
+                          imageUrl: usersData[index]['profileData']
+                              ['profileData']['imageUrl'],
+                          userName: usersData[index]['profileData']
+                              ['profileData']['name'],
                         ),
                         itemCount: usersData.length,
                       );

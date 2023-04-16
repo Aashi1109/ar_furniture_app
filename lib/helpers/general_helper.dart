@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:decal/helpers/firebase_helper.dart';
+import 'firebase_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as Img;
 import 'package:path_provider/path_provider.dart';
 
 import '../helpers/firebase/profile_helper.dart';
-
 import '../constants.dart';
 
 /// Contains some general helpers methods.
@@ -59,7 +58,35 @@ class GeneralHelper {
   }
 
   static IconData getIconDataFromIconString(String iconString) {
-    return IconData(int.parse(iconString), fontFamily: 'MaterialIcons');
+    const iconCartAdded = Icons.shopping_cart_rounded;
+    const orderAdded = Icons.shopping_bag_rounded;
+    const authEdited = Icons.check_circle;
+    const addReview = Icons.add_comment_rounded;
+    const updateReview = Icons.comment_bank_rounded;
+    const defaultIcon = Icons.warning_rounded;
+    // debugPrint(iconCartAdded.codePoint.toString());
+    // debugPrint(orderAdded.codePoint.toString());
+    // debugPrint(authEdited.codePoint.toString());
+    // debugPrint(addReview.codePoint.toString());
+    // debugPrint(updateReview.codePoint.toString());
+    const productNew = Icons.new_releases_rounded;
+
+    switch (iconString) {
+      case '983409':
+        return iconCartAdded;
+      case '983407':
+        return orderAdded;
+      case '57689':
+        return authEdited;
+      case '62766':
+        return addReview;
+      case '63066':
+        return updateReview;
+      case '983040':
+        return productNew;
+      default:
+        return defaultIcon;
+    }
   }
 
   static String getTimeAgoString(DateTime createdAt) {

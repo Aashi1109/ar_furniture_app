@@ -1,9 +1,10 @@
-import 'package:decal/helpers/general_helper.dart';
-import 'package:decal/helpers/modal_helper.dart';
-import 'package:decal/providers/products_provider.dart';
-import 'package:decal/screens/admin/product/admin_add_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../helpers/general_helper.dart';
+import '../../../helpers/modal_helper.dart';
+import '../../../providers/products_provider.dart';
+import 'admin_add_product_screen.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({

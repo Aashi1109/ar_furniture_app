@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/shared_preferences_helper.dart';
-import 'auth/auth_screen.dart';
 import '../widgets/onboard/onboard_item.dart';
 import '../widgets/auth/auth_stream_handler.dart';
 

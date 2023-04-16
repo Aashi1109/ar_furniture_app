@@ -13,9 +13,9 @@ exports.deleteUserData = functions.auth.user().onDelete((user) => {
 
   // Delete user's reviews
   const reviewsQuery = admin
-    .firestore()
-    .collection("reviews")
-    .where("userId", "==", userId);
+      .firestore()
+      .collection("reviews")
+      .where("userId", "==", userId);
   const reviewsDeletePromise = reviewsQuery.get().then((querySnapshot) => {
     const deletePromises = [];
     querySnapshot.forEach((doc) => {
@@ -30,39 +30,55 @@ exports.deleteUserData = functions.auth.user().onDelete((user) => {
 
 // Create notification on new product add
 exports.createProductNotification = functions.firestore
-  .document("products/{productId}")
-  .onCreate((snap, context) => {
-    const product = snap.data();
-    const productName = product.name;
-    const productId = context.params.productId;
+    .document("products/{productId}")
+    .onCreate((snap, context) => {
+      const product = snap.data();
+      const productName = product.name;
+      const productId = context.params.productId;
 
-    // Get all user documents
-    const usersRef = admin.firestore().collection("users");
-    return usersRef.get().then((querySnapshot) => {
-      const promises = [];
+      // Get all user documents
+      const usersRef = admin.firestore().collection("users");
+      return usersRef.get().then((querySnapshot) => {
+        const promises = [];
 
-      // For each user, create a notification document
-      querySnapshot.forEach((userDoc) => {
-        const userId = userDoc.id;
-        const notificationRef = usersRef
-          .doc(userId)
-          .collection("notifications")
-          .doc();
+        // For each user, create a notification document
+        querySnapshot.forEach((userDoc) => {
+          const userId = userDoc.id;
+          const notificationRef = usersRef
+              .doc(userId)
+              .collection("notifications")
+              .doc();
 
-        const notification = {
-          text: `${productName} is added.`,
-          id: notificationRef.id,
-          title: "New Product Added",
-          icon: "983040",
-          createdAt: admin.firestore.FieldValue.serverTimestamp(),
-          isRead: false,
-          action: { action: "product", params: productId },
-          productId: productId,
-        };
+          const notification = {
+            text: `${productName} is added.`,
+            id: notificationRef.id,
+            title: "New Product Added",
+            icon: "983040",
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            isRead: false,
+            action: {action: "product", params: productId},
+            productId: productId,
+          };
 
-        promises.push(notificationRef.set(notification));
+          promises.push(notificationRef.set(notification));
+        });
+
+        return Promise.all(promises);
       });
-
-      return Promise.all(promises);
     });
-  });
+
+exports.deleteProductReviews = functions.firestore
+    .document("products/{productId}")
+    .onDelete((snap, context) => {
+    // delete all reviews associated with the product
+      const productId = context.params.productId;
+      const reviewsRef = admin.firestore().collection("reviews");
+      const query = reviewsRef.where("productId", "==", productId);
+      return query.get().then((querySnapshot) => {
+        const batch = admin.firestore().batch();
+        querySnapshot.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        return batch.commit();
+      });
+    });

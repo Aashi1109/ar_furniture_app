@@ -24,7 +24,6 @@ class BottomTabBar extends StatelessWidget {
     );
   }
 
-  _bottomNavTapHandler(int index) {}
 
   @override
   Widget build(BuildContext context) {

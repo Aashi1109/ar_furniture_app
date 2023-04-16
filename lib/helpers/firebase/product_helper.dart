@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../models/product.dart';
 
 /// It holds all the methods to add, delete and update products data in
 /// firestore. products data is store in `[products]` collection node.
